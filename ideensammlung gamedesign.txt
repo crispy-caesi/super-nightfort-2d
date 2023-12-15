@@ -1,0 +1,91 @@
+wichtigkeit geordnet:
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Levelauswahl für platformer (sidescroller)
+
+    blöcke
+        normale quader ( versch. größe u. textur)
+
+        slopes (leicht, normal, stark geneigt)
+
+        breakable (secret wände/fallen etc)
+
+        jump pads/fans (iwas interaktives)
+
+        timed blöcke (externer timer(z.b. stick fight weiß schwarz)/ interner timer(klappen weg, nach zeit wieder da))
+
+        one time blöcke (einmal berühren, dann weg)
+
+
+    gegner
+        verschiedene typen(gooba, turtle, fliegende etc.)
+
+        onehit/twohit (bosse 10 oder so idk)
+
+        meele/ranged (telegraphed)
+
+
+    hindernisse/hosstile environtment
+        spikes
+
+        traps (telegraphed)
+
+        void unten
+
+
+    secrets/sammelbare objekte
+        coins ( 3 pro level)
+
+        ein super secret pro gebiet (vbuck)
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+steuerbare charaktere (mehrere?)
+
+    lebensystem
+
+    upgrades(gegner tötbar?)
+
+    punkte/bestzeit
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+leaderboard
+
+    bestzeit/punkte
+
+    menü zum aufrufen der bestenliste
+
+    (jaspers job, datenbank benötigt)
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+world map
+
+    interaktive Levelauswahl    
+
+    ansprechend designt (fortnite orte für die memes?)
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+infinity gamemode(?)
+
+    procedural level generation (auf cache clear achten = kein überfüllen)
+
+    punkte based auf zeit, keine secret wege
+
+    schwierigkeit mit zeit erhöhen(?)
+
+---------------------------------------------------------------------------------------------------------------------------------------
+(??????????????????????????????????????)
+level editor
+
+    blöcke
+
+    hindernisse
+
+    gegner
+
+    secret sachen
+
+    trigger für ereignisse?
