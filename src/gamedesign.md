@@ -10,7 +10,7 @@ Levelauswahl für platformer (sidescroller)
 - timed blöcke (externer timer(z.b. stick fight weiß schwarz)/ interner timer(klappen weg, nach zeit wieder da))
 	- one time blöcke (einmal berühren, dann weg)
 
----
+
 # Gegner
 - verschiedene typen(gooba)
 
@@ -18,7 +18,7 @@ Levelauswahl für platformer (sidescroller)
 
 - meele/ranged (telegraphed)
 
----
+
 # Hindernisse/hostile environment
 
 - spikes
@@ -27,14 +27,14 @@ Levelauswahl für platformer (sidescroller)
 
 - void unten
 
----
+
 # Secrets/sammelbare objekte
 
 - coins ( 3 pro level)
 
 - ein super secret pro gebiet (vbuck)
 
----
+
 # Character mechanics
 
 - vorerst gegner töten durch rauf-jumpen
@@ -46,7 +46,7 @@ Levelauswahl für platformer (sidescroller)
 - punkte(infinity)/bestzeit(story-mode)
 
 
----
+
 
 # world map
 
@@ -54,7 +54,7 @@ Levelauswahl für platformer (sidescroller)
 
 - ansprechend designt (fortnite orte für die memes?)
 
----
+
 
 # infinity gamemode(?)
 
@@ -64,7 +64,7 @@ Levelauswahl für platformer (sidescroller)
 
 - schwierigkeit mit zeit erhöhen(?)
 
----
+
 # (wenn wir viel zu viel zeit haben)
 
 - level editor
