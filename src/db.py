@@ -1,6 +1,9 @@
+# ===================== import ===================== #
+
 import sqlite3
 from sqlite3 import Error
 
+# ===================== db ===================== #
 
 def connect():
     conn = None

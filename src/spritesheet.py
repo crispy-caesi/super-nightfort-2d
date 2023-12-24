@@ -1,11 +1,15 @@
-import pygame
-import json
+# ===================== import ===================== #
 
+import pygame, json
+
+# ===================== Spritesheet ===================== #
 
 class Spritesheet:
-    """
-    spritesheet is important for the individual graphics used for assembling the level
-    """
+
+    '''
+    function to convert images to usable ingame sprites
+    '''
+
     def __init__(self, filename):
         self.filename = filename
         self.sprite_sheet = pygame.image.load(filename).convert()

@@ -1,3 +1,5 @@
+# ===================== preset config file ===================== #
+
 characters = {
     "fich" : 1,
     "meister wu" : 0

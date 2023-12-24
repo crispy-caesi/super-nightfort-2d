@@ -1,10 +1,16 @@
+# ===================== import ===================== #
+
 import pygame
 from spritesheet import Spritesheet
 
+# ===================== Player ===================== #
+
 class Player(pygame.sprite.Sprite):
-    """
+    
+    '''
     player and all of its controls and properties, such as gravity and collisions
-    """
+    '''
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False

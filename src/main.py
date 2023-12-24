@@ -1,13 +1,19 @@
+# ===================== import ===================== #
+
 import pygame
 from tiles import TileMap
 from spritesheet import Spritesheet
 from player import Player
 
+# ===================== Game ===================== #
+
 class Game:
-    """
+
+    '''
     bringing together all the important elements of the game
     includes the main loop through which everything runs
-    """
+    '''
+
     def __init__(self):
         pygame.init()
         self.DISPLAY_W, self.DISPLAY_H = 1480, 270
@@ -30,9 +36,11 @@ class Game:
         self.half_h = self.canvas.get_size()[1]//2
 
     def handle_events(self):
-        """
+
+        '''
         method to handle all event of the game (keys)
-        """
+        '''
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -56,8 +64,8 @@ class Game:
                         self.player.is_jumping = False
     
     def center_target_camera(self,target):
-        self.offset.x = (target.rect.centerx - self.half_h)
-        self.offset.y = (target.rect.centery - self.half_w)
+        self.offset.x = (target.rect.centerx- self.half_h)
+        self.offset.y = (target.rect.centery- self.half_w)
     
     def update(self, dt):
         self.center_target_camera(self.player)
@@ -66,9 +74,11 @@ class Game:
         
 
     def draw(self):
-        """
+
+        '''
         rendering everything that is shown in the game 
-        """
+        '''
+
         self.canvas.fill((0, 180, 240))
         self.map.draw_map(self.canvas)
         self.player.draw(self.canvas)
@@ -76,14 +86,18 @@ class Game:
         pygame.display.update()
 
     def run(self):
-        """
+
+        '''
         game loop
-        """
-        while self.running: #main loop
+        '''
+
+        while self.running: # main loop
             dt = self.clock.tick(60) * .001 * self.TARGET_FPS         
             self.handle_events()
             self.update(dt)
             self.draw()
+
+# ===================== run ===================== #
 
 if __name__ == "__main__":
     game = Game()
