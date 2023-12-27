@@ -51,9 +51,20 @@ class Main():
     
     def drawOnScreen(self):
         self.__all_sprites.update()
+        
+        # camera - calculate the offset
+        player_offset_x = self.__DISPLAY_W // 6 - self.__player.rect.centerx # // 6 -> more of the left site
+        player_offset_y = self.__DISPLAY_H // 2 - self.__player.rect.centery # // 2 -> center
+        
+        
         self.__canvas.fill((0, 180, 240))
+        
+        # camera - move all sprites in the other direction
+        for sprite in self.__all_sprites:
+            sprite.rect.x += player_offset_x
+            sprite.rect.y += player_offset_y
+            
         self.__all_sprites.draw(self.__canvas)
-        self.__player.update()
         self.__window.blit(self.__canvas, (0, 0))
         pygame.display.flip()
         self.__clock.tick(30)
