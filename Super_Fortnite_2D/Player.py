@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("sprites/placeholder/duck.png")
+        self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.position = pygame.Rect(0,0,16,16)
         self.speed = 0
         self.maxvelocity = 5
