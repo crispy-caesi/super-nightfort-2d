@@ -1,9 +1,13 @@
 import pygame
+from Input import Input
 
 class Main():
     def __init__(self):
         self.__running:bool = True
         
+        self.__input = Input()
+        self.__input.setRunning(self.__running)
+              
         # Display
         self.__DISPLAY_W, self.__DISPLAY_H = 200, 200
         
@@ -15,10 +19,13 @@ class Main():
         self.run()
     
     def run(self):
+        """
+        main loop
+        """
         while self.__running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.__running = False
+            self.__input.getinput()
+            self.__running = self.__input.getRunning()
+            
     
     def events(self):
         pass

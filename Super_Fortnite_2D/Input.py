@@ -13,19 +13,25 @@ class Input():
     def __init__(self):
 
         # game is running
-        self.isRunning = True
+        self.running:bool = True
         
         # player presses buttons
         self.LEFT_KEY = False
         self.RIGHT_KEY = False
         self.SPACE_KEY = False
+        
+    def getRunning(self):
+        return self.running
+    
+    def setRunning(self, running):
+        self.running = running
 
     def getinput(self):
 
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
-                    self.isRunning = False
+                    self.running = False
 
             if event.type == pygame.KEYDOWN:
 
