@@ -25,7 +25,7 @@ class TileMap(pygame.sprite.Sprite):
         
         for column in range(len(lst)):
             for row in range(len(lst[0])):
-                if lst[column][row] == "0":
+                if lst[column][row] == "4":
                    tile = Tile("sprites/placeholder/Duck.png", row * 16, column * 16)
                    tiles.append(tile)
                 if  lst[column][row] == "1":
@@ -50,7 +50,6 @@ class TileMap(pygame.sprite.Sprite):
             file = open(filePath, "r")  
             data = list(csv.reader(file, delimiter=","))
             file.close()
-            print(data)
         except:
             print("Can't read csv file")
         
@@ -62,7 +61,6 @@ class Combined(pygame.sprite.Sprite):
     def __init__(self, sprites):
         super().__init__()
         # Combine the rects of the separate sprites.
-        print(sprites[0])
         self.rect = sprites[0].rect.copy()
         for sprite in sprites[1:]:
             self.rect.union_ip(sprite.rect)

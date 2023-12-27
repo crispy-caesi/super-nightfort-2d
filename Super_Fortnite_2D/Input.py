@@ -4,7 +4,7 @@ import pygame
 
 # ===================== input ===================== #
 
-class Input():
+class Input_():
 
     '''
     Class to check all of the inputs a player can make in the game.
@@ -16,9 +16,9 @@ class Input():
         self.running:bool = True
         
         # player presses buttons
-        self.LEFT_KEY = False
-        self.RIGHT_KEY = False
-        self.SPACE_KEY = False
+        self.LEFT_KEY:bool = False
+        self.RIGHT_KEY:bool = False
+        self.SPACE_KEY:bool = False
         
     def getRunning(self):
         return self.running
