@@ -11,7 +11,7 @@ class Main():
         self.__input.setRunning(self.__running)
               
         # Display
-        self.__DISPLAY_W, self.__DISPLAY_H = 200, 200
+        self.__DISPLAY_W, self.__DISPLAY_H = 900, 200
         
         self.__canvas = pygame.Surface((self.__DISPLAY_W,self.__DISPLAY_H))
         
@@ -43,4 +43,5 @@ class Main():
     def drawOnScreen(self):
         self.__canvas.fill((0, 180, 240))
         self.__tileMap.draw(self.__canvas)
-        self.window.blit(self.canvas, (0, 0))
+        self.__window.blit(self.__canvas, (0, 0))
+        pygame.display.flip()
