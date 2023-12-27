@@ -26,6 +26,14 @@ class Input():
     def setRunning(self, running):
         self.running = running
 
+    def getkeyleft(self):
+        return self.LEFT_KEY
+
+    def getkeyright(self):
+        return self.RIGHT_KEY
+
+    def getkeyspace(self):
+        return self.SPACE_KEY
     def getinput(self):
 
         for event in pygame.event.get():
