@@ -46,8 +46,15 @@ class Main():
             
             
     def update(self):
-        self.__player.horizontalMovement(self.__input)
-        self.__player.jump(self.__input)
+        
+        #TODO Beendigung der Collisionen, hier nur ein Anfang --> damit man die Graviation hinzufügen kann
+        if pygame.sprite.collide_mask(self.__player, self.__tileMap):
+            print("Collision")
+        else:
+            self.__player.horizontalMovement(self.__input)
+            self.__player.jump(self.__input)
+        
+        
     
     def drawOnScreen(self):
         self.__all_sprites.update()
