@@ -63,15 +63,15 @@ class Game:
                         self.player.velocity.y *= .25
                         self.player.is_jumping = False
     
-    def center_target_camera(self,target):
-        self.offset.x = (target.rect.centerx- self.half_h)
-        self.offset.y = (target.rect.centery- self.half_w)
+    def center_target_camera(self, target):
+        position = Player.getcurrentposition(target)
+        self.offset.x = position[0]
+        self.offset.y = position[1]
     
     def update(self, dt):
         self.center_target_camera(self.player)
         self.map = TileMap('sprites/placeholder/big_level.csv', self.spritesheet, (self.offset.x + 50, 0))
         self.player.update(dt, self.map.tiles)
-        
 
     def draw(self):
 

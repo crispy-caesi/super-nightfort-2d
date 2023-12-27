@@ -32,10 +32,12 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_movement(self,dt):
         self.acceleration.x = 0
+        
         if self.LEFT_KEY:
             self.acceleration.x -= .3
         elif self.RIGHT_KEY:
             self.acceleration.x += .3
+        
         self.acceleration.x += self.velocity.x * self.friction
         self.velocity.x += self.acceleration.x * dt
         self.limit_velocity(4)
@@ -90,6 +92,10 @@ class Player(pygame.sprite.Sprite):
                 self.velocity.y = 0
                 self.position.y = tile.rect.bottom + self.rect.h
                 self.rect.bottom = self.position.y
+
+    def getcurrentposition(self):
+        return self.position
+
 
 
 
