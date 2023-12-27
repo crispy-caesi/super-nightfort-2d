@@ -19,8 +19,16 @@ class Main():
         self.__window = pygame.display.set_mode((self.__DISPLAY_W,self.__DISPLAY_H))
         pygame.display.set_caption('Super Fortnite 2D')
         
+        # clock
+        self.__clock = pygame.time.Clock()
+        
+        #sprites
         self.__tileMap = TileMap()
         self.__player = Player()
+        
+        self.__all_sprites = pygame.sprite.Group()
+        self.__all_sprites.add(self.__tileMap)
+        self.__all_sprites.add(self.__player)
         
         #run-method - the main loop
         self.run()
@@ -42,8 +50,10 @@ class Main():
         self.__player.jump(self.__input)
     
     def drawOnScreen(self):
+        self.__all_sprites.update()
         self.__canvas.fill((0, 180, 240))
-        self.__player.draw(self.__canvas)
-        self.__tileMap.draw(self.__canvas)
+        self.__all_sprites.draw(self.__canvas)
+        self.__player.update()
         self.__window.blit(self.__canvas, (0, 0))
         pygame.display.flip()
+        self.__clock.tick(30)

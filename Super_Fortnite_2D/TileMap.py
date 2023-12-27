@@ -37,6 +37,7 @@ class TileMap(pygame.sprite.Sprite):
                    
         combined = Combined(tiles)
         self.image = combined.image
+        self.rect = self.image.get_rect()
                     
                 
         
