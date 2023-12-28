@@ -38,6 +38,12 @@ class TileMap(pygame.sprite.Sprite):
         combined = Combined(tiles)
         self.image = combined.image
         self.rect = self.image.get_rect()
+        
+    def updatePosition(self):
+        self.prev_x = self.rect.x
+        self.prev_y = self.rect.y
+        print(self.rect.x)
+
                     
                 
         

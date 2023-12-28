@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.maxvelocity = 6
         self.isonground = False
-        
+
 
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))

@@ -6,29 +6,29 @@ from Player import Player
 class Main():
     def __init__(self):
         pygame.init()
-        self.__running:bool = True
+        self._running:bool = True
         
-        self.__input = Input_()
-        self.__input.setRunning(self.__running)
+        self._input = Input_()
+        self._input.setRunning(self._running)
               
         # Display
-        self.__DISPLAY_W, self.__DISPLAY_H = 900, 200
+        self._DISPLAY_W, self._DISPLAY_H = 900, 200
         
-        self.__canvas = pygame.Surface((self.__DISPLAY_W,self.__DISPLAY_H))
+        self._canvas = pygame.Surface((self._DISPLAY_W,self._DISPLAY_H))
         
-        self.__window = pygame.display.set_mode((self.__DISPLAY_W,self.__DISPLAY_H))
+        self._window = pygame.display.set_mode((self._DISPLAY_W,self._DISPLAY_H))
         pygame.display.set_caption('Super Fortnite 2D')
         
         # clock
-        self.__clock = pygame.time.Clock()
+        self._clock = pygame.time.Clock()
         
         #sprites
-        self.__tileMap = TileMap()
-        self.__player = Player()
+        self._tileMap = TileMap()
+        self._player = Player()
         
-        self.__all_sprites = pygame.sprite.Group()
-        self.__all_sprites.add(self.__tileMap)
-        self.__all_sprites.add(self.__player)
+        self._all_sprites = pygame.sprite.Group()
+        self._all_sprites.add(self._tileMap)
+        self._all_sprites.add(self._player)
         
         #run-method - the main loop
         self.run()
@@ -37,9 +37,9 @@ class Main():
         """
         main loop
         """
-        while self.__running:
-            self.__input.getinput()
-            self.__running = self.__input.getRunning()
+        while self._running:
+            self._input.getinput()
+            self._running = self._input.getRunning()
             
             self.update()
             self.drawOnScreen()
@@ -48,30 +48,31 @@ class Main():
     def update(self):
         
         #TODO Beendigung der Collisionen, hier nur ein Anfang --> damit man die Graviation hinzufügen kann
-        if pygame.sprite.collide_mask(self.__player, self.__tileMap):
-            print("Collision")
-        else:
-            self.__player.horizontalMovement(self.__input)
-            self.__player.jump(self.__input)
+        print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
+        print(f"Position Tilemap: {self._tileMap.rect.x}")
+        print(f"Position Player: {self._player.rect.x}")
+        if not pygame.sprite.collide_mask(self._player, self._tileMap):
+            self._player.horizontalMovement(self._input)
+            self._tileMap.updatePosition()
         
         
     
     def drawOnScreen(self):
-        self.__all_sprites.update()
+        self._all_sprites.update()
         
         # camera - calculate the offset
-        player_offset_x = self.__DISPLAY_W // 6 - self.__player.rect.centerx # // 6 -> more of the left site
-        player_offset_y = self.__DISPLAY_H // 2 - self.__player.rect.centery # // 2 -> center
+        player_offset_x = self._DISPLAY_W // 6 - self._player.rect.centerx # // 6 -> more of the left site
+        player_offset_y = self._DISPLAY_H // 2 - self._player.rect.centery # // 2 -> center
         
         
-        self.__canvas.fill((0, 180, 240))
+        self._canvas.fill((0, 180, 240))
         
         # camera - move all sprites in the other direction
-        for sprite in self.__all_sprites:
+        for sprite in self._all_sprites:
             sprite.rect.x += player_offset_x
             sprite.rect.y += player_offset_y
             
-        self.__all_sprites.draw(self.__canvas)
-        self.__window.blit(self.__canvas, (0, 0))
+        self._all_sprites.draw(self._canvas)
+        self._window.blit(self._canvas, (0, 0))
         pygame.display.flip()
-        self.__clock.tick(30)
+        self._clock.tick(30)
