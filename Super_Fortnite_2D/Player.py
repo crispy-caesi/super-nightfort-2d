@@ -11,7 +11,6 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
-        #self.position = pygame.Rect(0,0,16,16)
         self.maxvelocity = 6
         self.isonground = False
         
