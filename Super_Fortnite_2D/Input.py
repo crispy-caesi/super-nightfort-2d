@@ -4,7 +4,7 @@ import pygame
 
 # ===================== input ===================== #
 
-class Input_():
+class KeyInput():
 
     '''
     Class to check all of the inputs a player can make in the game.

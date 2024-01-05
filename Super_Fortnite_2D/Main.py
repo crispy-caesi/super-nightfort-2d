@@ -1,5 +1,5 @@
 import pygame
-from Input import Input_
+from Input import KeyInput
 from TileMap import TileMap
 from Player import Player
 
@@ -8,7 +8,7 @@ class Main():
         pygame.init()
         self._running:bool = True
         
-        self._input = Input_()
+        self._input = KeyInput()
         self._input.setRunning(self._running)
               
         # Display
@@ -53,6 +53,7 @@ class Main():
         print(f"Position Player: {self._player.rect.x}")
         if not pygame.sprite.collide_mask(self._player, self._tileMap):
             self._player.horizontalMovement(self._input)
+            self._player.verticalmovement()
             self._tileMap.updatePosition()
         
         

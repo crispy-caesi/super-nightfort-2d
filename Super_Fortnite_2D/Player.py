@@ -1,7 +1,7 @@
 # ===================== import ===================== #
 
 import pygame
-from Input import Input_
+from Input import KeyInput
 
 # ===================== Player ===================== #
 
@@ -13,25 +13,39 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.maxvelocity = 6
         self.isonground = False
-
-
+        self.health = 3
+        self.damagetaken = False
+        self.dead = False
+        self.gravity = .04
+        self.speed = pygame.math.Vector2(0,0)
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
 
-    def horizontalMovement(self, input_:Input_):
-        speed = 0
+    def horizontalMovement(self, input_:KeyInput):
+        self.speed.x = 0
         if input_.getkeyleft():
-            speed = -4
+            self.speed.x = -4
         if input_.getkeyright():
-           speed = 4
-           
-        self.rect.x += speed
-           
+           self.speed.x = 4
+        self.rect.x += self.speed.x
+    
+    def damage(self):
+        if self.damagetaken is True:
+            self.health -= 1
+        if self.health == 0:
+            self.dead = True
 
-    def jump(self, input_:Input_):
+
+    def jump(self, input_:KeyInput):
         if input_.getkeyspace():
             if self.isonground:
-                speed = 8
+                self.speed.y += 8
                 self.isonground = False
-                self.position = pygame.Rect.move(self, self.position.x, self.position.y + speed)
-        
+                
+    def verticalmovement(self):
+        self.speed.y += self.speed.y + self.gravity
+        self.rect.y += self.speed.y
+
+    def playerupdate(self, input_:KeyInput):
+        self.horizontalMovement(self, input_)
+        self.verticalmovement(self)
