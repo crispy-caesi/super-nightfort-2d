@@ -1,7 +1,12 @@
+# ===================== import ===================== #
+
 import pygame
 import csv
 
+# ===================== Tile ===================== #
+
 class Tile(pygame.sprite.Sprite):
+
     """
     Class to create a single tile
     """
@@ -15,12 +20,17 @@ class Tile(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
+# ===================== Tilemap ===================== #
 
 class TileMap(pygame.sprite.Sprite):
+
+    """
+    class to create the tilemap
+    """
+
     def __init__(self, csvPath:str = "sprites/placeholder/big_level.csv"):
         super().__init__()
         tiles = []     
-            
         lst = self.readCSV( filePath = csvPath)
         
         for column in range(len(lst)):
@@ -44,10 +54,6 @@ class TileMap(pygame.sprite.Sprite):
         self.prev_y = self.rect.y
         print(self.rect.x)
 
-                    
-                
-        
-    
     def draw(self, surface):
         surface.blit(self.image, (0,0))
     
@@ -62,8 +68,13 @@ class TileMap(pygame.sprite.Sprite):
         
         return data
     
+# ===================== combining the tilemap to one sprite ===================== #
 
 class Combined(pygame.sprite.Sprite):
+
+    """
+    class to combine the tilemap to one sprite
+    """
 
     def __init__(self, sprites):
         super().__init__()
@@ -78,7 +89,6 @@ class Combined(pygame.sprite.Sprite):
         for sprite in sprites:
             self.image.blit(sprite.image, (sprite.rect.x-self.rect.left,
                                            sprite.rect.y-self.rect.top))
-            
     
-if __name__ == "__main__":
+if __name__ == "__main__": # warum braucht man das?
     map = TileMap()

@@ -1,13 +1,21 @@
+# ===================== import ===================== #
+
 import pygame
 from Input import KeyInput
 from TileMap import TileMap
 from Player import Player
 
+# ===================== Main ===================== #
+
 class Main():
+
+    """
+    class for the main game process, combining the different parts of the game
+    """
+
     def __init__(self):
         pygame.init()
         self._running:bool = True
-        
         self._input = KeyInput()
         self._input.setRunning(self._running)
               
@@ -34,9 +42,11 @@ class Main():
         self.run()
     
     def run(self):
+
         """
         main loop
         """
+        
         while self._running:
             self._input.getinput()
             self._running = self._input.getRunning()
@@ -44,20 +54,21 @@ class Main():
             self.update()
             self.drawOnScreen()
             
-            
     def update(self):
         
         #TODO Beendigung der Collisionen, hier nur ein Anfang --> damit man die Graviation hinzufügen kann
+
+        if not pygame.sprite.collide_mask(self._player, self._tileMap): # sollte kein check sein, durchgehend
+
+            self._player.playerupdate(self._input)
+            self._tileMap.updatePosition()
+        
+        ### debug ###
         print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
         print(f"Position Tilemap: {self._tileMap.rect.x}")
         print(f"Position Player: {self._player.rect.x}")
-        if not pygame.sprite.collide_mask(self._player, self._tileMap):
-            self._player.horizontalMovement(self._input)
-            self._player.verticalmovement()
-            self._tileMap.updatePosition()
-        
-        
-    
+        ### ----- ###
+
     def drawOnScreen(self):
         self._all_sprites.update()
         

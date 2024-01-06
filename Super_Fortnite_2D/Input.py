@@ -6,20 +6,19 @@ import pygame
 
 class KeyInput():
 
-    '''
+    """
     Class to check all of the inputs a player can make in the game.
-    '''
+    """
 
     def __init__(self):
-
         # game is running
         self.running:bool = True
-        
-        # player presses buttons
+        # player buttons preset
         self.LEFT_KEY:bool = False
         self.RIGHT_KEY:bool = False
         self.SPACE_KEY:bool = False
-        
+    
+    ### maybe mit @property ###
     def getRunning(self):
         return self.running
     
@@ -34,8 +33,10 @@ class KeyInput():
 
     def getkeyspace(self):
         return self.SPACE_KEY
-    def getinput(self):
+    ### ------------------- ###
 
+    # check for inputs
+    def getinput(self):
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
