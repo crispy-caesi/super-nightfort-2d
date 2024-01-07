@@ -15,15 +15,12 @@ class Main():
 
     def __init__(self):
         pygame.init()
-        self._running:bool = True
         self._input = KeyInput()
-        self._input.setRunning(self._running)
-              
+        self._running = KeyInput.running
+
         # Display
         self._DISPLAY_W, self._DISPLAY_H = 900, 200
-        
         self._canvas = pygame.Surface((self._DISPLAY_W,self._DISPLAY_H))
-        
         self._window = pygame.display.set_mode((self._DISPLAY_W,self._DISPLAY_H))
         pygame.display.set_caption('Super Fortnite 2D')
         
@@ -33,7 +30,6 @@ class Main():
         #sprites
         self._tileMap = TileMap()
         self._player = Player()
-        
         self._all_sprites = pygame.sprite.Group()
         self._all_sprites.add(self._tileMap)
         self._all_sprites.add(self._player)
@@ -48,9 +44,8 @@ class Main():
         """
         
         while self._running:
+            self._running = KeyInput.running
             self._input.getinput()
-            self._running = self._input.getRunning()
-            
             self.update()
             self.drawOnScreen()
             

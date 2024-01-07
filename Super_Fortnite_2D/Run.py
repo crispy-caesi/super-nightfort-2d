@@ -9,5 +9,3 @@ from Main import Main
 if __name__ == "__main__":
     main = Main()
     pygame.quit()
-
-### game loop in a different file, clears the main file from more lines of code ### 

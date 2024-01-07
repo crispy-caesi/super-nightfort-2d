@@ -12,54 +12,54 @@ class KeyInput():
 
     def __init__(self):
         # game is running
-        self.running:bool = True
+        self.__running:bool = True
+
         # player buttons preset
-        self.LEFT_KEY:bool = False
-        self.RIGHT_KEY:bool = False
-        self.SPACE_KEY:bool = False
+        self.__keyleft:bool = False
+        self.__keyright:bool = False
+        self.__keyspace:bool = False
     
-    ### maybe mit @property ###
-    def getRunning(self):
-        return self.running
+    @property
+    def running(self):
+        return self.__running
     
-    def setRunning(self, running):
-        self.running = running
-
+    @property
     def getkeyleft(self):
-        return self.LEFT_KEY
+        return self.__keyleft
 
+    @property
     def getkeyright(self):
-        return self.RIGHT_KEY
+        return self.__keyright
 
+    @property
     def getkeyspace(self):
-        return self.SPACE_KEY
-    ### ------------------- ###
+        return self.__keyspace
 
     # check for inputs
     def getinput(self):
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
-                    self.running = False
+                KeyInput.running(False)
 
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_LEFT:
-                    self.LEFT_KEY = True
+                    self.__keyleft = True
 
                 elif event.key == pygame.K_RIGHT:
-                    self.RIGHT_KEY = True
+                    self.__keyright = True
 
                 elif event.key == pygame.K_SPACE:
-                    self.SPACE_KEY = True
+                    self.__keyspace = True
 
             if event.type == pygame.KEYUP:
 
                 if event.key == pygame.K_LEFT:
-                    self.LEFT_KEY = False
+                    self.__keyleft = False
 
                 elif event.key == pygame.K_RIGHT:
-                    self.RIGHT_KEY = False
+                    self.__keyright = False
 
                 elif event.key == pygame.K_SPACE:
-                    self.SPACE_KEY = False
+                    self.__keyspace = False

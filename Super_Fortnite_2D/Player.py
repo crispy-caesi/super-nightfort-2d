@@ -15,35 +15,38 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
-        self.maxvelocity = 6
-        self.isonground = False
-        self.health = 3
-        self.damagetaken = False
-        self.dead = False
-        self.gravity = .01
-        self.speed = pygame.math.Vector2(0,0)
+        self.__maxspeed = 6
+        self.__isonground = False
+        self.__health = 3
+        self.__damagetaken = False
+        self.__isdead = False
+        self.__gravity = .01
+        self.__speed = pygame.math.Vector2(0,0)
+
+# ===================== daws the player ===================== #
+
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
 
 # ===================== Movement ===================== #
 
     def horizontalMovement(self, input_:KeyInput):
-        self.speed.x = 0
-        if input_.getkeyleft():
-            self.speed.x = -4
-        if input_.getkeyright():
-           self.speed.x = 4
-        self.rect.x += self.speed.x
+        self.__speed.x = 0
+        if input_.getkeyleft:
+            self.__speed.x = max(self.__speed.x-4, -self.__maxspeed)
+        if input_.getkeyright:
+           self.__speed.x = min(self.__speed.x+4, self.__maxspeed)
+        self.rect.x += self.__speed.x
 
     def jump(self, input_:KeyInput):
-        if input_.getkeyspace():
-            if self.isonground:
-                self.speed.y += 8
-                self.isonground = False
+        if input_.getkeyspace:
+            if self.__isonground:
+                self.__speed.y += 8
+                self.__isonground = False
                 
     def verticalmovement(self):
-        self.speed.y += self.speed.y + self.gravity
-        self.rect.y += self.speed.y
+        self.__speed.y += self.__speed.y + self.__gravity
+        self.rect.y += self.__speed.y
 
     def collisioncheck(self):
         pass
@@ -68,12 +71,12 @@ class Player(pygame.sprite.Sprite):
 # ===================== Damage and health ===================== #
 
     def damage(self):
-        if self.damagetaken is True:
-            self.health -= 1
-            self.damagetaken = False
+        if self.__damagetaken is True:
+            self.__health -= 1
+            self.__damagetaken = False
 
-        if self.health < 1:
-            self.dead = True
+        if self.__health < 1:
+            self.__isdead = True
 
     def dead(self):
         pass

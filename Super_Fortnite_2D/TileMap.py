@@ -89,6 +89,3 @@ class Combined(pygame.sprite.Sprite):
         for sprite in sprites:
             self.image.blit(sprite.image, (sprite.rect.x-self.rect.left,
                                            sprite.rect.y-self.rect.top))
-    
-if __name__ == "__main__": # warum braucht man das?
-    map = TileMap()
