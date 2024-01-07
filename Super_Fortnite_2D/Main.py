@@ -50,18 +50,15 @@ class Main():
             self.drawOnScreen()
             
     def update(self):
-        
-        #TODO Beendigung der Collisionen, hier nur ein Anfang --> damit man die Graviation hinzufügen kann
 
-        if not pygame.sprite.collide_mask(self._player, self._tileMap): # sollte kein check sein, durchgehend
-
-            self._player.playerupdate(self._input)
-            self._tileMap.updatePosition()
-        
+        self._player.playerupdate(self._input,self._tileMap)
+        self._tileMap.updatePosition()
+    
         ### debug ###
         print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
         print(f"Position Tilemap: {self._tileMap.rect.x}")
         print(f"Position Player: {self._player.rect.x}")
+        #print(f"jump?:{self._player}")
         ### ----- ###
 
     def drawOnScreen(self):
