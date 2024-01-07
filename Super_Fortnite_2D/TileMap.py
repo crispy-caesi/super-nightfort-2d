@@ -19,7 +19,7 @@ class Tile(pygame.sprite.Sprite):
 class TileMap(pygame.sprite.Sprite):
     def __init__(self, csvPath:str = "sprites/placeholder/big_level.csv"):
         super().__init__()
-        tiles = []     
+        self._tiles = []     
             
         lst = self.readCSV( filePath = csvPath)
         
@@ -27,15 +27,15 @@ class TileMap(pygame.sprite.Sprite):
             for row in range(len(lst[0])):
                 if lst[column][row] == "4":
                    tile = Tile("sprites/placeholder/Duck.png", row * 16, column * 16)
-                   tiles.append(tile)
+                   self._tiles.append(tile)
                 if  lst[column][row] == "1":
                    tile = Tile("sprites/placeholder/Grass.png", row * 16, column * 16)
-                   tiles.append(tile)
+                   self._tiles.append(tile)
                 if lst[column][row] == "2":
                    tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16) 
-                   tiles.append(tile)
+                   self._tiles.append(tile)
                    
-        combined = Combined(tiles)
+        combined = Combined(self._tiles)
         self.image = combined.image
         self.rect = self.image.get_rect()
         
@@ -43,7 +43,9 @@ class TileMap(pygame.sprite.Sprite):
         self.prev_x = self.rect.x
         self.prev_y = self.rect.y
         print(self.rect.x)
-
+    
+    def getTiles(self):
+        return self._tiles
                     
                 
         

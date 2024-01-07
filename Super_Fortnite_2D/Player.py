@@ -11,13 +11,14 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
-        self.maxvelocity = 6
         self.isonground = False
         self.health = 3
         self.damagetaken = False
         self.dead = False
-        self.gravity = .04
+        self.gravity = 0.5
         self.speed = pygame.math.Vector2(0,0)
+        self.velocity_y = 0  # Geschwindigkeit in der y-Richtung
+                
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -35,17 +36,16 @@ class Player(pygame.sprite.Sprite):
         if self.health == 0:
             self.dead = True
 
-
     def jump(self, input_:KeyInput):
         if input_.getkeyspace():
             if self.isonground:
-                self.speed.y += 8
+                self.velocity_y =- 12
                 self.isonground = False
                 
     def verticalmovement(self):
-        self.speed.y += self.speed.y + self.gravity
-        self.rect.y += self.speed.y
+        self.velocity_y += self.gravity
+        self.rect.y += self.velocity_y
 
-    def playerupdate(self, input_:KeyInput):
-        self.horizontalMovement(self, input_)
-        self.verticalmovement(self)
+    def playerUpdate(self, input_):
+        self.horizontalMovement(input_)
+        self.verticalmovement()    

@@ -51,11 +51,25 @@ class Main():
         print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
         print(f"Position Tilemap: {self._tileMap.rect.x}")
         print(f"Position Player: {self._player.rect.x}")
-        if not pygame.sprite.collide_mask(self._player, self._tileMap):
-            self._player.horizontalMovement(self._input)
-            self._player.verticalmovement()
-            self._tileMap.updatePosition()
-        
+        self._player.playerUpdate(self._input)
+        self.checkCollisions()
+            
+    
+    def checkCollisions(self):
+        if pygame.sprite.collide_mask(self._player, self._tileMap):
+            #horizontal collision
+            if self._player.speed.x < 0:
+                while pygame.sprite.collide_mask(self._player, self._tileMap):
+                    self._player.speed.x = 4
+                    self._player.rect.x += self._player.speed.x
+                self._player.speed.x = 0
+            if self._player.speed.x > 0:
+                while pygame.sprite.collide_mask(self._player, self._tileMap):
+                    self._player.speed.x = -4
+                    self._player.rect.x += self._player.speed.x
+                self._player.speed.x = 0
+            # vertical collision
+
         
     
     def drawOnScreen(self):
