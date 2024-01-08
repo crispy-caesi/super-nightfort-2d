@@ -26,14 +26,14 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_Movement(self, keyinput:KeyInput):
         self.__speed.x = 0
-        if keyinput.getkeyleft():
+        if keyinput.keyleft:
             self.__speed.x = -4
-        if keyinput.getkeyright():
+        if keyinput.keyright:
             self.__speed.x = 4    
         self.rect.x += self.__speed.x
             
     def vertical_movement(self, keyinput:KeyInput):#jump
-        if keyinput.getkeyspace():
+        if keyinput.keyspace:
             if self.__isonground:
                 self.__speed.y -= 8
                 self.__isonground = False
