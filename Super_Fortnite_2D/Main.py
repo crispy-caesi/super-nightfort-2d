@@ -68,7 +68,7 @@ class Main():
                     self._player.speed.x = -4
                     self._player.rect.x += self._player.speed.x
                 self._player.speed.x = 0
-            # vertical collision
+            #TODO vertical Collision
 
         
     
