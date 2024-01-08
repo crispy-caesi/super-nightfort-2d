@@ -41,21 +41,20 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_collisioncheck(self, tilemaprect):
         if pygame.sprite.collide_mask(self, tilemaprect):
-            pass
+            if self.__speed.x < 0:
+                while pygame.sprite.collide_mask(self, tilemaprect):
+                    self.__speed.x = 4
+                    self.rect.x += self.__speed.x
+                self.__speed.x = 0
+            if self.__speed.x > 0:
+                while pygame.sprite.collide_mask(self, tilemaprect):
+                    self.__speed.x = -4
+                    self.rect.x += self.__speed.x
+                self.__speed.x = 0
 
     def vertical_collisioncheck(self, tilemaprect):
         if pygame.sprite.collide_mask(self, tilemaprect):
-            if self.__speed.y < 0:
-                while pygame.sprite.collide_mask(self, tilemaprect):
-                    self.__speed.y = 4
-                    self.rect.y += self.__speed.y
-                self.__speed.y = 0
-                self.__isonground = True
-            if self.__speed.y > 0:
-                while pygame.sprite.collide_mask(self, tilemaprect):
-                    self.__speed.y = -4
-                    self.rect.y += self.__speed.y
-                self.__speed.y = 0
+            pass
 
     def playerupdate(self, keyinput:KeyInput, tilemaprect):
         self.horizontal_Movement(keyinput)
