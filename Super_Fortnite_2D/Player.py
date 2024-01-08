@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.__isdead = False
         self.__gravity = 0.5
         self.__speed = pygame.math.Vector2(0,0)
-        self.__isjumping
+        self.position = pygame.math.Vector2(0,0)
                 
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
@@ -26,18 +26,18 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_Movement(self, keyinput:KeyInput):
         self.__speed.x = 0
-        if keyinput.getkeyleft:
+        if keyinput.getkeyleft():
             self.__speed.x = -4
-        if keyinput.getkeyright:
-           self.__speed.x = 4
+        if keyinput.getkeyright():
+            self.__speed.x = 4    
         self.rect.x += self.__speed.x
             
     def vertical_movement(self, keyinput:KeyInput):#jump
-        if keyinput.getkeyspace:
+        if keyinput.getkeyspace():
             if self.__isonground:
                 self.__speed.y -= 8
                 self.__isonground = False
-        self.__speed.y += self.__speed.y + self.__gravity
+        self.__speed.y += self.__gravity
         self.rect.y += self.__speed.y
 
     def horizontal_collisioncheck(self, tilemaprect):
@@ -55,9 +55,19 @@ class Player(pygame.sprite.Sprite):
 
 
     def vertical_collisioncheck(self, tilemaprect):
-        if pygame.sprite.collide_mask(self, tilemaprect):   
-            pass
-
+        if pygame.sprite.collide_mask(self, tilemaprect):
+            if self.__speed.y > 0:     
+                self.__isonground = True
+                self.__speed.y = 0
+                self.__gravity = 0
+            if self.__speed.y < 0:
+                self.__speed.y = 0
+                self.__gravity = 0
+        else:
+            self.__gravity = 0.5
+            self.__isonground = False
+            
+                
     def playerupdate(self, keyinput:KeyInput, tilemaprect):
         self.horizontal_Movement(keyinput)
         self.horizontal_collisioncheck(tilemaprect)

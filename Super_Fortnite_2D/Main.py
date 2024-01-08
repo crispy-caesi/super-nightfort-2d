@@ -47,13 +47,13 @@ class Main():
             
     def update(self):
 
-        self._player.playerupdate(self._input,self._tileMap)
+        self._player.playerupdate(keyinput = self._input, tilemaprect = self._tileMap)
         self._tileMap.updatePosition()
     
         ### debug ###
-        print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
-        print(f"Position Tilemap: {self._tileMap.rect.x}")
-        print(f"Position Player: {self._player.rect.x}")
+        #print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
+        #print(f"Position Tilemap: {self._tileMap.rect.x}")
+        #print(f"Position Player: {self._player.rect.x}")
 
     def drawOnScreen(self):
         self._all_sprites.update()
