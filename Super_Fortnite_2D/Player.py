@@ -11,13 +11,12 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
-        self.isonground = False
-        self.health = 3
-        self.damagetaken = False
-        self.dead = False
-        self.gravity = 0.5
-        self.speed = pygame.math.Vector2(0,0)
-        self.velocity_y = 0  # Geschwindigkeit in der y-Richtung
+        self.__isonground = False
+        self.__health = 3
+        self.__damagetaken = False
+        self.__isdead = False
+        self.__gravity = 0.5
+        self.__speed = pygame.math.Vector2(0,0)
                 
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
@@ -27,9 +26,9 @@ class Player(pygame.sprite.Sprite):
     def horizontal_Movement(self, keyinput:KeyInput):
         self.__speed.x = 0
         if keyinput.getkeyleft:
-            self.__speed.x = max(self.__speed.x-4, -self.__maxspeed)
+            self.__speed.x = -4
         if keyinput.getkeyright:
-           self.__speed.x = min(self.__speed.x+4, self.__maxspeed)
+           self.__speed.x = 4
         self.rect.x += self.__speed.x
             
     def vertical_movement(self, keyinput:KeyInput):
@@ -42,28 +41,19 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_collisioncheck(self, tilemaprect):
         if pygame.sprite.collide_mask(self, tilemaprect):
-            if self.__speed.x < 0:
-                while pygame.sprite.collide_mask(self, tilemaprect):
-                    self.__speed.x = 6
-                    self.rect.x += self.__speed.x
-                self.__speed.x = 0
-            if self.__speed.x > 0:
-                while pygame.sprite.collide_mask(self, tilemaprect):
-                    self.__speed.x = -6
-                    self.rect.x += self.__speed.x
-                self.__speed.x = 0
+            pass
 
     def vertical_collisioncheck(self, tilemaprect):
         if pygame.sprite.collide_mask(self, tilemaprect):
             if self.__speed.y < 0:
                 while pygame.sprite.collide_mask(self, tilemaprect):
-                    self.__speed.y = 6
+                    self.__speed.y = 4
                     self.rect.y += self.__speed.y
                 self.__speed.y = 0
                 self.__isonground = True
             if self.__speed.y > 0:
                 while pygame.sprite.collide_mask(self, tilemaprect):
-                    self.__speed.y = -6
+                    self.__speed.y = -4
                     self.rect.y += self.__speed.y
                 self.__speed.y = 0
 
