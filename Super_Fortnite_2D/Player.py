@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         if self.__isonground:
             self.__isjumping = True
-            self.__speed.x -= 8
+            self.__speed.y -= 8
             self.__isonground = False
 
 
