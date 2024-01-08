@@ -22,30 +22,67 @@ class Player(pygame.sprite.Sprite):
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
 
-    def horizontalMovement(self, input_:KeyInput):
-        self.speed.x = 0
-        if input_.getkeyleft():
-            self.speed.x = -4
-        if input_.getkeyright():
-           self.speed.x = 4
-        self.rect.x += self.speed.x
-    
+# ===================== Movement ===================== #
+
+    def horizontal_Movement(self, keyinput:KeyInput):
+        self.__speed.x = 0
+        if keyinput.getkeyleft:
+            self.__speed.x = max(self.__speed.x-4, -self.__maxspeed)
+        if keyinput.getkeyright:
+           self.__speed.x = min(self.__speed.x+4, self.__maxspeed)
+        self.rect.x += self.__speed.x
+            
+    def vertical_movement(self, keyinput:KeyInput):
+        if keyinput.getkeyspace:
+            if self.__isonground:
+                self.__speed.y += 8
+                self.__isonground = False
+        self.__speed.y += self.__speed.y + self.__gravity
+        self.rect.y += self.__speed.y
+
+    def horizontal_collisioncheck(self, tilemaprect):
+        if pygame.sprite.collide_mask(self, tilemaprect):
+            if self.__speed.x < 0:
+                while pygame.sprite.collide_mask(self, tilemaprect):
+                    self.__speed.x = 6
+                    self.rect.x += self.__speed.x
+                self.__speed.x = 0
+            if self.__speed.x > 0:
+                while pygame.sprite.collide_mask(self, tilemaprect):
+                    self.__speed.x = -6
+                    self.rect.x += self.__speed.x
+                self.__speed.x = 0
+
+    def vertical_collisioncheck(self, tilemaprect):
+        if pygame.sprite.collide_mask(self, tilemaprect):
+            if self.__speed.y < 0:
+                while pygame.sprite.collide_mask(self, tilemaprect):
+                    self.__speed.y = 6
+                    self.rect.y += self.__speed.y
+                self.__speed.y = 0
+                self.__isonground = True
+            if self.__speed.y > 0:
+                while pygame.sprite.collide_mask(self, tilemaprect):
+                    self.__speed.y = -6
+                    self.rect.y += self.__speed.y
+                self.__speed.y = 0
+
+    def playerupdate(self, keyinput:KeyInput, tilemaprect):
+        self.horizontal_Movement(keyinput)
+        self.horizontal_collisioncheck(tilemaprect)
+        self.vertical_movement(keyinput)
+        self.vertical_collisioncheck(tilemaprect)
+
+# ===================== Damage and health ===================== #
+
     def damage(self):
-        if self.damagetaken is True:
-            self.health -= 1
-        if self.health == 0:
-            self.dead = True
+        if self.__damagetaken is True:
+            self.__health -= 1
+            self.__damagetaken = False
 
-    def jump(self, input_:KeyInput):
-        if input_.getkeyspace():
-            if self.isonground:
-                self.velocity_y =- 12
-                self.isonground = False
-                
-    def verticalmovement(self):
-        self.velocity_y += self.gravity
-        self.rect.y += self.velocity_y
+        if self.__health < 1:
+            self.__isdead = True
 
-    def playerUpdate(self, input_):
-        self.horizontalMovement(input_)
-        self.verticalmovement()    
+    def dead(self):
+        pass
+    #TODO back to main menu and delete level stats in cache for the leaderboard
