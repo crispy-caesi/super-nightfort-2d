@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.__isdead = False
         self.__gravity = 0.5
         self.__speed = pygame.math.Vector2(0,0)
+        self.__isjumping
                 
     def draw(self, display):
         display.blit(self.image, (self.rect.x, self.rect.y))
@@ -51,9 +52,16 @@ class Player(pygame.sprite.Sprite):
                     self.__speed.x = -4
                     self.rect.x += self.__speed.x
                 self.__speed.x = 0
+    
+    def jump(self):
+        if self.__isonground:
+            self.__isjumping = True
+            self.__speed.y -= 8
+            self.__isonground = False
+
 
     def vertical_collisioncheck(self, tilemaprect):
-        if pygame.sprite.collide_mask(self, tilemaprect):
+        if pygame.sprite.collide_mask(self, tilemaprect):   
             pass
 
     def playerupdate(self, keyinput:KeyInput, tilemaprect):
