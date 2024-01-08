@@ -32,10 +32,10 @@ class Player(pygame.sprite.Sprite):
            self.__speed.x = 4
         self.rect.x += self.__speed.x
             
-    def vertical_movement(self, keyinput:KeyInput):
+    def vertical_movement(self, keyinput:KeyInput):#jump
         if keyinput.getkeyspace:
             if self.__isonground:
-                self.__speed.y += 8
+                self.__speed.y -= 8
                 self.__isonground = False
         self.__speed.y += self.__speed.y + self.__gravity
         self.rect.y += self.__speed.y
@@ -52,12 +52,6 @@ class Player(pygame.sprite.Sprite):
                     self.__speed.x = -4
                     self.rect.x += self.__speed.x
                 self.__speed.x = 0
-    
-    def jump(self):
-        if self.__isonground:
-            self.__isjumping = True
-            self.__speed.y -= 8
-            self.__isonground = False
 
 
     def vertical_collisioncheck(self, tilemaprect):
