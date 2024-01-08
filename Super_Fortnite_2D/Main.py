@@ -54,8 +54,6 @@ class Main():
         print(f"Collision: {pygame.sprite.collide_mask(self._player, self._tileMap)}")
         print(f"Position Tilemap: {self._tileMap.rect.x}")
         print(f"Position Player: {self._player.rect.x}")
-        #print(f"jump?:{self._player}")
-        ### ----- ###
 
     def drawOnScreen(self):
         self._all_sprites.update()

@@ -47,9 +47,6 @@ class TileMap(pygame.sprite.Sprite):
     def getTiles(self):
         return self._tiles
                     
-                
-        
-    
     def draw(self, surface):
         surface.blit(self.image, (0,0))
     
