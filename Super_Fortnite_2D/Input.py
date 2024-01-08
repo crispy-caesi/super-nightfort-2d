@@ -11,7 +11,6 @@ class KeyInput():
     '''
 
     def __init__(self):
-
         # game is running
         self._running:bool = True
         
@@ -41,7 +40,6 @@ class KeyInput():
         return self._keyspace
     
     def getinput(self):
-
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:

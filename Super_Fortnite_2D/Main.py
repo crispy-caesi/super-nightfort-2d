@@ -1,7 +1,11 @@
+# ===================== import ===================== #
+
 import pygame
 from Input import KeyInput
 from TileMap import TileMap
 from Player import Player
+
+# ===================== Main ===================== #
 
 class Main():
     def __init__(self):
@@ -46,7 +50,6 @@ class Main():
             
             
     def update(self):
-
         self._player.playerupdate(keyinput = self._input, tilemaprect = self._tileMap)
         self._tileMap.updatePosition()
     
@@ -61,7 +64,6 @@ class Main():
         # camera - calculate the offset
         player_offset_x = self._DISPLAY_W // 6 - self._player.rect.centerx # // 6 -> more of the left site
         player_offset_y = self._DISPLAY_H // 2 - self._player.rect.centery # // 2 -> center
-        
         
         self._canvas.fill((0, 180, 240))
         
