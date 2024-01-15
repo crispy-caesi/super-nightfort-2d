@@ -5,12 +5,19 @@ import Menu
 
 # ===================== run ===================== #
 
-if __name__ == "__Main__":
-    currentloop = "MAINMENU"
+clock = pygame.time.Clock()
+mainmenuloop = Menu.MainMenu()
+levelmenuloop = Menu.LevelMenu()
+gameloop = Menu.GameLoop()
+
+if __name__ == "__main__":
+    currentloop = str("mainmenu")
     while True:
-        if currentloop == "MAINMENU":
-            currentloop = Menu.MainMenu()
-        if currentloop == "LEVELMENU":
-            currentloop = Menu.LevelMenu()
-        if currentloop == "GAMELOOP":
-            currentloop = Menu.GameLoop()
+        print(currentloop)
+        if currentloop == "mainmenu":
+            currentloop = mainmenuloop.mainmenuloop()
+        if currentloop == "levelmenu":
+            currentloop = levelmenuloop.levelmenuloop()
+        if currentloop == "gameloop":
+            currentloop = gameloop.gameloop()
+        clock.tick(30)

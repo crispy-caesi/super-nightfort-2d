@@ -19,7 +19,7 @@ class KeyInput():
         self._keyright:bool = False
         self._keyspace:bool = False
         self._keyescape:bool = False
-        self._keymouse:bool = False
+        self._keymouseleft:bool = False
         
     @property
     def running(self):
@@ -46,8 +46,8 @@ class KeyInput():
         return self._keyescape
 
     @property
-    def keymouse(self):
-        return self._keymouse
+    def keymouseleft(self):
+        return self._keymouseleft
     
     def getinput(self):
         for event in pygame.event.get():
@@ -69,9 +69,6 @@ class KeyInput():
                 elif event.key == pygame.K_ESCAPE:
                     self._keyescape = True
 
-                elif event.key == pygame.MOUSEBUTTONDOWN:
-                    self._keymouse = True
-
             if event.type == pygame.KEYUP:
 
                 if event.key == pygame.K_LEFT:
@@ -86,5 +83,31 @@ class KeyInput():
                 elif event.key == pygame.K_ESCAPE:
                     self._keyescape = False
 
-                elif event.key == pygame.MOUSEBUTTONUP:
-                    self._keymouse = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+                if event.button == 1:
+                    self._keymouseleft = True
+
+                #elif event.button == 2:
+                #    print("middle mouse button")
+                #elif event.button == 3:
+                #    print("right mouse button")
+                #elif event.button == 4:
+                #    print("mouse wheel up")
+                #elif event.button == 5:
+                #    print("mouse wheel down")
+
+            if event.type == pygame.MOUSEBUTTONUP:
+
+                if event.button == 1:
+                    self._keymouseleft = False
+
+                #elif event.button == 2:
+                #    print("middle mouse button")
+                #elif event.button == 3:
+                #    print("right mouse button")
+                #elif event.button == 4:
+                #    print("mouse wheel up")
+                #elif event.button == 5:
+                #    print("mouse wheel down")
+
