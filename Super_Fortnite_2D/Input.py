@@ -18,7 +18,9 @@ class KeyInput():
         self._keyleft:bool = False
         self._keyright:bool = False
         self._keyspace:bool = False
-    
+        self._keyescape:bool = False
+        self._keymouse:bool = False
+        
     @property
     def running(self):
         return self._running
@@ -39,6 +41,14 @@ class KeyInput():
     def keyspace(self):
         return self._keyspace
     
+    @property
+    def keyescape(self):
+        return self._keyescape
+
+    @property
+    def keymouse(self):
+        return self._keymouse
+    
     def getinput(self):
         for event in pygame.event.get():
 
@@ -56,6 +66,12 @@ class KeyInput():
                 elif event.key == pygame.K_SPACE:
                     self._keyspace = True
 
+                elif event.key == pygame.K_ESCAPE:
+                    self._keyescape = True
+
+                elif event.key == pygame.MOUSEBUTTONDOWN:
+                    self._keymouse = True
+
             if event.type == pygame.KEYUP:
 
                 if event.key == pygame.K_LEFT:
@@ -66,3 +82,9 @@ class KeyInput():
 
                 elif event.key == pygame.K_SPACE:
                     self._keyspace = False
+                
+                elif event.key == pygame.K_ESCAPE:
+                    self._keyescape = False
+
+                elif event.key == pygame.MOUSEBUTTONUP:
+                    self._keymouse = False
