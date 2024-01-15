@@ -10,45 +10,22 @@ from Player import Player
 class Main():
     def __init__(self):
         pygame.init()
-        self._running:bool = True
-        
         self._input = KeyInput()
-        self._input.running = self._running
-              
+        self._clock = pygame.time.Clock()
+
         # Display
         self._DISPLAY_W, self._DISPLAY_H = 900, 200
-        
         self._canvas = pygame.Surface((self._DISPLAY_W,self._DISPLAY_H))
-        
         self._window = pygame.display.set_mode((self._DISPLAY_W,self._DISPLAY_H))
         pygame.display.set_caption('Super Fortnite 2D')
-        
-        # clock
-        self._clock = pygame.time.Clock()
         
         #sprites
         self._tileMap = TileMap()
         self._player = Player()
-        
         self._all_sprites = pygame.sprite.Group()
         self._all_sprites.add(self._tileMap)
         self._all_sprites.add(self._player)
-        
-        #run-method - the main loop
-        self.run()
-    
-    def run(self):
-        """
-        main loop
-        """
-        while self._running:
-            self._input.getinput()
-            self._running = self._input.running
-            
-            self.update()
-            self.drawOnScreen()
-            
-            
+
     def update(self):
         self._player.playerupdate(keyinput = self._input, tilemaprect = self._tileMap)
         self._tileMap.updatePosition()
@@ -76,3 +53,11 @@ class Main():
         self._window.blit(self._canvas, (0, 0))
         pygame.display.flip()
         self._clock.tick(30)
+        
+# ======= game loop ======= #
+        
+    def run(self):
+        self._input.getinput()
+        self.update()
+        self.drawOnScreen()
+  

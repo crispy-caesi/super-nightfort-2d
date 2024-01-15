@@ -1,10 +1,16 @@
 # ===================== import ===================== #
 
 import pygame
-from Main import Main
+import Menu
 
 # ===================== run ===================== #
 
-if __name__ == "__main__":
-    main = Main()
-    pygame.quit()
+if __name__ == "__Main__":
+    currentloop = "MAINMENU"
+    while True:
+        if currentloop == "MAINMENU":
+            currentloop = Menu.MainMenu()
+        if currentloop == "LEVELMENU":
+            currentloop = Menu.LevelMenu()
+        if currentloop == "GAMELOOP":
+            currentloop = Menu.GameLoop()
