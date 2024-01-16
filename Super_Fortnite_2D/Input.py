@@ -45,10 +45,18 @@ class KeyInput():
     def keyescape(self):
         return self._keyescape
 
+    @keyescape.setter
+    def keyescape(self, reset):
+        self._keyescape = reset
+
     @property
     def keymouseleft(self):
         return self._keymouseleft
     
+    @keymouseleft.setter
+    def keymouseleft(self, reset):
+        self._keymouseleft = reset
+        
     def getinput(self):
         for event in pygame.event.get():
 

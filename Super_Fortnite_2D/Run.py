@@ -2,22 +2,27 @@
 
 import pygame
 import Menu
+import sys
 
 # ===================== run ===================== #
 
 clock = pygame.time.Clock()
-mainmenuloop = Menu.MainMenu()
-levelmenuloop = Menu.LevelMenu()
-gameloop = Menu.GameLoop()
+menuloop = Menu.Menu()
+
+
 
 if __name__ == "__main__":
-    currentloop = str("mainmenu")
+    currentloop = "mainmenu"
     while True:
-        print(currentloop)
+        #print(currentloop)
         if currentloop == "mainmenu":
-            currentloop = mainmenuloop.mainmenuloop()
+            currentloop = menuloop.mainmenuloop()
         if currentloop == "levelmenu":
-            currentloop = levelmenuloop.levelmenuloop()
-        if currentloop == "gameloop":
-            currentloop = gameloop.gameloop()
+            currentloop = menuloop.levelmenuloop()
+        #if currentloop == "gameloop":
+            #currentloop = Menu.GameLoop()
+        if currentloop == "quit":
+            pygame.quit()
+            sys.exit()
+            
         clock.tick(30)
