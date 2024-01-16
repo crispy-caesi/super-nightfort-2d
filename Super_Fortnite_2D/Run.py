@@ -4,25 +4,38 @@ import pygame
 import Menu
 import sys
 
-# ===================== run ===================== #
+# ===================== main ===================== #
 
-clock = pygame.time.Clock()
-menuloop = Menu.Menu()
+def main():
+    """
+    Method to run the application
+    """
+    
+    clock = pygame.time.Clock()
+    menuloop = Menu.Menu()
 
-
-
-if __name__ == "__main__":
+    # loop preset
     currentloop = "mainmenu"
+
     while True:
-        #print(currentloop)
+
         if currentloop == "mainmenu":
             currentloop = menuloop.mainmenuloop()
-        if currentloop == "levelmenu":
+
+        elif currentloop == "levelmenu":
             currentloop = menuloop.levelmenuloop()
-        #if currentloop == "gameloop":
-            #currentloop = Menu.GameLoop()
-        if currentloop == "quit":
+
+        elif currentloop == "gameloop":
+            currentloop = menuloop.gameloop()
+
+        elif currentloop == "quit":
             pygame.quit()
             sys.exit()
             
-        clock.tick(30)
+        clock.tick(60)
+
+# ===================== run ===================== #
+        
+# run the application
+if __name__ == "__main__":
+    main()

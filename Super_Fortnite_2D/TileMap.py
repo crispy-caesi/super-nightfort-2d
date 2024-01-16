@@ -1,5 +1,9 @@
+# ===================== import ===================== #
+
 import pygame
 import csv
+
+# ===================== tile ===================== #
 
 class Tile(pygame.sprite.Sprite):
     """
@@ -11,13 +15,11 @@ class Tile(pygame.sprite.Sprite):
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = x, y
-
-    def draw(self, surface):
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-
-
+        
+# ===================== tilemap ===================== #
+        
 class TileMap(pygame.sprite.Sprite):
-    def __init__(self, csvPath:str = "sprites/placeholder/big_level.csv"):
+    def __init__(self, csvPath:str):
         super().__init__()
         self._tiles = []     
             
@@ -61,7 +63,8 @@ class TileMap(pygame.sprite.Sprite):
         
         return data
     
-
+# ===================== combined ===================== #
+    
 class Combined(pygame.sprite.Sprite):
 
     def __init__(self, sprites):
@@ -77,7 +80,3 @@ class Combined(pygame.sprite.Sprite):
         for sprite in sprites:
             self.image.blit(sprite.image, (sprite.rect.x-self.rect.left,
                                            sprite.rect.y-self.rect.top))
-            
-    
-if __name__ == "__main__":
-    map = TileMap()
