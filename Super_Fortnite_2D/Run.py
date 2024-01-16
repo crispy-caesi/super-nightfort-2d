@@ -8,7 +8,7 @@ import sys
 
 def main():
     """
-    Method to run the application
+    Method to run the application.
     """
     
     clock = pygame.time.Clock()

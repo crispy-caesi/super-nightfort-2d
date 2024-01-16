@@ -21,7 +21,7 @@ class Game():
         self._all_sprites.add(self._player)
         self._background = pygame.image.load("sprites/placeholder/level1background.png")
 
-    def drawOnScreen(self):
+    def drawgameframe(self):
         """
         Method to blit the game on the screen.
         """
@@ -37,7 +37,7 @@ class Game():
             sprite.rect.x += player_offset_x
             sprite.rect.y += player_offset_y
 
-        
+        # draws the current frame on the screen
         self._screen.blit(self._background, (0, 0))
         self._all_sprites.draw(self._screen)
         #TODO UI health
@@ -51,8 +51,9 @@ class Game():
         Method that lets the game update and run in one.
         """
 
+        # runs all of Game.py main functions
         self._screen = screen
         self._input = input
         self._player.playerupdate(keyinput = self._input, tilemaprect = self._tileMap)
         self._tileMap.updatePosition()
-        self.drawOnScreen()
+        self.drawgameframe()

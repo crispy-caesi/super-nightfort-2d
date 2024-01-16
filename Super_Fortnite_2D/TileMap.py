@@ -7,7 +7,7 @@ import csv
 
 class Tile(pygame.sprite.Sprite):
     """
-    Class to create a single tile
+    Class to create a single tile.
     """
 
     def __init__(self, image, x, y):
@@ -15,14 +15,17 @@ class Tile(pygame.sprite.Sprite):
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = x, y
-        
+
 # ===================== tilemap ===================== #
         
 class TileMap(pygame.sprite.Sprite):
+    """
+    Class to create the tilemap with which other objects can interact.
+    """
+    
     def __init__(self, csvPath:str):
         super().__init__()
         self._tiles = []     
-            
         lst = self.readCSV( filePath = csvPath)
         
         for column in range(len(lst)):
