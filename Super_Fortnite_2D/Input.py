@@ -48,7 +48,7 @@ class KeyInput():
 
 # ======= check for inputs ======= #
 
-    def getinput(self):
+    def getInput(self):
         """
         Method to handle input events.
         """

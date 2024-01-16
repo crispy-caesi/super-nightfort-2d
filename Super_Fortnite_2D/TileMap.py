@@ -37,24 +37,17 @@ class TileMap(pygame.sprite.Sprite):
                    tile = Tile("sprites/placeholder/Grass.png", row * 16, column * 16)
                    self._tiles.append(tile)
                 if lst[column][row] == "2":
-                   tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16) 
+                   tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16 )
                    self._tiles.append(tile)
                    
         combined = Combined(self._tiles)
         self.image = combined.image
         self.rect = self.image.get_rect()
         
-    def updatePosition(self):
+    def updateTilemapPosition(self):
         self.prev_x = self.rect.x
         self.prev_y = self.rect.y
-        print(self.rect.x)
-    
-    def getTiles(self):
-        return self._tiles
-                    
-    def draw(self, surface):
-        surface.blit(self.image, (0,0))
-    
+
     def readCSV(self, filePath:str)->list:
         data = [[]]
         try:
@@ -69,6 +62,9 @@ class TileMap(pygame.sprite.Sprite):
 # ===================== combined ===================== #
     
 class Combined(pygame.sprite.Sprite):
+    """
+    Class to combine different sprites.
+    """
 
     def __init__(self, sprites):
         super().__init__()
@@ -79,6 +75,7 @@ class Combined(pygame.sprite.Sprite):
 
         # Create a new transparent image with the combined size.
         self.image = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+
         # Now blit all sprites onto the new surface.
         for sprite in sprites:
             self.image.blit(sprite.image, (sprite.rect.x-self.rect.left,

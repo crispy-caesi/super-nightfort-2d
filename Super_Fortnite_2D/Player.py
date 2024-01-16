@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite):
         
 # ======= horizontal movement ======= #
 
-    def horizontal_Movement(self, keyinput:KeyInput):
+    def horizontalMovement(self, keyinput:KeyInput):
         """
         Method to handle horizontal movement of the player.
         """ 
@@ -49,12 +49,12 @@ class Player(pygame.sprite.Sprite):
         if abs(self.__speed.x) < .1:
             self.__speed.x = 0
 
-        self.maxspeed(4)
+        self.maxSpeed(4)
 
         # connecting the calculated speed to the actual character coordinates
         self.rect.x += self.__speed.x
             
-    def maxspeed(self,maxspeed):
+    def maxSpeed(self,maxspeed):
         """
         Method to limit the speed to an input value.
         """
@@ -67,7 +67,7 @@ class Player(pygame.sprite.Sprite):
         
 # ======= vertical movement ======= #
         
-    def vertical_movement(self, keyinput:KeyInput):
+    def verticalMovement(self, keyinput:KeyInput):
         """
         Method to handle vertical movement of the player.
         """
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
 
 # ======= collisionchecks ======= #
         
-    def horizontal_collisioncheck(self, tilemaprect):
+    def horizontalCollisionCheck(self, tilemaprect):
         """
         Method to handle horizontal collisions.
         """
@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite):
 
             self.__speed.x = 0
 
-    def vertical_collisioncheck(self, tilemaprect):
+    def verticalCollisionCheck(self, tilemaprect):
         """
         Method to handle vertical collisions.
         """
@@ -122,15 +122,15 @@ class Player(pygame.sprite.Sprite):
             self.__isonground = False
             
                 
-    def playerupdate(self, keyinput:KeyInput, tilemaprect):
+    def playerUpdate(self, keyinput:KeyInput, tilemaprect):
         """
         Method to update all player related events.
         """
         
-        self.horizontal_Movement(keyinput)
-        self.horizontal_collisioncheck(tilemaprect)        
-        self.vertical_movement(keyinput)
-        self.vertical_collisioncheck(tilemaprect)
+        self.horizontalMovement(keyinput)
+        self.horizontalCollisionCheck(tilemaprect)        
+        self.verticalMovement(keyinput)
+        self.verticalCollisionCheck(tilemaprect)
 
 # ============== damage and health ============== #
 

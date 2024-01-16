@@ -20,13 +20,13 @@ def main():
     while True:
 
         if currentloop == "mainmenu":
-            currentloop = menuloop.mainmenuloop()
+            currentloop = menuloop.mainMenuLoop()
 
         elif currentloop == "levelmenu":
-            currentloop = menuloop.levelmenuloop()
+            currentloop = menuloop.levelMenuLoop()
 
         elif currentloop == "gameloop":
-            currentloop = menuloop.gameloop()
+            currentloop = menuloop.gameLoop()
 
         elif currentloop == "quit":
             pygame.quit()

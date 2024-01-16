@@ -21,7 +21,7 @@ class Menu():
         self._mousepos = pygame.mouse.get_pos()
         self._currentlevel = None
 
-    def drawbutton(self, buttonimagepath, buttonoffset_x, buttonoffset_y):
+    def drawButton(self, buttonimagepath, buttonoffset_x, buttonoffset_y):
         """
         Function that uses a path and offset of the button to create the position and image on the screen.
         Returns the rect value of the button coordinates.
@@ -46,7 +46,7 @@ class Menu():
         # returns the coordinates of the rect to test for interactions
         return self._buttonrect
     
-    def drawbackground(self, backgroundimagepath):
+    def drawBackground(self, backgroundimagepath):
         """
         Method to blit a background image onto the screen with a given path.
         """
@@ -57,7 +57,7 @@ class Menu():
 
 # ===================== main menu ===================== #
 
-    def drawmainmenu(self):
+    def drawMainMenu(self):
         """
         Method to fully initate the creation of the main menu.
         """
@@ -65,19 +65,19 @@ class Menu():
         pygame.display.set_caption("super main menu")
 
         # loads in the objects and draws the main menu
-        self.drawbackground("sprites/placeholder/mainmenu.png")
-        self._buttonplay_rect = self.drawbutton("sprites/placeholder/buttonplay.png", 150, 0)
-        self._buttonquit_rect = self.drawbutton("sprites/placeholder/buttonquit.png", -150, 0)
+        self.drawBackground("sprites/placeholder/mainmenu.png")
+        self._buttonplay_rect = self.drawButton("sprites/placeholder/buttonplay.png", 150, 0)
+        self._buttonquit_rect = self.drawButton("sprites/placeholder/buttonquit.png", -150, 0)
         pygame.display.flip()
 
-    def mainmenuloop(self):
+    def mainMenuLoop(self):
         """
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
 
         # frame and input update
-        self.drawmainmenu()
-        self._keyinput.getinput()
+        self.drawMainMenu()
+        self._keyinput.getInput()
         self._mousepos = pygame.mouse.get_pos()
 
         # input check
@@ -99,7 +99,7 @@ class Menu():
 
 # ===================== level menu ===================== #
 
-    def drawlevelmenu(self):
+    def drawLevelMenu(self):
         """
         Method to fully initate the creation of the level menu.
         """
@@ -107,18 +107,18 @@ class Menu():
         pygame.display.set_caption("super level menu")
 
         # loads in the objects and draws the level menu
-        self.drawbackground("sprites/placeholder/levelmenu.png")
-        self._level_1_rect = self.drawbutton("sprites/placeholder/level1.png", 250, 500)
+        self.drawBackground("sprites/placeholder/levelmenu.png")
+        self._level_1_rect = self.drawButton("sprites/placeholder/level1.png", 250, 500)
         pygame.display.flip()
 
-    def levelmenuloop(self):
+    def levelMenuLoop(self):
         """
         Loop used for the level menu. Returns "gameloop" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
 
         # frame and input update
-        self.drawlevelmenu()
-        self._keyinput.getinput()
+        self.drawLevelMenu()
+        self._keyinput.getInput()
         self._mousepos = pygame.mouse.get_pos()
 
         # input check
@@ -137,7 +137,7 @@ class Menu():
         
 # ===================== game menu ===================== #
 
-    def gameloop(self):
+    def gameLoop(self):
         """
         Loop used for the game. Returns "pausemenu" on specific input, otherwise runs indefinetly.
         """
@@ -148,7 +148,7 @@ class Menu():
 
         while running:
             # input update
-            self._keyinput.getinput()
+            self._keyinput.getInput()
             self._mainloop.run(self._keyinput, self._screen)
 
             # condition to end the running process
@@ -156,14 +156,14 @@ class Menu():
                 self._keyinput.keyescape = False
                 running = False
             
-            self._clock.tick(120)
+            self._clock.tick(60)
         
         # after the loop is done, return to main menu
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance
     
 # ===================== pause menu ===================== #
                 
-    def drawpausemenu(self):
+    def drawPauseMenu(self):
         pass
     # TODO sets the background to a blurred or darker current game frame
     # TODO button to resume, quit to main menu and to quit the game
