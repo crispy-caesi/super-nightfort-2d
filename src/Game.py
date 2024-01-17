@@ -11,15 +11,16 @@ class Game():
     Class that fuses all of the subparts together for the game to be playable.
     """
 
-    def __init__(self, screenwidth, screenheight, currentlevel):
+    def __init__(self, screenresolution, currentlevel, background):
         pygame.init()
-        self._screenwidth, self._screenheight = screenwidth, screenheight
+        self._screenresolution = screenresolution
         self._tileMap = TileMap(currentlevel)
         self._player = Player()
         self._all_sprites = pygame.sprite.Group()
         self._all_sprites.add(self._tileMap)
         self._all_sprites.add(self._player)
-        self._background = pygame.image.load("sprites/placeholder/level1background.png")
+        self._background = pygame.image.load(background)
+        self._background = pygame.transform.scale(self._background,(self._screenresolution))
 
     def drawGameFrame(self):
         """
@@ -29,8 +30,8 @@ class Game():
         self._all_sprites.update()
         
         # camera - calculate the offset
-        player_offset_x = self._screenwidth // 6 - self._player.rect.centerx    # more on the left site
-        player_offset_y = self._screenheight // 2 - self._player.rect.centery   # center
+        player_offset_x = self._screenresolution.x // 6 - self._player.rect.centerx    # more on the left site
+        player_offset_y = self._screenresolution.y // 2 - self._player.rect.centery   # center
         
         # camera - move all sprites in the other direction
         for sprite in self._all_sprites:
