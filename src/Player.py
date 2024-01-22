@@ -1,8 +1,8 @@
 # ===================== import ===================== #
 
 import pygame
+from pygame.sprite import Group
 from Input import KeyInput
-
 # ===================== Player ===================== #
 
 class Player(pygame.sprite.Sprite):
@@ -14,7 +14,6 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
-        self.mask = pygame.mask.from_surface()
         self.temprect = self.rect
         # --- movement --- #
         self.__isonground = False
@@ -26,6 +25,9 @@ class Player(pygame.sprite.Sprite):
         # --- health --- #
         self.__health = 3
         self.__damagetaken = False
+        
+        self.rightBox = OffsetRect(self,xOffset=2, yOffset=-2, colorcode=(255,255,255))
+        self.bottomBox = OffsetRect(self,xOffset=0, yOffset=2, colorcode=(255,0,255))
 
 # ============== player movement ============== #
 
@@ -70,13 +72,14 @@ class Player(pygame.sprite.Sprite):
         Method to handle horizontal collisions.
         """
         
-        if pygame.sprite.collide_mask(self, tilemaprect):
-
+        if pygame.sprite.collide_mask(self.rightBox, tilemaprect):
             if self.__speed.x > 0:
-                self.__speed.x -= .1
-
-            if self.__speed.x < 0:
-                self.__speed.x += .1
+                while pygame.sprite.collide_mask(self.rightBox, tilemaprect):
+                    break
+                    self.__speed.x = -4
+                    self.rect.x += self.__speed.x
+                self.__speed.x = 0
+                    
 
 # ======= vertical ======= #
 
@@ -105,7 +108,7 @@ class Player(pygame.sprite.Sprite):
         Method to handle vertical collisions.
         """
 
-        if pygame.sprite.collide_mask(self, tilemaprect):
+        if pygame.sprite.collide_mask(self.bottomBox, tilemaprect):
 
             if self.__speed.y > 0:
                 self.__speed.y -= 1
@@ -124,6 +127,15 @@ class Player(pygame.sprite.Sprite):
         
         self.horizontalMovement(keyinput, tilemaprect)
         self.verticalMovement(keyinput, tilemaprect)
+    
+        self.rightBox.setOffsetX(self.__speed.x)
+        self.rightBox.setOffsetY(0)
+        
+        self.bottomBox.setOffsetX(0)
+        self.bottomBox.setOffsetY(self.__speed.y)
+ 
+        self.rightBox.update_position(player=self)
+        self.bottomBox.update_position(player=self)
 
 # ============== damage and health ============== #
 
@@ -146,3 +158,28 @@ class Player(pygame.sprite.Sprite):
         
         pass
     #TODO back to main menu and delete level stats in cache for the leaderboard
+
+class OffsetRect(pygame.sprite.Sprite):
+    def __init__(self, player: Player, xOffset, yOffset, colorcode):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((16, 16))  # Pygame.SRCALPHA für eine transparente Oberfläche
+        self.image.fill(colorcode)
+        self.rect = self.image.get_rect()
+                
+        self.rect.centerx = player.rect.centerx + xOffset
+        self.rect.centery = player.rect.centery + yOffset
+        
+        self.offset = pygame.Vector2()
+    
+    def setOffsetX(self, x):
+        self.offset.x = x
+    
+    def setOffsetY(self, y):
+        self.offset.y = y
+        
+    def getOffset(self):
+        return self.offset
+        
+    def update_position(self, player: Player):
+        self.rect.centerx = player.rect.centerx + self.getOffset().x
+        self.rect.centery = player.rect.centery + self.getOffset().y 

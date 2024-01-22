@@ -19,6 +19,8 @@ class Game():
         self._all_sprites = pygame.sprite.Group()
         self._all_sprites.add(self._tileMap)
         self._all_sprites.add(self._player)
+        self._all_sprites.add(self._player.rightBox)
+        self._all_sprites.add(self._player.bottomBox)
         self._background = pygame.image.load(background)
         self._background = pygame.transform.scale(self._background,(self._screenresolution))
 
