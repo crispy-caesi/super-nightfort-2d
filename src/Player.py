@@ -107,17 +107,16 @@ class Player(pygame.sprite.Sprite):
         """
         Method to handle vertical collisions.
         """
-
+        if self.__isonground:
+            self.__speed.y = 0
+            self.rect.y += self.__speed.y
+            self.bottomBox.update_position(player=self)
+            return
+        
+        
         if pygame.sprite.collide_mask(self.bottomBox, tilemaprect):
-
-            if self.__speed.y > 0:
-                self.__speed.y -= 1
-
-            if self.__speed.y < 0:
-                self.__speed.y += 1
-
             self.__isonground = True
-
+            
 # ======= update ======= #
   
     def playerUpdate(self, keyinput, tilemaprect):
