@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface()
+        self.temprect = self.rect
         # --- movement --- #
         self.__isonground = False
         self.__acceleration = 0                 # acceleration of the player (force with which the player moves)
@@ -24,13 +26,12 @@ class Player(pygame.sprite.Sprite):
         # --- health --- #
         self.__health = 3
         self.__damagetaken = False
-        self.__isdead = False
 
 # ============== player movement ============== #
-        
-# ======= horizontal movement ======= #
 
-    def horizontalMovement(self, keyinput:KeyInput):
+# ======= horizontal ======= #
+
+    def horizontalMovement(self, keyinput, tilemaprect):
         """
         Method to handle horizontal movement of the player.
         """ 
@@ -49,12 +50,11 @@ class Player(pygame.sprite.Sprite):
         if abs(self.__speed.x) < .1:
             self.__speed.x = 0
 
-        self.maxSpeed(4)
-
-        # connecting the calculated speed to the actual character coordinates
+        self.maxHorizontalSpeed(4)
+        self.horizontalCollisionCheck(tilemaprect)
         self.rect.x += self.__speed.x
             
-    def maxSpeed(self,maxspeed):
+    def maxHorizontalSpeed(self, maxspeed):
         """
         Method to limit the speed to an input value.
         """
@@ -64,10 +64,23 @@ class Player(pygame.sprite.Sprite):
         
         else:
             return min(self.__speed.x, maxspeed)
+
+    def horizontalCollisionCheck(self, tilemaprect):
+        """
+        Method to handle horizontal collisions.
+        """
         
-# ======= vertical movement ======= #
-        
-    def verticalMovement(self, keyinput:KeyInput):
+        if pygame.sprite.collide_mask(self, tilemaprect):
+
+            if self.__speed.x > 0:
+                self.__speed.x -= .1
+
+            if self.__speed.x < 0:
+                self.__speed.x += .1
+
+# ======= vertical ======= #
+
+    def verticalMovement(self, keyinput, tilemaprect):
         """
         Method to handle vertical movement of the player.
         """
@@ -75,62 +88,42 @@ class Player(pygame.sprite.Sprite):
         # jump
         if keyinput.keyspace:
             if self.__isonground:
-                self.__speed.y -= 12
+                self.__speed.y -= 8
                 self.__isonground = False
 
-        # movement
+        # movement        
         self.__speed.y += self.__gravity
 
-        # connecting the calculated speed to the actual character coordinates
+        if self.__speed.y > 0:
+            self.__speed.y += self.__friction * self.__speed.y * 2.5
+
+        self.verticalCollisionCheck(tilemaprect)
         self.rect.y += self.__speed.y
-
-# ======= collisionchecks ======= #
-        
-    def horizontalCollisionCheck(self, tilemaprect):
-        """
-        Method to handle horizontal collisions.
-        """
-        
-        if pygame.sprite.collide_mask(self, tilemaprect) and not self.__isonground:
-
-            if self.__speed.x < 0:
-                self.rect.x += 1
-
-            if self.__speed.x > 0:
-                self.rect.x -= 1
-
-            self.__speed.x = 0
 
     def verticalCollisionCheck(self, tilemaprect):
         """
         Method to handle vertical collisions.
         """
-        
+
         if pygame.sprite.collide_mask(self, tilemaprect):
 
-            if self.__speed.y > 0:     
-                self.__isonground = True
-                self.__speed.y = 0
-                self.__gravity = 0
+            if self.__speed.y > 0:
+                self.__speed.y -= 1
 
             if self.__speed.y < 0:
-                self.__speed.y = 0
-                self.__gravity = 0
+                self.__speed.y += 1
 
-        else:
-            self.__gravity = 1
-            self.__isonground = False
-            
-                
-    def playerUpdate(self, keyinput:KeyInput, tilemaprect):
+            self.__isonground = True
+
+# ======= update ======= #
+  
+    def playerUpdate(self, keyinput, tilemaprect):
         """
         Method to update all player related events.
         """
         
-        self.horizontalMovement(keyinput)
-        self.horizontalCollisionCheck(tilemaprect)        
-        self.verticalMovement(keyinput)
-        self.verticalCollisionCheck(tilemaprect)
+        self.horizontalMovement(keyinput, tilemaprect)
+        self.verticalMovement(keyinput, tilemaprect)
 
 # ============== damage and health ============== #
 
@@ -144,7 +137,7 @@ class Player(pygame.sprite.Sprite):
             self.__damagetaken = False
 
         if self.__health < 1:
-            self.__isdead = True
+            self.dead()
 
     def dead(self):
         """

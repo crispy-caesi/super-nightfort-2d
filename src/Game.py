@@ -30,8 +30,8 @@ class Game():
         self._all_sprites.update()
         
         # camera - calculate the offset
-        player_offset_x = self._screenresolution.x // 6 - self._player.rect.centerx    # more on the left site
-        player_offset_y = self._screenresolution.y // 2 - self._player.rect.centery   # center
+        player_offset_x = self._screenresolution.x // 6 - self._player.rect.centerx # more on the left site
+        player_offset_y = self._screenresolution.y // 2 - self._player.rect.centery # center
         
         # camera - move all sprites in the other direction
         for sprite in self._all_sprites:
@@ -55,6 +55,6 @@ class Game():
         # runs all of Game.py main functions
         self._screen = screen
         self._input = input
-        self._player.playerUpdate(keyinput = self._input, tilemaprect = self._tileMap)
+        self._player.playerUpdate(self._input, self._tileMap)
         self._tileMap.updateTilemapPosition()
         self.drawGameFrame()
