@@ -22,7 +22,6 @@ class Player(pygame.sprite.Sprite):
         self.__friction = -.05                  # deceleration to halt the player
         self.__gravity = 1                      # mass of the player
         self.__speed = pygame.math.Vector2(0,0) # speed of the player
-        self.position = pygame.math.Vector2(0,0)
         # --- health --- #
         self.__health = 3
 
@@ -125,14 +124,12 @@ class Player(pygame.sprite.Sprite):
 # ======= update ======= #
 
     def offsetsUpdates(self):
-        #set the right offset for the boxes for the x and y axis
-        self.__verticalCollisionBox.setOffsetX(self.__speed.x)
-        self.__verticalCollisionBox.setOffsetY(-8)
+        """
+        Method to update the collision box position
+        """
         
-        self.__horizontalCollisionBox.setOffsetX(0)
-        self.__horizontalCollisionBox.setOffsetY(self.__speed.y + 3)
-        
-        #set the right position for the boxes so that the boxes always move with the player
+        self.__verticalCollisionBox.setOffset(self.__speed.x, -8)
+        self.__horizontalCollisionBox.setOffset(0, self.__speed.y + 3)
         self.__verticalCollisionBox.update_position(player=self)
         self.__horizontalCollisionBox.update_position(player=self)
   
@@ -196,10 +193,8 @@ class OffsetRect(pygame.sprite.Sprite):
         self.offset = pygame.Vector2(0, 0)
 
 # --- getter and setter for the offset --- #    
-    def setOffsetX(self, x):
+    def setOffset(self, x, y):
         self.offset.x = x
-    
-    def setOffsetY(self, y):
         self.offset.y = y
 
     def update_position(self, player: Player):
