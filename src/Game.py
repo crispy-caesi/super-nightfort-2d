@@ -47,7 +47,7 @@ class Game():
         #TODO UI score
         pygame.display.flip()
 
-# ======= game loop ======= #
+# ============== game loop ============== #
 
     def run(self, input, screen):
         """
