@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.__gravity = 1                      # mass of the player
         self.__speed = pygame.math.Vector2(0,0) # speed of the player
         # --- health --- #
-        self.__hurtmap = None
+        self.__hurtMap = None
         self.__health = 3
 
     @property    
@@ -141,8 +141,8 @@ class Player(pygame.sprite.Sprite):
         Method to update all player related events.
         """
         
-        if self.__hurtmap is None:
-            self.__hurtmap = __hurtMapRect
+        if self.__hurtMap is None:
+            self.__hurtMap = __hurtMapRect
 
         self.horizontalMovement(__keyInput, __tileMap)
         self.verticalMovement(__keyInput, __tileMap)
@@ -158,14 +158,15 @@ class Player(pygame.sprite.Sprite):
 
 # ============== damage and health ============== #
 
-    """def dead(self):
+    def dead(self):
         pass
 
     def environmentalHurtCheck(self):
-        for damagingObjects in self.__hurtmap:
+        for damagingObjects in self.__hurtMap:
             if self.rect.colliderect(damagingObjects):
-                self.__ishurt = True
-        if self.__ishurt:
+                self.__isHurt = True
+                
+        if self.__isHurt:
             self.dead()
     
     def enemyHurtCheck(self):
@@ -176,7 +177,7 @@ class Player(pygame.sprite.Sprite):
                 # enemy removal
         
         if self.__health < 1:
-            self.dead()"""
+            self.dead()
 
 # ===================== Offsetrect ===================== #
 

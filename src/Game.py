@@ -15,7 +15,7 @@ class Game():
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
-        self.__hurtMap = self.__tileMap.gethurtmap()
+        self.__hurtMap = self.__tileMap.getHurtMap()
         self.__player = Player()
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)

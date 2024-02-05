@@ -49,7 +49,7 @@ class TileMap(pygame.sprite.Sprite):
         self.image = __combined.image
         self.rect = self.image.get_rect()
         
-    def gethurtmap(self):
+    def getHurtMap(self):
         return self.__hurtMap
 
     def updateTilemapPosition(self):
