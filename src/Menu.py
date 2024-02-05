@@ -145,24 +145,9 @@ class Menu():
         Loop used for the game. Returns "pausemenu" on specific input, otherwise runs indefinetly.
         """
 
-        # loop initiation
+        # loop
         self.__mainLoop = Game(self.__screenResolution, self.__currentLevel, self.__currentLevelBackground)
-        __running = True
-
-        while __running:
-            # input update
-            self.__keyInput.getInput()
-            self.__mainLoop.run(self.__keyInput, self.__screen)
-
-            # condition to end the running process
-            if self.__keyInput.keyescape:
-                self.__keyInput.keyescape = False
-                __running = False
-            
-            self.__clock.tick(60)
-
-        self.__mainLoop.resetHurtmap()
-        # after the loop is done, return to main menu
+        self.__mainLoop.running(self.__screen)
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance
     
 # ===================== pause menu ===================== #

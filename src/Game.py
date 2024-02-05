@@ -3,6 +3,7 @@
 import pygame
 from TileMap import TileMap
 from Player import Player
+from Input import KeyInput
 
 # ===================== Main ===================== #
 
@@ -24,6 +25,27 @@ class Game():
         self.__allSprites.add(self.__player.horizontalCollisionBox)
         self.__background = pygame.image.load(__background)
         self.__background = pygame.transform.scale(self.__background,(self.__screenResolution))
+        self.__keyInput = KeyInput()
+        self.__clock = pygame.time.Clock()
+
+    def running(self, __screen):
+
+        __running = True
+
+        while __running:
+            # input update
+            self.__keyInput.getInput()
+            self.frameUpdate(self.__keyInput, __screen)
+
+            # condition to end the running process
+            if self.__keyInput.keyescape:
+                self.__keyInput.keyescape = False
+                __running = False
+            
+            self.__clock.tick(60)
+
+        self.resetHurtmap()
+        # after the loop is done, return to main menu
 
     def resetHurtmap(self):
         """
@@ -57,14 +79,14 @@ class Game():
 
 # ============== game loop ============== #
 
-    def run(self, __input, __screen):
+    def frameUpdate(self, __input, __screen):
         """
         Method that lets the game update and run in one.
         """
 
         # runs all of Game.py main functions
         self.__screen = __screen
-        self.__input = __input
-        self.__player.playerUpdate(self.__input, self.__tileMap, self.__hurtMap)
+        self.__keyInput = __input
+        self.__player.playerUpdate(self.__keyInput, self.__tileMap, self.__hurtMap)
         self.__tileMap.updateTilemapPosition()
         self.drawGameFrame()
