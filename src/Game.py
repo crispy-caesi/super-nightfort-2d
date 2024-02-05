@@ -29,7 +29,10 @@ class Game():
         self.__clock = pygame.time.Clock()
 
     def running(self, __screen):
-
+        """
+        Method to run the game.
+        """
+        
         __running = True
 
         while __running:
@@ -81,7 +84,7 @@ class Game():
 
     def frameUpdate(self, __input, __screen):
         """
-        Method that lets the game update and run in one.
+        Method that lets the game update.
         """
 
         # runs all of Game.py main functions
