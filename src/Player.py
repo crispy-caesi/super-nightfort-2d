@@ -13,15 +13,15 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("sprites/placeholder/Duck.png")
         self.rect = self.image.get_rect()
-        self.temprect = self.rect
         # --- movement --- #
         self.__horizontalCollisionBox, self.__verticalCollisionBox = OffsetRect(self), OffsetRect(self)
-        self.__isonground = False
+        self.__isOnGround = False
         self.__acceleration = 0                 # acceleration of the player (force with which the player moves)
         self.__friction = -.05                  # deceleration to halt the player
         self.__gravity = 1                      # mass of the player
         self.__speed = pygame.math.Vector2(0,0) # speed of the player
         # --- health --- #
+        self.__hurtMap = None
         self.__health = 3
 
     @property    
@@ -34,17 +34,17 @@ class Player(pygame.sprite.Sprite):
 
 # ============== horizontal player movement ============== #
 
-    def horizontalMovement(self, keyinput, tilemaprect):
+    def horizontalMovement(self, __keyInput, __tileMap):
         """
         Method to handle horizontal movement of the player.
         """ 
 
         self.__acceleration = 0
 
-        if keyinput.keyleft:
+        if __keyInput.keyleft:
             self.__acceleration -= .3
 
-        if keyinput.keyright:
+        if __keyInput.keyright:
             self.__acceleration += .3
 
         self.__speed.x += self.__acceleration               #   F = m * a  |  m = 1  -->  F = a
@@ -54,30 +54,30 @@ class Player(pygame.sprite.Sprite):
             self.__speed.x = 0
 
         self.maxHorizontalSpeed(4)
-        self.horizontalCollisionCheck(tilemaprect)
+        self.horizontalCollisionCheck(__tileMap)
         self.rect.x += self.__speed.x
 
-    def maxHorizontalSpeed(self, maxspeed):
+    def maxHorizontalSpeed(self, __maxSpeed):
         """
         Method to limit the speed to an input value.
         """
         
         if self.__speed.x < 0:
-            return max(self.__speed.x, -maxspeed)
+            return max(self.__speed.x, -__maxSpeed)
         
         else:
-            return min(self.__speed.x, maxspeed)
+            return min(self.__speed.x, __maxSpeed)
 
-    def horizontalCollisionCheck(self, tilemaprect):
+    def horizontalCollisionCheck(self, __tileMap):
         """
         Method to handle horizontal collisions.
         """
 
-        if pygame.sprite.collide_mask(self.__verticalCollisionBox, tilemaprect):
+        if pygame.sprite.collide_mask(self.__verticalCollisionBox, __tileMap):
 
             if self.__speed.x > 0:
 
-                while pygame.sprite.collide_mask(self.__verticalCollisionBox, tilemaprect):
+                while pygame.sprite.collide_mask(self.__verticalCollisionBox, __tileMap):
                     self.__speed.x = -1
                     self.rect.x += self.__speed.x
                     self.collisionBoxUpdate()
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
 
             if self.__speed.x < 0:
 
-                while pygame.sprite.collide_mask(self.__verticalCollisionBox, tilemaprect):
+                while pygame.sprite.collide_mask(self.__verticalCollisionBox, __tileMap):
 
                     self.__speed.x = 1
                     self.rect.x += self.__speed.x
@@ -96,16 +96,16 @@ class Player(pygame.sprite.Sprite):
 
 # ============== vertical player movement ============== #
 
-    def verticalMovement(self, keyinput, tilemaprect):
+    def verticalMovement(self, __keyInput, __tileMap):
         """
         Method to handle vertical movement of the player.
         """
         
         # jump
-        if keyinput.keyspace:
-            if self.__isonground:
+        if __keyInput.keyspace:
+            if self.__isOnGround:
                 self.__speed.y -= 8
-                self.__isonground = False
+                self.__isOnGround = False
         
         # movement        
         self.__speed.y += self.__gravity
@@ -113,36 +113,39 @@ class Player(pygame.sprite.Sprite):
         if self.__speed.y > 0:
             self.__speed.y += self.__friction * self.__speed.y * 2.5
 
-        self.verticalCollisionCheck(tilemaprect)
+        self.verticalCollisionCheck(__tileMap)
         self.rect.y += self.__speed.y
 
-    def verticalCollisionCheck(self, tilemaprect):
+    def verticalCollisionCheck(self, __tileMap):
         """
         Method to handle vertical collisions.
         """
 
-        if self.__isonground:
+        if self.__isOnGround:
             self.__speed.y = 0
             self.rect.y += self.__speed.y
             self.collisionBoxUpdate()
 
-            if not pygame.sprite.collide_mask(self.__horizontalCollisionBox, tilemaprect):
-                self.__isonground = False
+            if not pygame.sprite.collide_mask(self.__horizontalCollisionBox, __tileMap):
+                self.__isOnGround = False
 
             return
         
-        if pygame.sprite.collide_mask(self.__horizontalCollisionBox, tilemaprect):
-            self.__isonground = True
+        if pygame.sprite.collide_mask(self.__horizontalCollisionBox, __tileMap):
+            self.__isOnGround = True
 
 # ============== update ============== #
 
-    def playerUpdate(self, keyinput, tilemaprect):
+    def playerUpdate(self, __keyInput, __tileMap, __hurtMapRect):
         """
         Method to update all player related events.
         """
         
-        self.horizontalMovement(keyinput, tilemaprect)
-        self.verticalMovement(keyinput, tilemaprect)
+        if self.__hurtMap is None:
+            self.__hurtMap = __hurtMapRect
+
+        self.horizontalMovement(__keyInput, __tileMap)
+        self.verticalMovement(__keyInput, __tileMap)
         self.collisionBoxUpdate()
 
     def collisionBoxUpdate(self):
@@ -155,25 +158,26 @@ class Player(pygame.sprite.Sprite):
 
 # ============== damage and health ============== #
 
-    def damage(self):
-        """
-        ouch.
-        """
-        
-        if self.__damagetaken is True:
-            self.__health -= 1
-            self.__damagetaken = False
+    def dead(self):
+        pass
 
+    def environmentalHurtCheck(self):
+        for damagingObjects in self.__hurtMap:
+            if self.rect.colliderect(damagingObjects):
+                self.__isHurt = True
+                
+        if self.__isHurt:
+            self.dead()
+    
+    def enemyHurtCheck(self):
+        for enemy in self.__enemies:
+            if self.rect.colliderect(enemy):
+                self.__health -= 1
+                # ui health reduction
+                # enemy removal
+        
         if self.__health < 1:
             self.dead()
-
-    def dead(self):
-        """
-        you died!
-        """
-        
-        pass
-    #TODO back to main menu and delete level stats in cache for the leaderboard
 
 # ===================== Offsetrect ===================== #
 
@@ -182,32 +186,32 @@ class OffsetRect(pygame.sprite.Sprite):
     Class that generates collision checkboxes for player movement, input: player.
     """
 
-    def __init__(self, player):
+    def __init__(self, __player):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((player.rect.w, player.rect.h), pygame.SRCALPHA)
+        self.image = pygame.Surface((__player.rect.w, __player.rect.h), pygame.SRCALPHA)
         self.rect = self.image.get_rect()
-        self.mask = pygame.mask.Mask((player.rect.w, player.rect.h), True)
-        self.rect.centerx, self.rect.centery = player.rect.centerx, player.rect.centery
-        self.offset = pygame.Vector2(0, 0)
+        self.mask = pygame.mask.Mask((__player.rect.w, __player.rect.h), True)
+        self.rect.centerx, self.rect.centery = __player.rect.centerx, __player.rect.centery
+        self.__offset = pygame.Vector2(0, 0)
 
-    def setOffset(self, x, y):
+    def setOffset(self, __x, __y):
         """
         Setter for box offset.
         """
         
-        self.offset.x, self.offset.y = x, y
+        self.__offset.x, self.__offset.y = __x, __y
 
-    def updatePosition(self, player):
+    def updatePosition(self, __player):
         """
         Method to sync the collisionbox position to the current player position.
         """
 
-        self.rect.centerx, self.rect.centery = (player.rect.centerx + self.offset.x), (player.rect.centery + self.offset.y) 
+        self.rect.centerx, self.rect.centery = (__player.rect.centerx + self.__offset.x), (__player.rect.centery + self.__offset.y) 
 
-    def boxUpdate(self, player, x, y):
+    def boxUpdate(self, __player, __x, __y):
         """
         Method to update all collision box attributes.
         """
         
-        self.setOffset(x, y)
-        self.updatePosition(player)
+        self.setOffset(__x, __y)
+        self.updatePosition(__player)

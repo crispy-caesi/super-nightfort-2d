@@ -10,41 +10,41 @@ class KeyInput():
     """
 
     def __init__(self):
-        self._keyleft = False
-        self._keyright = False
-        self._keyspace = False
-        self._keyescape = False
-        self._keymouseleft = False
+        self.__keyleft = False
+        self.__keyright = False
+        self.__keyspace = False
+        self.__keyescape = False
+        self.__keymouseleft = False
 
 # ======= properties ======= #
 
     @property
     def keyleft(self):
-        return self._keyleft
+        return self.__keyleft
 
     @property
     def keyright(self):
-        return self._keyright
+        return self.__keyright
 
     @property
     def keyspace(self):
-        return self._keyspace
+        return self.__keyspace
     
     @property
     def keyescape(self):
-        return self._keyescape
+        return self.__keyescape
 
     @keyescape.setter
     def keyescape(self, reset:bool):
-        self._keyescape = reset
+        self.__keyescape = reset
 
     @property
     def keymouseleft(self):
-        return self._keymouseleft
+        return self.__keymouseleft
     
     @keymouseleft.setter
     def keymouseleft(self, reset:bool):
-        self._keymouseleft = reset
+        self.__keymouseleft = reset
 
 # ======= check for inputs ======= #
 
@@ -60,39 +60,39 @@ class KeyInput():
                 
                 # list of occurable button presses
                 if event.key == pygame.K_LEFT:
-                    self._keyleft = True
+                    self.__keyleft = True
 
                 elif event.key == pygame.K_RIGHT:
-                    self._keyright = True
+                    self.__keyright = True
 
                 elif event.key == pygame.K_SPACE:
-                    self._keyspace = True
+                    self.__keyspace = True
 
                 elif event.key == pygame.K_ESCAPE:
-                    self._keyescape = True
+                    self.__keyescape = True
 
             # activates on button releases
             if event.type == pygame.KEYUP:
 
                 # list of occurable button releases
                 if event.key == pygame.K_LEFT:
-                    self._keyleft = False
+                    self.__keyleft = False
 
                 elif event.key == pygame.K_RIGHT:
-                    self._keyright = False
+                    self.__keyright = False
 
                 elif event.key == pygame.K_SPACE:
-                    self._keyspace = False
+                    self.__keyspace = False
                 
                 elif event.key == pygame.K_ESCAPE:
-                    self._keyescape = False
+                    self.__keyescape = False
 
             # special event handler for mouse input // activates on press
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 # list of activatable mouse button presses
                 if event.button == 1:
-                    self._keymouseleft = True
+                    self.__keymouseleft = True
                 """
                 elif event.button == 2:
                     middle mouse button
@@ -111,7 +111,7 @@ class KeyInput():
 
                 # list of activatable mouse button releases
                 if event.button == 1:
-                    self._keymouseleft = False
+                    self.__keymouseleft = False
                 """
                 elif event.button == 2:
                     middle mouse button

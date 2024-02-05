@@ -11,28 +11,28 @@ def main():
     Method to run the application.
     """
     
-    clock = pygame.time.Clock()
-    menuloop = Menu.Menu()
+    __clock = pygame.time.Clock()
+    __menuloop = Menu.Menu()
 
     # loop preset
-    currentloop = "mainmenu"
+    __currentloop = "mainmenu"
 
     while True:
 
-        if currentloop == "mainmenu":
-            currentloop = menuloop.mainMenuLoop()
+        if __currentloop == "mainmenu":
+            __currentloop = __menuloop.mainMenuLoop()
 
-        elif currentloop == "levelmenu":
-            currentloop = menuloop.levelMenuLoop()
+        elif __currentloop == "levelmenu":
+            __currentloop = __menuloop.levelMenuLoop()
 
-        elif currentloop == "gameloop":
-            currentloop = menuloop.gameLoop()
+        elif __currentloop == "gameloop":
+            __currentloop = __menuloop.gameLoop()
 
-        elif currentloop == "quit":
+        elif __currentloop == "quit":
             pygame.quit()
             sys.exit()
             
-        clock.tick(60)
+        __clock.tick(60)
 
 # ===================== run ===================== #
         
