@@ -15,12 +15,16 @@ class Game():
         pygame.init()
         self._screenresolution = screenresolution
         self._tileMap = TileMap(currentlevel)
-        self._player = Player()
+        self._player = self._tileMap.player
+        self._enemyList = self._tileMap.enemyList
+        
         self._all_sprites = pygame.sprite.Group()
         self._all_sprites.add(self._tileMap)
         self._all_sprites.add(self._player)
         self._all_sprites.add(self._player.verticalCollisionBox)
         self._all_sprites.add(self._player.horizontalCollisionBox)
+        for enemy in self._enemyList:
+            self._all_sprites.add(enemy)
         self._background = pygame.image.load(background)
         self._background = pygame.transform.scale(self._background,(self._screenresolution))
 
@@ -59,4 +63,6 @@ class Game():
         self._input = input
         self._player.playerUpdate(self._input, self._tileMap)
         self._tileMap.updateTilemapPosition()
+        for enemy in self._enemyList:
+            enemy.enemyUpdate(self._tileMap)
         self.drawGameFrame()

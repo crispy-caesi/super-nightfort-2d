@@ -2,6 +2,8 @@
 
 import pygame
 import csv
+from Player import Player
+from Enemy import Enemy
 
 # ===================== tile ===================== #
 
@@ -25,24 +27,30 @@ class TileMap(pygame.sprite.Sprite):
     
     def __init__(self, csvPath:str):
         super().__init__()
-        self._tiles = []     
+        self._tiles = []  
+        self.enemyList = []  
         lst = self.readCSV( filePath = csvPath)
         
         for column in range(len(lst)):
             for row in range(len(lst[0])):
-                if lst[column][row] == "4":
-                   tile = Tile("sprites/placeholder/Duck.png", row * 16, column * 16)
-                   self._tiles.append(tile)
                 if  lst[column][row] == "1":
                    tile = Tile("sprites/placeholder/Grass.png", row * 16, column * 16)
                    self._tiles.append(tile)
                 if lst[column][row] == "2":
                    tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16 )
                    self._tiles.append(tile)
+                if lst[column][row] == "3":
+                    self.enemy = Enemy(row*16,-50)
+                    self.enemyList.append(self.enemy)
                    
         combined = Combined(self._tiles)
         self.image = combined.image
         self.rect = self.image.get_rect()
+        
+        for column in range(len(lst)):
+            for row in range(len(lst[0])):
+                if lst[column][row] == "0":
+                    self.player = Player()
         
     def updateTilemapPosition(self):
         self.prev_x = self.rect.x
