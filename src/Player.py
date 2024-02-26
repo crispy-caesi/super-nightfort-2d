@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("sprites/placeholder/Duck.png")
+        self.image = pygame.image.load("sprites/placeholder/Duck.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.temprect = self.rect
         # --- movement --- #

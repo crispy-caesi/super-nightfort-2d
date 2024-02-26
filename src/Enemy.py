@@ -11,7 +11,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, xPosition, yPosition):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("sprites/Fich/Auswahl Option.gif")
+        self.image = pygame.image.load("sprites/Fich/Auswahl Option.gif").convert()
         self.rect = self.image.get_rect()
         self.temprect = self.rect
         # --- movement --- #
