@@ -18,9 +18,11 @@ class Game():
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
         self.__hurtMap = self.__tileMap.getHurtMap()
-
-
-        self.__player = Player(images=self.loadGIF("sprites/characters/Fich/Fish_walk_animation.gif"),deathimages=self.loadGIF("sprites/characters/Fich/Fish_death.gif"))
+        
+        images = self.loadGIF("sprites/characters/Fich/Fish_walk_animation.gif")
+        deathImages=self.loadGIF("sprites/characters/Fich/Fish_death.gif")
+        jumpImgages = self.loadGIF("sprites/characters/Fich/Fish_Jump_animation.gif")
+        self.__player = Player(images=images, deathImages= deathImages, jumpImages= jumpImgages)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
 

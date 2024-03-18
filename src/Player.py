@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
     Class to handle the player and their attributes.
     """
 
-    def __init__(self, images, deathimages):
+    def __init__(self, images, deathImages, jumpImages):
         pygame.sprite.Sprite.__init__(self)
         self.__images = images
         self.image = self.__images[1]
@@ -26,10 +26,17 @@ class Player(pygame.sprite.Sprite):
         self.__hurtMap = None
         self.__health = 3
 
+        # --- animation --- #
         self.__image_index_run = 0
         self.__run_animation_index = 0
 
-        self.__deathImages = deathimages
+        self.__jumpImages = jumpImages
+        self.__image_index_jump = 0
+        self.__jump_animation_index = 0
+        self.__jump_move_last_key = "right"
+
+
+        self.__deathImages = deathImages
         self.__image_index_death = 0
         self.__death_animation_index = 0
 
@@ -127,9 +134,34 @@ class Player(pygame.sprite.Sprite):
             if self.__isOnGround:
                 self.__speed.y -= 8
                 self.__isOnGround = False
+
         
         # movement        
         self.__speed.y += self.__gravity
+
+        if not(self.__speed.y > 0):
+            #when I wrote this, only God and I understood what I was doing 
+            self.__jump_animation_index +=1  
+            if self.__jump_animation_index == 4 :
+                if __keyInput.keyleft:
+                    self.jumpAnimation("left")
+                    self.__jump_move_last_key = "left"
+
+                elif __keyInput.keyright :
+                    self.jumpAnimation("right")
+                    self.__jump_move_last_key = "right"
+
+                elif self.__jump_move_last_key == "left":
+                    self.jumpAnimation("left")
+                    self.__jump_move_last_key = "left"
+
+                elif self.__jump_move_last_key == "right": 
+                    self.jumpAnimation("right")
+                    self.__jump_move_last_key = "right"
+                  
+                self.__jump_animation_index = 0
+                #now, God only knows
+
 
         if self.__speed.y > 0:
             self.__speed.y += self.__friction * self.__speed.y * 2.5
@@ -165,7 +197,7 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
-        if __tileMap.rect.y <= -100:
+        if __tileMap.rect.y <= -50:
             # Since the player isn't moving visibly, but rather the tilemap is, 
             # the Rect position of the tilemap is simply checked against its position. 
             # Then, when the position, in this case -100, is reached, the player is considered dead.
@@ -216,20 +248,28 @@ class Player(pygame.sprite.Sprite):
             self.dead()
     
     def run_animation(self, direction):        
-        if direction == "left":
+        if direction == "left" and self.__isOnGround:
             self.__image_index_run += 1
             self.image = self.__images[self.__image_index_run % len(self.__images)]# This line assigns the current image to be displayed from a list of images based on the index, ensuring it loops through the images if the index exceeds the length of the list
             self.image = pygame.transform.flip(self.image, True, False) #flip the player in the opposite direction when the player moves left
-        elif direction == "right":
+        elif direction == "right" and self.__isOnGround:
             self.__image_index_run += 1
             self.image = self.__images[self.__image_index_run % len(self.__images)]
             self.image = pygame.transform.flip(self.image, False, False)
     
     def deathAnimation(self):
         self.__image_index_death += 1
-        self.image = self.__deathImages[self.__image_index_death % len(self.__deathImages)]         
+        self.image = self.__deathImages[self.__image_index_death % len(self.__deathImages)]     
 
-
+    def jumpAnimation(self, direction):
+        if direction == "left":
+            self.__image_index_jump += 1
+            self.image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
+            self.image = pygame.transform.flip(self.image, True, False)
+        elif direction == "right":
+            self.__image_index_jump += 1
+            self.image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
+            self.image = pygame.transform.flip(self.image, False, False)
 
 # ===================== Offsetrect ===================== #
 
