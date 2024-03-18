@@ -4,6 +4,7 @@ import pygame
 from TileMap import TileMap
 from Player import Player
 from Input import KeyInput
+from PIL import Image, ImageSequence
 
 # ===================== Main ===================== #
 
@@ -17,9 +18,12 @@ class Game():
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
         self.__hurtMap = self.__tileMap.getHurtMap()
-        self.__player = Player()
+
+
+        self.__player = Player(images=self.loadGIF("sprites/characters/Fich/Fish_walk_animation.gif"),deathimages=self.loadGIF("sprites/characters/Fich/Fish_death.gif"))
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
+
         self.__allSprites.add(self.__player)
         self.__allSprites.add(self.__player.verticalCollisionBox)
         self.__allSprites.add(self.__player.horizontalCollisionBox)
@@ -79,6 +83,19 @@ class Game():
         #TODO UI health
         #TODO UI score
         pygame.display.flip()
+
+    def loadGIF(self,filename):
+        """
+        Extracting the individual frames from the GIF and storing them in a list
+        """
+        pilImage = Image.open(filename)
+        frames = []
+        for frame in ImageSequence.Iterator(pilImage):
+            frame = frame.convert('RGBA')
+            pygameImage = pygame.image.fromstring(
+                frame.tobytes(), frame.size, frame.mode).convert_alpha()
+            frames.append(pygameImage)
+        return frames
 
 # ============== game loop ============== #
 
