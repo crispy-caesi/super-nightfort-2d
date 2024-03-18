@@ -31,6 +31,8 @@ class Player(pygame.sprite.Sprite):
 
         self.__deathImages = deathimages
         self.__image_index_death = 0
+        self.__death_animation_index = 0
+
 
 
     @property    
@@ -163,6 +165,19 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
+        if __tileMap.rect.y <= -100:
+            # Since the player isn't moving visibly, but rather the tilemap is, 
+            # the Rect position of the tilemap is simply checked against its position. 
+            # Then, when the position, in this case -100, is reached, the player is considered dead.
+            if self.__death_animation_index == 3:
+                self.deathAnimation()
+                self.__death_animation_index = 0
+            
+            if self.__image_index_death >= len(self.__deathImages):
+                self.dead()
+
+            self.__death_animation_index += 1
+
         self.horizontalMovement(__keyInput, __tileMap)
         self.verticalMovement(__keyInput, __tileMap)
         self.collisionBoxUpdate()
@@ -179,7 +194,8 @@ class Player(pygame.sprite.Sprite):
 # ============== damage and health ============== #
 
     def dead(self):
-        pass
+        print("player is death")
+        exit()
 
     def environmentalHurtCheck(self):
         for damagingObjects in self.__hurtMap:
