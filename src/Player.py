@@ -65,6 +65,7 @@ class Player(pygame.sprite.Sprite):
                 self.run_animation("left")
                 self.__run_animation_index = 0
 
+            self.__jump_move_last_key = "left"
             self.__run_animation_index += 1
 
         if __keyInput.keyright:
@@ -72,7 +73,9 @@ class Player(pygame.sprite.Sprite):
             if self.__run_animation_index == 5:
                 self.run_animation("right")
                 self.__run_animation_index = 0
+
             self.__run_animation_index += 1
+            self.__jump_move_last_key = "right"
 
 
         self.__speed.x += self.__acceleration               #   F = m * a  |  m = 1  -->  F = a
@@ -140,7 +143,10 @@ class Player(pygame.sprite.Sprite):
         self.__speed.y += self.__gravity
 
         if not(self.__speed.y > 0):
-            #when I wrote this, only God and I understood what I was doing 
+            #when I wrote this, only God and I understood what I was doing
+            
+            # This handles cases when both jumping and running are pressed simultaneously, 
+            # and when only jumping is pressed, to ensure the player faces in the correct direction
             self.__jump_animation_index +=1  
             if self.__jump_animation_index == 4 :
                 if __keyInput.keyleft:
