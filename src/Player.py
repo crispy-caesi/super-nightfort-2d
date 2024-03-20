@@ -40,6 +40,8 @@ class Player(pygame.sprite.Sprite):
         self.__image_index_death = 0
         self.__death_animation_index = 0
 
+        self.__isDead = False
+
 
 
     @property    
@@ -233,7 +235,10 @@ class Player(pygame.sprite.Sprite):
 
     def dead(self):
         print("player is death")
-        exit()
+        self.__isDead = True
+    
+    def getIsDead(self):
+        return self.__isDead
 
     def environmentalHurtCheck(self):
         for damagingObjects in self.__hurtMap:

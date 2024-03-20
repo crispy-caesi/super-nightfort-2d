@@ -47,7 +47,7 @@ class Game():
             self.frameUpdate(self.__keyInput, __screen)
 
             # condition to end the running process
-            if self.__keyInput.keyescape:
+            if self.__keyInput.keyescape or self.__player.getIsDead():
                 self.__keyInput.keyescape = False
                 __running = False
             
