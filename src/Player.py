@@ -1,8 +1,7 @@
 # ===================== import ===================== #
 
 import pygame 
-from PIL import Image, ImageSequence
-
+from MusicController import MusicController
 # ===================== Player ===================== #
 
 class Player(pygame.sprite.Sprite):
@@ -10,7 +9,7 @@ class Player(pygame.sprite.Sprite):
     Class to handle the player and their attributes.
     """
 
-    def __init__(self, images, deathImages, jumpImages):
+    def __init__(self, images:list, deathImages:list, jumpImages:list):
         pygame.sprite.Sprite.__init__(self)
         self.__images = images
         self.image = self.__images[1]
@@ -42,7 +41,9 @@ class Player(pygame.sprite.Sprite):
 
         self.__isDead = False
 
-
+        #music bzw. sounds
+        self.__mcc = MusicController()
+        self.__mcc.initJumpSound("sprites/placeholder/soundsAndMusic/Jump.wav")
 
     @property    
     def horizontalCollisionBox(self):
@@ -133,13 +134,16 @@ class Player(pygame.sprite.Sprite):
         """
         Method to handle vertical movement of the player.
         """
-        
+        #jump sound
+        if __keyInput.keyspacePressed and self.__isOnGround:#play jump sound
+            self.__mcc.playJumpSound()
+            __keyInput.keyspacePressed = False
+
         # jump
         if __keyInput.keyspace:
             if self.__isOnGround:
                 self.__speed.y -= 8
                 self.__isOnGround = False
-
         
         # movement        
         self.__speed.y += self.__gravity
@@ -234,10 +238,13 @@ class Player(pygame.sprite.Sprite):
 # ============== damage and health ============== #
 
     def dead(self):
+        """
+        set __isDead true, so that the main menu can start
+        """
         print("player is death")
         self.__isDead = True
     
-    def getIsDead(self):
+    def getIsDead(self)->bool:
         return self.__isDead
 
     def environmentalHurtCheck(self):
@@ -257,8 +264,14 @@ class Player(pygame.sprite.Sprite):
         
         if self.__health < 1:
             self.dead()
-    
-    def run_animation(self, direction):        
+
+
+# ===================== Animation ===================== #
+
+    def run_animation(self, direction):
+        """
+        run animatio of the character, diffrent direction needs difrent animations
+        """        
         if direction == "left" and self.__isOnGround:
             self.__image_index_run += 1
             self.image = self.__images[self.__image_index_run % len(self.__images)]# This line assigns the current image to be displayed from a list of images based on the index, ensuring it loops through the images if the index exceeds the length of the list

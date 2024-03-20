@@ -6,6 +6,9 @@ from Player import Player
 from Input import KeyInput
 from PIL import Image, ImageSequence
 
+from MusicController import MusicController
+
+
 # ===================== Main ===================== #
 
 class Game():
@@ -40,6 +43,10 @@ class Game():
         """
         
         __running = True
+        __mcc = MusicController()
+        __mcc.initInGameBackgroundMusic("sprites/placeholder/soundsAndMusic/Volume_Alpha_07._Haggstrom.mp3")
+        __mcc.playInGameBackgroundMusic()
+
 
         while __running:
             # input update
@@ -55,6 +62,7 @@ class Game():
 
         self.resetHurtmap()
         # after the loop is done, return to main menu
+        __mcc.stopInGameBackgroundMusic()
 
     def resetHurtmap(self):
         """

@@ -15,6 +15,7 @@ class KeyInput():
         self.__keyspace = False
         self.__keyescape = False
         self.__keymouseleft = False
+        self.__keyspacePressed = False #__keyspacePressed is for the sound
 
 # ======= properties ======= #
 
@@ -29,6 +30,14 @@ class KeyInput():
     @property
     def keyspace(self):
         return self.__keyspace
+
+    @property
+    def keyspacePressed(self):
+        return self.__keyspacePressed
+    
+    @keyspacePressed.setter
+    def keyspacePressed(self, reset:bool):
+        self.__keyspacePressed = reset
     
     @property
     def keyescape(self):
@@ -67,6 +76,7 @@ class KeyInput():
 
                 elif event.key == pygame.K_SPACE:
                     self.__keyspace = True
+                    self.__keyspacePressed = True      
 
                 elif event.key == pygame.K_ESCAPE:
                     self.__keyescape = True
