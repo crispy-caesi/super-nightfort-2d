@@ -12,12 +12,12 @@ class Game():
     Class that fuses all of the subparts together for the game to be playable.
     """
 
-    def __init__(self, __screenResolution, __currentLevel, __background):
+    def __init__(self, __screenResolution, __currentLevel, __background, __currentCharacterSkin):
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
         self.__hurtMap = self.__tileMap.getHurtMap()
-        self.__player = Player()
+        self.__player = Player(__currentCharacterSkin)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
         self.__allSprites.add(self.__player)

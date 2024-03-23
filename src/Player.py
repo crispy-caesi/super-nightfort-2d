@@ -9,9 +9,9 @@ class Player(pygame.sprite.Sprite):
     Class to handle the player and their attributes.
     """
 
-    def __init__(self):
+    def __init__(self,__currentCharacterSkin):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("sprites/placeholder/Duck.png")
+        self.image = pygame.image.load(__currentCharacterSkin)
         self.rect = self.image.get_rect()
         # --- movement --- #
         self.__horizontalCollisionBox, self.__verticalCollisionBox = OffsetRect(self), OffsetRect(self)
