@@ -12,7 +12,7 @@ class Tile(pygame.sprite.Sprite):
 
     def __init__(self, __image, __x, __y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(__image)
+        self.image = pygame.image.load(__image).convert()
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = __x, __y
 
@@ -39,6 +39,9 @@ class TileMap(pygame.sprite.Sprite):
                    self.__tiles.append(tile)
                 if lst[column][row] == "2": # dirt
                    tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16 )
+                   self.__tiles.append(tile)
+                if lst[column][row] == "3": # dirt
+                   tile = Tile("sprites/placeholder/GrassRotateted.png", row * 16, column * 16 )
                    self.__tiles.append(tile)
                 if lst[column][row] == "5": # spikes
                    tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16 )

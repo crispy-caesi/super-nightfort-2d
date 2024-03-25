@@ -129,7 +129,7 @@ class Menu():
             return "mainmenu"
 
         if self.__keyInput.keymouseleft and self.__level_1_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level1.csv"
+            self.__currentLevel = "sprites/placeholder/level2.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
             return "gameloop"

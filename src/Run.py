@@ -32,7 +32,7 @@ def main():
             pygame.quit()
             sys.exit()
             
-        __clock.tick(60)
+        __clock.tick(30)
 
 # ===================== run ===================== #
         

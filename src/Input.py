@@ -10,6 +10,7 @@ class KeyInput():
     """
 
     def __init__(self):
+        pygame.event.set_allowed([pygame.KEYUP, pygame.KEYDOWN])
         self.__keyleft = False
         self.__keyright = False
         self.__keyspace = False
@@ -68,13 +69,13 @@ class KeyInput():
             if event.type == pygame.KEYDOWN:
                 
                 # list of occurable button presses
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self.__keyleft = True
 
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self.__keyright = True
 
-                elif event.key == pygame.K_SPACE:
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_w:
                     self.__keyspace = True
                     self.__keyspacePressed = True      
 
@@ -85,13 +86,13 @@ class KeyInput():
             if event.type == pygame.KEYUP:
 
                 # list of occurable button releases
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self.__keyleft = False
 
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self.__keyright = False
 
-                elif event.key == pygame.K_SPACE:
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_w:
                     self.__keyspace = False
                 
                 elif event.key == pygame.K_ESCAPE:

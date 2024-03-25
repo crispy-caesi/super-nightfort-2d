@@ -17,6 +17,7 @@ class Game():
     """
 
     def __init__(self, __screenResolution, __currentLevel, __background):
+        pygame.mixer.pre_init(44100,16,3,4096)
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
@@ -32,7 +33,7 @@ class Game():
         self.__allSprites.add(self.__player)
         self.__allSprites.add(self.__player.verticalCollisionBox)
         self.__allSprites.add(self.__player.horizontalCollisionBox)
-        self.__background = pygame.image.load(__background)
+        self.__background = pygame.image.load(__background).convert()
         self.__background = pygame.transform.scale(self.__background,(self.__screenResolution))
         self.__keyInput = KeyInput()
         self.__clock = pygame.time.Clock()
@@ -44,21 +45,21 @@ class Game():
         
         __running = True
         __mcc = MusicController()
-        __mcc.initInGameBackgroundMusic("sprites/placeholder/soundsAndMusic/Volume_Alpha_07._Haggstrom.mp3")
+        __mcc.initInGameBackgroundMusic("sprites/placeholder/soundsAndMusic/inGameBackgroundMusic.wav")
         __mcc.playInGameBackgroundMusic()
 
 
         while __running:
             # input update
             self.__keyInput.getInput()
-            self.frameUpdate(self.__keyInput, __screen)
-
             # condition to end the running process
             if self.__keyInput.keyescape or self.__player.getIsDead():
                 self.__keyInput.keyescape = False
                 __running = False
+
+            self.frameUpdate(self.__keyInput, __screen)
             
-            self.__clock.tick(60)
+            self.__clock.tick(120)
 
         self.resetHurtmap()
         # after the loop is done, return to main menu
@@ -75,9 +76,7 @@ class Game():
         """
         Method to blit the game on the screen.
         """
-        
-        self.__allSprites.update()
-        
+                
         # camera - calculate the offset
         playerOffsetX = self.__screenResolution.x // 6 - self.__player.rect.centerx # more on the left site
         playerOffsetY = self.__screenResolution.y // 2 - self.__player.rect.centery # center
