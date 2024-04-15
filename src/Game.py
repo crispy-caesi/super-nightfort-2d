@@ -17,13 +17,18 @@ class Game():
     """
 
 
-    def __init__(self, __screenResolution, __currentLevel, __background, __currentCharacterSkin):
+    def __init__(self, __screenResolution, __currentLevel, __background, __currentCharacterSkin, __death_path, __jump_path):
+        pygame.mixer.pre_init(44100,16,3,4096)
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
         self.__hurtMap = self.__tileMap.getHurtMap()
 
-        self.__player = Player(__currentCharacterSkin)
+        
+        images = self.loadGIF(__currentCharacterSkin)
+        deathImages=self.loadGIF(__death_path)
+        jumpImgages = self.loadGIF(__jump_path)
+        self.__player = Player(images=images, deathImages= deathImages, jumpImages= jumpImgages)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
 
