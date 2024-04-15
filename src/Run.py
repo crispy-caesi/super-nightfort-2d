@@ -28,6 +28,9 @@ def main():
         elif __currentloop == "gameloop":
             __currentloop = __menuloop.gameLoop()
 
+        elif __currentloop == "charactermenu":
+            __currentloop = __menuloop.characterMenuLoop()
+
         elif __currentloop == "quit":
             pygame.quit()
             sys.exit()
