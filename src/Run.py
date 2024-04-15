@@ -24,6 +24,9 @@ def main():
 
         elif __currentloop == "levelmenu":
             __currentloop = __menuloop.levelMenuLoop()
+        
+        elif __currentloop == "charactermenu":
+            __currentloop = __menuloop.characterMenuLoop()
 
         elif __currentloop == "gameloop":
             __currentloop = __menuloop.gameLoop()

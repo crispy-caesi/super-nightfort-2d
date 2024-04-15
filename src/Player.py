@@ -9,10 +9,10 @@ class Player(pygame.sprite.Sprite):
     Class to handle the player and their attributes.
     """
 
-    def __init__(self, images:list, deathImages:list, jumpImages:list):
+
+    def __init__(self,__currentCharacterSkin):
         pygame.sprite.Sprite.__init__(self)
-        self.__images = images
-        self.image = self.__images[1]
+        self.image = pygame.image.load(__currentCharacterSkin)
         self.rect = self.image.get_rect()
         # --- movement --- #
         self.__horizontalCollisionBox, self.__verticalCollisionBox = OffsetRect((255,255,0),self), OffsetRect((255,0,0),self)

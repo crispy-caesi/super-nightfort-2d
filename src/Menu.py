@@ -1,6 +1,7 @@
 # ===================== import ===================== #
 
 import pygame
+from PIL import Image
 from Game import Game
 from Input import KeyInput
 
@@ -21,6 +22,7 @@ class Menu():
         self.__mousePosition = pygame.mouse.get_pos()
         self.__currentLevel = None
         self.__currentLevelBackground = None
+        self.__currentCharacterSkin = None
 
     def drawButton(self, __buttonImagePath, __buttonOffsetX, __buttonOffsetY):
         """
@@ -56,6 +58,16 @@ class Menu():
         __background = pygame.image.load(__backgroundImagePath)
         __background = pygame.transform.scale(__background,(self.__screenResolution))
         self.__screen.blit(__background, (0, 0))
+
+    def mergeImage(self, __imageTopPath, __imageBottomPath, __newImageName):
+        """
+        Method to merge two images to create a single image
+        """
+        
+        __imageTop = Image.open(__imageTopPath)
+        __imageBottom = Image.open(__imageBottomPath)
+        __imageBottom.paste(__imageTop, (0,0))#, mask = __imageTop)
+        __imageBottom.save(__newImageName) 
 
 # ===================== main menu ===================== #
 
@@ -115,7 +127,7 @@ class Menu():
 
     def levelMenuLoop(self):
         """
-        Loop used for the level menu. Returns "gameloop" or "mainmenu" on specific input, otherwise returns "levelmenu".
+        Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
 
         # frame and input update
@@ -132,11 +144,88 @@ class Menu():
             self.__currentLevel = "sprites/placeholder/level2.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
-            return "gameloop"
+            return "charactermenu"
         
         # no input --> reinitialises own loop
         self.__clock.tick(30)
         return "levelmenu"
+    
+# ===================== character menu ===================== #
+    
+    def drawCharacterMenu(self):
+        """
+        Method to fully initate the creation of the character menu.
+        """
+
+        pygame.display.set_caption("super character menu")
+
+        # loads in the objects and draws the level menu
+        self.drawBackground("sprites/placeholder/mainmenu.png") # replace with new sprite
+
+        # button for the Fich
+        self.mergeImage("sprites/characters/fich/fich_image.gif","sprites/icons/character_background.gif","sprites/characters/fich/buttonImage.gif")
+        self.__buttonFichRect = self.drawButton("sprites/characters/fich/buttonImage.gif", 250, 500)
+
+        # button for the Meister Wu
+        self.mergeImage("sprites/characters/wu/wu_image.gif","sprites/icons/character_background.gif","sprites/characters/wu/buttonImage.gif")
+        self.__buttonWuRect = self.drawButton("sprites/characters/wu/buttonImage.gif", 250, 250)
+
+        # button for the Amogus
+        self.mergeImage("sprites/characters/amogus/amogus_image.gif","sprites/icons/character_background.gif","sprites/characters/amogus/buttonImage.gif")
+        self.__buttonAmogusRect = self.drawButton("sprites/characters/amogus/buttonImage.gif", 250, 0)
+
+        # button for the Pacman
+        self.mergeImage("sprites/characters/pacman/pacman_image.gif","sprites/icons/character_background.gif","sprites/characters/pacman/buttonImage.gif")
+        self.__buttonPacmanRect = self.drawButton("sprites/characters/pacman/buttonImage.gif", 250, -250)
+
+        # button for the Po
+        self.mergeImage("sprites/characters/po/po_image.gif","sprites/icons/character_background.gif","sprites/characters/po/buttonImage.gif")
+        self.__buttonPoRect = self.drawButton("sprites/characters/po/buttonImage.gif", 250, -500)
+        pygame.display.flip()
+
+    def characterMenuLoop(self):
+        """
+        Loop used for the character menu. Returns "gameloop" or "levelmenu" on specific input, otherwise returns "charactermenu".
+        """
+
+        # frame and input update
+        self.drawCharacterMenu()
+        self.__keyInput.getInput()
+        self.__mousePosition = pygame.mouse.get_pos()
+
+        # input check
+        if self.__keyInput.keyescape:
+            self.__keyInput.keyescape = False
+            return "levelmenu"
+        
+        if self.__keyInput.keymouseleft and self.__buttonWuRect.collidepoint(self.__mousePosition):
+            self.__currentCharacterSkin = "sprites/characters/wu/wu_image.gif"
+            self.__keyInput.keymouseleft = False
+            return "gameloop"
+        
+        if self.__keyInput.keymouseleft and self.__buttonFichRect.collidepoint(self.__mousePosition):
+            self.__currentCharacterSkin = "sprites/characters/fich/fich_image.gif"
+            self.__keyInput.keymouseleft = False
+            return "gameloop"
+        
+        if self.__keyInput.keymouseleft and self.__buttonAmogusRect.collidepoint(self.__mousePosition):
+            self.__currentCharacterSkin = "sprites/characters/amogus/amogus_image.gif"
+            self.__keyInput.keymouseleft = False
+            return "gameloop"
+        
+        if self.__keyInput.keymouseleft and self.__buttonPacmanRect.collidepoint(self.__mousePosition):
+            self.__currentCharacterSkin = "sprites/characters/pacman/pacman_image.gif"
+            self.__keyInput.keymouseleft = False
+            return "gameloop"
+        
+        if self.__keyInput.keymouseleft and self.__buttonPoRect.collidepoint(self.__mousePosition):
+            self.__currentCharacterSkin = "sprites/characters/po/po_image.gif"
+            self.__keyInput.keymouseleft = False
+            return "gameloop"
+        
+        # no input --> reinitialises own loop
+        self.__clock.tick(30)
+        return "charactermenu"
         
 # ===================== game menu ===================== #
 
@@ -146,7 +235,12 @@ class Menu():
         """
 
         # loop
-        self.__mainLoop = Game(self.__screenResolution, self.__currentLevel, self.__currentLevelBackground)
+        self.__mainLoop = Game(
+            self.__screenResolution,
+            self.__currentLevel,
+            self.__currentLevelBackground,
+            self.__currentCharacterSkin)
+        
         self.__mainLoop.running(self.__screen)
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance
     

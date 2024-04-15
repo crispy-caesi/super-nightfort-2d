@@ -16,17 +16,14 @@ class Game():
     Class that fuses all of the subparts together for the game to be playable.
     """
 
-    def __init__(self, __screenResolution, __currentLevel, __background):
-        pygame.mixer.pre_init(44100,16,3,4096)
+
+    def __init__(self, __screenResolution, __currentLevel, __background, __currentCharacterSkin):
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel)
         self.__hurtMap = self.__tileMap.getHurtMap()
-        
-        images = self.loadGIF("sprites/characters/Fich/Fish_walk_animation.gif")
-        deathImages=self.loadGIF("sprites/characters/Fich/Fish_death.gif")
-        jumpImgages = self.loadGIF("sprites/characters/Fich/Fish_Jump_animation.gif")
-        self.__player = Player(images=images, deathImages= deathImages, jumpImages= jumpImgages)
+
+        self.__player = Player(__currentCharacterSkin)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
 
