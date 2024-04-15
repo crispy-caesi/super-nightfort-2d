@@ -31,11 +31,14 @@ def main():
         elif __currentloop == "gameloop":
             __currentloop = __menuloop.gameLoop()
 
+        elif __currentloop == "charactermenu":
+            __currentloop = __menuloop.characterMenuLoop()
+
         elif __currentloop == "quit":
             pygame.quit()
             sys.exit()
             
-        __clock.tick(60)
+        __clock.tick(30)
 
 # ===================== run ===================== #
         

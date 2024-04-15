@@ -141,7 +141,7 @@ class Menu():
             return "mainmenu"
 
         if self.__keyInput.keymouseleft and self.__level_1_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level1.csv"
+            self.__currentLevel = "sprites/placeholder/level2.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
             return "charactermenu"
@@ -163,11 +163,11 @@ class Menu():
         self.drawBackground("sprites/placeholder/mainmenu.png") # replace with new sprite
 
         # button for the Fich
-        self.mergeImage("sprites/characters/fich/fich_image.gif","sprites/icons/character_background.gif","sprites/characters/fich/buttonImage.gif")
+        self.mergeImage("sprites/characters/fich/fich.gif","sprites/icons/character_background.gif","sprites/characters/fich/buttonImage.gif")
         self.__buttonFichRect = self.drawButton("sprites/characters/fich/buttonImage.gif", 250, 500)
 
         # button for the Meister Wu
-        self.mergeImage("sprites/characters/wu/wu_image.gif","sprites/icons/character_background.gif","sprites/characters/wu/buttonImage.gif")
+        self.mergeImage("sprites/characters/wu/wu.gif","sprites/icons/character_background.gif","sprites/characters/wu/buttonImage.gif")
         self.__buttonWuRect = self.drawButton("sprites/characters/wu/buttonImage.gif", 250, 250)
 
         # button for the Amogus
@@ -179,7 +179,7 @@ class Menu():
         self.__buttonPacmanRect = self.drawButton("sprites/characters/pacman/buttonImage.gif", 250, -250)
 
         # button for the Po
-        self.mergeImage("sprites/characters/po/po_image.gif","sprites/icons/character_background.gif","sprites/characters/po/buttonImage.gif")
+        self.mergeImage("sprites/characters/po/po.gif","sprites/icons/character_background.gif","sprites/characters/po/buttonImage.gif")
         self.__buttonPoRect = self.drawButton("sprites/characters/po/buttonImage.gif", 250, -500)
         pygame.display.flip()
 
@@ -200,26 +200,36 @@ class Menu():
         
         if self.__keyInput.keymouseleft and self.__buttonWuRect.collidepoint(self.__mousePosition):
             self.__currentCharacterSkin = "sprites/characters/wu/wu_image.gif"
+            self.__death_path =  "sprites/characters/wu/wu_death.gif"
+            self.__jump_path = "sprites/characters/wu/wu_jump.gif"
             self.__keyInput.keymouseleft = False
             return "gameloop"
         
         if self.__keyInput.keymouseleft and self.__buttonFichRect.collidepoint(self.__mousePosition):
             self.__currentCharacterSkin = "sprites/characters/fich/fich_image.gif"
+            self.__death_path =  "sprites/characters/fich/fich_death.gif"
+            self.__jump_path = "sprites/characters/fich/fich_jump.gif"
             self.__keyInput.keymouseleft = False
             return "gameloop"
         
         if self.__keyInput.keymouseleft and self.__buttonAmogusRect.collidepoint(self.__mousePosition):
             self.__currentCharacterSkin = "sprites/characters/amogus/amogus_image.gif"
+            self.__death_path =  "sprites/characters/amogus/amogus_death.gif"
+            self.__jump_path = "sprites/characters/amogus/amogus_jump.gif"
             self.__keyInput.keymouseleft = False
             return "gameloop"
         
         if self.__keyInput.keymouseleft and self.__buttonPacmanRect.collidepoint(self.__mousePosition):
             self.__currentCharacterSkin = "sprites/characters/pacman/pacman_image.gif"
+            self.__death_path =  "sprites/characters/pacman/pacman_death.gif"
+            self.__jump_path = "sprites/characters/pacman/pacman_jump.gif"
             self.__keyInput.keymouseleft = False
             return "gameloop"
         
         if self.__keyInput.keymouseleft and self.__buttonPoRect.collidepoint(self.__mousePosition):
             self.__currentCharacterSkin = "sprites/characters/po/po_image.gif"
+            self.__death_path =  "sprites/characters/po/po_death.gif"
+            self.__jump_path = "sprites/characters/po/po_jump.gif"
             self.__keyInput.keymouseleft = False
             return "gameloop"
         
@@ -239,7 +249,9 @@ class Menu():
             self.__screenResolution,
             self.__currentLevel,
             self.__currentLevelBackground,
-            self.__currentCharacterSkin)
+            self.__currentCharacterSkin,
+            self.__death_path,
+            self.__jump_path)
         
         self.__mainLoop.running(self.__screen)
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance

@@ -1,7 +1,7 @@
 # ===================== import ===================== #
 
 import pygame 
-
+from MusicController import MusicController
 # ===================== Player ===================== #
 
 class Player(pygame.sprite.Sprite):
@@ -9,12 +9,13 @@ class Player(pygame.sprite.Sprite):
     Class to handle the player and their attributes.
     """
 
-    def __init__(self,__currentCharacterSkin):
+    def __init__(self, images:list, deathImages:list, jumpImages:list):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(__currentCharacterSkin)
+        self.__images = images
+        self.image = self.__images[0]
         self.rect = self.image.get_rect()
         # --- movement --- #
-        self.__horizontalCollisionBox, self.__verticalCollisionBox = OffsetRect(self), OffsetRect(self)
+        self.__horizontalCollisionBox, self.__verticalCollisionBox = OffsetRect((255,255,0),self), OffsetRect((255,0,0),self)
         self.__isOnGround = False
         self.__acceleration = 0                 # acceleration of the player (force with which the player moves)
         self.__friction = -.05                  # deceleration to halt the player
@@ -23,6 +24,26 @@ class Player(pygame.sprite.Sprite):
         # --- health --- #
         self.__hurtMap = None
         self.__health = 3
+
+        # --- animation --- #
+        self.__image_index_run = 0
+        self.__run_animation_index = 0
+
+        self.__jumpImages = jumpImages
+        self.__image_index_jump = 0
+        self.__jump_animation_index = 0
+        self.__jump_move_last_key = "right"
+
+
+        self.__deathImages = deathImages
+        self.__image_index_death = 0
+        self.__death_animation_index = 0
+
+        self.__isDead = False
+
+        #music bzw. sounds
+        self.__mcc = MusicController()
+        self.__mcc.initJumpSound("sprites/placeholder/soundsAndMusic/Jump.wav")
 
     @property    
     def horizontalCollisionBox(self):
@@ -43,9 +64,22 @@ class Player(pygame.sprite.Sprite):
 
         if __keyInput.keyleft:
             self.__acceleration -= .3
+            if self.__run_animation_index == 5:
+                self.run_animation("left")
+                self.__run_animation_index = 0
+
+            self.__jump_move_last_key = "left"
+            self.__run_animation_index += 1
 
         if __keyInput.keyright:
             self.__acceleration += .3
+            if self.__run_animation_index == 5:
+                self.run_animation("right")
+                self.__run_animation_index = 0
+
+            self.__run_animation_index += 1
+            self.__jump_move_last_key = "right"
+
 
         self.__speed.x += self.__acceleration               #   F = m * a  |  m = 1  -->  F = a
         self.__speed.x += self.__friction * self.__speed.x  #   a * µ = a
@@ -100,7 +134,11 @@ class Player(pygame.sprite.Sprite):
         """
         Method to handle vertical movement of the player.
         """
-        
+        #jump sound
+        if __keyInput.keyspacePressed and self.__isOnGround:#play jump sound
+            self.__mcc.playJumpSound()
+            __keyInput.keyspacePressed = False
+
         # jump
         if __keyInput.keyspace:
             if self.__isOnGround:
@@ -109,6 +147,33 @@ class Player(pygame.sprite.Sprite):
         
         # movement        
         self.__speed.y += self.__gravity
+
+        if not(self.__speed.y > 0):
+            #when I wrote this, only God and I understood what I was doing
+            
+            # This handles cases when both jumping and running are pressed simultaneously, 
+            # and when only jumping is pressed, to ensure the player faces in the correct direction
+            self.__jump_animation_index +=1  
+            if self.__jump_animation_index == 4 :
+                if __keyInput.keyleft:
+                    self.jumpAnimation("left")
+                    self.__jump_move_last_key = "left"
+
+                elif __keyInput.keyright :
+                    self.jumpAnimation("right")
+                    self.__jump_move_last_key = "right"
+
+                elif self.__jump_move_last_key == "left":
+                    self.jumpAnimation("left")
+                    self.__jump_move_last_key = "left"
+
+                elif self.__jump_move_last_key == "right": 
+                    self.jumpAnimation("right")
+                    self.__jump_move_last_key = "right"
+                  
+                self.__jump_animation_index = 0
+                #now, God only knows
+
 
         if self.__speed.y > 0:
             self.__speed.y += self.__friction * self.__speed.y * 2.5
@@ -144,9 +209,23 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
+        if __tileMap.rect.y <= -50:
+            # Since the player isn't moving visibly, but rather the tilemap is, 
+            # the Rect position of the tilemap is simply checked against its position. 
+            # Then, when the position, in this case -100, is reached, the player is considered dead.
+            if self.__death_animation_index == 3:
+                self.deathAnimation()
+                self.__death_animation_index = 0
+            
+            if self.__image_index_death >= len(self.__deathImages):
+                self.dead()
+
+            self.__death_animation_index += 1
+
         self.horizontalMovement(__keyInput, __tileMap)
         self.verticalMovement(__keyInput, __tileMap)
         self.collisionBoxUpdate()
+
 
     def collisionBoxUpdate(self):
         """
@@ -159,7 +238,14 @@ class Player(pygame.sprite.Sprite):
 # ============== damage and health ============== #
 
     def dead(self):
-        pass
+        """
+        set __isDead true, so that the main menu can start
+        """
+        print("player is death")
+        self.__isDead = True
+    
+    def getIsDead(self)->bool:
+        return self.__isDead
 
     def environmentalHurtCheck(self):
         for damagingObjects in self.__hurtMap:
@@ -179,6 +265,36 @@ class Player(pygame.sprite.Sprite):
         if self.__health < 1:
             self.dead()
 
+
+# ===================== Animation ===================== #
+
+    def run_animation(self, direction):
+        """
+        run animatio of the character, diffrent direction needs difrent animations
+        """        
+        if direction == "left" and self.__isOnGround:
+            self.__image_index_run += 1
+            self.image = self.__images[self.__image_index_run % len(self.__images)]# This line assigns the current image to be displayed from a list of images based on the index, ensuring it loops through the images if the index exceeds the length of the list
+            self.image = pygame.transform.flip(self.image, True, False) #flip the player in the opposite direction when the player moves left
+        elif direction == "right" and self.__isOnGround:
+            self.__image_index_run += 1
+            self.image = self.__images[self.__image_index_run % len(self.__images)]
+            self.image = pygame.transform.flip(self.image, False, False)
+    
+    def deathAnimation(self):
+        self.__image_index_death += 1
+        self.image = self.__deathImages[self.__image_index_death % len(self.__deathImages)]     
+
+    def jumpAnimation(self, direction):
+        if direction == "left":
+            self.__image_index_jump += 1
+            self.image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
+            self.image = pygame.transform.flip(self.image, True, False)
+        elif direction == "right":
+            self.__image_index_jump += 1
+            self.image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
+            self.image = pygame.transform.flip(self.image, False, False)
+
 # ===================== Offsetrect ===================== #
 
 class OffsetRect(pygame.sprite.Sprite):
@@ -186,13 +302,14 @@ class OffsetRect(pygame.sprite.Sprite):
     Class that generates collision checkboxes for player movement, input: player.
     """
 
-    def __init__(self, __player):
+    def __init__(self,color, __player):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((__player.rect.w, __player.rect.h), pygame.SRCALPHA)
+        self.image = pygame.Surface((__player.rect.w-20, __player.rect.h), pygame.SRCALPHA)# To reduce the hitbox by 20 to ensure proper collision detection for the player despite the animations (and avoid situations like getting caught on the arms).
         self.rect = self.image.get_rect()
-        self.mask = pygame.mask.Mask((__player.rect.w, __player.rect.h), True)
+        self.mask = pygame.mask.Mask((__player.rect.w-20, __player.rect.h), True)
         self.rect.centerx, self.rect.centery = __player.rect.centerx, __player.rect.centery
         self.__offset = pygame.Vector2(0, 0)
+        #elf.image.fill(color=color) #Ability to color the offset rects for debugging purposes
 
     def setOffset(self, __x, __y):
         """
