@@ -4,6 +4,7 @@ import pygame
 from PIL import Image
 from Game import Game
 from Input import KeyInput
+import os
 
 # ===================== menu ===================== #
 
@@ -122,7 +123,11 @@ class Menu():
 
         # loads in the objects and draws the level menu
         self.drawBackground("sprites/placeholder/levelmenu.png")
-        self.__level_1_Rect = self.drawButton("sprites/placeholder/level1.png", 250, 500)
+        self.__level_1_Rect = self.drawButton("sprites/icons/level_icons/level1.png", 250, 500)
+        self.__level_2_Rect = self.drawButton("sprites/icons/level_icons/level2.png", 250, 250)
+        self.__level_3_Rect = self.drawButton("sprites/icons/level_icons/level3.png", 250, 0)
+        self.__level_4_Rect = self.drawButton("sprites/icons/level_icons/level4.png", 250, -250)
+
         pygame.display.flip()
 
     def levelMenuLoop(self):
@@ -134,6 +139,7 @@ class Menu():
         self.drawLevelMenu()
         self.__keyInput.getInput()
         self.__mousePosition = pygame.mouse.get_pos()
+        self.__tiles_path = []
 
         # input check
         if self.__keyInput.keyescape:
@@ -141,6 +147,26 @@ class Menu():
             return "mainmenu"
 
         if self.__keyInput.keymouseleft and self.__level_1_Rect.collidepoint(self.__mousePosition):
+            self.__currentLevel = "sprites/blocks/csv/level1.csv"
+            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
+            print(self.get_file_names("sprites/blocks/grassland"))
+            return "charactermenu"
+        
+        if self.__keyInput.keymouseleft and self.__level_2_Rect.collidepoint(self.__mousePosition):
+            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__keyInput.keymouseleft = False
+            return "charactermenu"
+        
+        if self.__keyInput.keymouseleft and self.__level_3_Rect.collidepoint(self.__mousePosition):
+            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__keyInput.keymouseleft = False
+            return "charactermenu"
+        
+        if self.__keyInput.keymouseleft and self.__level_4_Rect.collidepoint(self.__mousePosition):
             self.__currentLevel = "sprites/placeholder/level2.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
@@ -149,6 +175,13 @@ class Menu():
         # no input --> reinitialises own loop
         self.__clock.tick(30)
         return "levelmenu"
+    
+    def get_file_names(self, directory):
+        file_names = []
+        for filename in os.listdir(directory):
+            if os.path.isfile(os.path.join(directory, filename)):
+                file_names.append(directory+"/"+filename)
+        return file_names
     
 # ===================== character menu ===================== #
     
@@ -179,8 +212,8 @@ class Menu():
         self.__buttonPacmanRect = self.drawButton("sprites/characters/pacman/buttonImage.gif", 250, -250)
 
         # button for the Po
-        self.mergeImage("sprites/characters/po/po.gif","sprites/icons/character_background.gif","sprites/characters/po/buttonImage.gif")
-        self.__buttonPoRect = self.drawButton("sprites/characters/po/buttonImage.gif", 250, -500)
+        self.mergeImage("sprites/characters/poo/po.gif","sprites/icons/character_background.gif","sprites/characters/poo/buttonImage.gif")
+        self.__buttonPoRect = self.drawButton("sprites/characters/poo/buttonImage.gif", 250, -500)
         pygame.display.flip()
 
     def characterMenuLoop(self):
@@ -227,9 +260,9 @@ class Menu():
             return "gameloop"
         
         if self.__keyInput.keymouseleft and self.__buttonPoRect.collidepoint(self.__mousePosition):
-            self.__currentCharacterSkin = "sprites/characters/po/po_image.gif"
-            self.__death_path =  "sprites/characters/po/po_death.gif"
-            self.__jump_path = "sprites/characters/po/po_jump.gif"
+            self.__currentCharacterSkin = "sprites/characters/poo/po_image.gif"
+            self.__death_path =  "sprites/characters/poo/po_death.gif"
+            self.__jump_path = "sprites/characters/poo/po_jump.gif"
             self.__keyInput.keymouseleft = False
             return "gameloop"
         
@@ -251,7 +284,8 @@ class Menu():
             self.__currentLevelBackground,
             self.__currentCharacterSkin,
             self.__death_path,
-            self.__jump_path)
+            self.__jump_path,
+            self.__tiles_path)
         
         self.__mainLoop.running(self.__screen)
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance
