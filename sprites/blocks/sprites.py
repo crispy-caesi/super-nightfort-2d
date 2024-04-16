@@ -28,7 +28,7 @@ def extract_sprites(input_file, output_folder):
         print("Fehler beim Extrahieren der Sprites:", e)
 
 if __name__ == "__main__":
-    input_file = "sprites/blocks/spritesheets/desert_spritesheet.png"
-    output_folder = "sprites/blocks/spritesheets/desert/"
+    input_file = "sprites/blocks/snowland_spritesheet.png"
+    output_folder = "sprites/blocks/snowland/"
     
     extract_sprites(input_file, output_folder)

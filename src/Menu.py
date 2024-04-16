@@ -147,7 +147,7 @@ class Menu():
             return "mainmenu"
 
         if self.__keyInput.keymouseleft and self.__level_1_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/blocks/csv/level1.csv"
+            self.__currentLevel = "sprites/blocks/csv/level1_grassland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
@@ -155,21 +155,24 @@ class Menu():
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_2_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevel = "sprites/blocks/csv/level2_desert.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/desert")
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_3_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevel = "sprites/blocks/csv/level3_grassland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/grassland2")
             return "charactermenu"
         
-        if self.__keyInput.keymouseleft and self.__level_4_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level2.csv"
+        if self.__keyInput.keymouseleft and self.__level_3_Rect.collidepoint(self.__mousePosition):
+            self.__currentLevel = "sprites/blocks/csv/level4_snowland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/snowland")
             return "charactermenu"
         
         # no input --> reinitialises own loop
