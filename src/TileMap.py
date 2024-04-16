@@ -23,7 +23,7 @@ class TileMap(pygame.sprite.Sprite):
     Class to create the tilemap with which other objects can interact.
     """
     
-    def __init__(self, __csvPath:str):
+    def __init__(self, __csvPath:str, tile_paths:list):
         super().__init__()
         self.__tiles = []    
         self.__hurtMap = [] 
@@ -31,21 +31,30 @@ class TileMap(pygame.sprite.Sprite):
         
         for column in range(len(lst)):
             for row in range(len(lst[0])):
-                if lst[column][row] == "4": # player sprite
-                   tile = Tile("sprites/placeholder/Duck.png", row * 16, column * 16)
-                   self.__tiles.append(tile)
-                if  lst[column][row] == "1":# gras
-                   tile = Tile("sprites/placeholder/Grass.png", row * 16, column * 16)
-                   self.__tiles.append(tile)
                 if lst[column][row] == "2": # dirt
-                   tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16 )
+                   tile = Tile(tile_paths[0], row * 16, column * 16 )
                    self.__tiles.append(tile)
                 if lst[column][row] == "3": # dirt
-                   tile = Tile("sprites/placeholder/GrassRotateted.png", row * 16, column * 16 )
+                   tile = Tile(tile_paths[1], row * 16, column * 16 )
                    self.__tiles.append(tile)
-                if lst[column][row] == "5": # spikes
-                   tile = Tile("sprites/placeholder/Dirt.png", row * 16, column * 16 )
+                if lst[column][row] == "4": # spikes
+                   tile = Tile(tile_paths[2], row * 16, column * 16 )
                    self.__hurtMap.append(tile.rect)
+                   self.__tiles.append(tile)
+                if lst[column][row] == "5": # dirt
+                   tile = Tile(tile_paths[3], row * 16, column * 16 )
+                   self.__tiles.append(tile)
+                if lst[column][row] == "6": # dirt
+                   tile = Tile(tile_paths[4], row * 16, column * 16 )
+                   self.__tiles.append(tile)
+                if lst[column][row] == "7": # dirt
+                   tile = Tile(tile_paths[5], row * 16, column * 16 )
+                   self.__tiles.append(tile)
+                if lst[column][row] == "8": # dirt
+                   tile = Tile(tile_paths[6], row * 16, column * 16 )
+                   self.__tiles.append(tile)
+                if lst[column][row] == "9": # dirt
+                   tile = Tile(tile_paths[7], row * 16, column * 16 )
                    self.__tiles.append(tile)
 
         __combined = Combined(self.__tiles)
