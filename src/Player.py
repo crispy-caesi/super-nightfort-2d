@@ -209,7 +209,7 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
-        if __tileMap.rect.y <= -50:
+        if __tileMap.rect.y <= -100:
             # Since the player isn't moving visibly, but rather the tilemap is, 
             # the Rect position of the tilemap is simply checked against its position. 
             # Then, when the position, in this case -100, is reached, the player is considered dead.
