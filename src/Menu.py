@@ -167,6 +167,7 @@ class Menu():
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland_2")
+            print(self.__tiles_path)
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_4_Rect.collidepoint(self.__mousePosition):
@@ -181,12 +182,18 @@ class Menu():
         self.__clock.tick(30)
         return "levelmenu"
     
+
     def get_file_names(self, directory):
         file_names = []
-        for filename in os.listdir(directory):
+        files = os.listdir(directory)
+        # Sortiere die Dateinamen alphabetisch
+        files.sort(key=lambda x: int(x.split('sprite_')[1].split('.')[0]))
+        for filename in files:
             if os.path.isfile(os.path.join(directory, filename)):
-                file_names.append(directory+"/"+filename)
+                file_names.append(os.path.join(directory, filename))
         return file_names
+
+
     
 # ===================== character menu ===================== #
     
