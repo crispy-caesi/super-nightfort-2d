@@ -165,7 +165,7 @@ class Menu():
             self.__currentLevel = "sprites/blocks/csv/level3_grassland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
-            self.__tiles_path = self.get_file_names("sprites/blocks/grassland2")
+            self.__tiles_path = self.get_file_names("sprites/blocks/grassland_2")
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_3_Rect.collidepoint(self.__mousePosition):
