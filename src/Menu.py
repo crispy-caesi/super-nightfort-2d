@@ -127,6 +127,7 @@ class Menu():
         self.__level_2_Rect = self.drawButton("sprites/icons/level_icons/level2.png", 250, 250)
         self.__level_3_Rect = self.drawButton("sprites/icons/level_icons/level3.png", 250, 0)
         self.__level_4_Rect = self.drawButton("sprites/icons/level_icons/level4.png", 250, -250)
+        self.__level_5_Rect = self.drawButton("sprites/icons/level_icons/level5.png", 250, -500)
 
         pygame.display.flip()
 
@@ -175,6 +176,14 @@ class Menu():
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/snowland")
+            print(self.__tiles_path)
+            return "charactermenu"
+        
+        if self.__keyInput.keymouseleft and self.__level_5_Rect.collidepoint(self.__mousePosition):
+            self.__currentLevel = "sprites/blocks/csv/level5_test.csv"
+            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
             print(self.__tiles_path)
             return "charactermenu"
         

@@ -33,7 +33,8 @@ def update_numbers(input_file, output_file):
     }
 
     replacements = {
-        "2684354560": "0",
+        "8": "-1",
+        "7": "-1"
     }
 
     with open(input_file, 'r', newline='') as csvfile:
@@ -51,7 +52,7 @@ def update_numbers(input_file, output_file):
 
 
 if __name__ == "__main__":
-    input_file = "sprites/blocks/csv/level4_snowland.csv"
-    output_file = "sprites/blocks/csv/level4_snowland.csv"
+    input_file = "sprites/blocks/csv/level3_grassland.csv"
+    output_file = "sprites/blocks/csv/level3_grassland.csv"
     update_numbers(input_file, output_file)
     #change_numbers(input_file, output_file)

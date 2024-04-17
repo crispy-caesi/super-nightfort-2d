@@ -2,6 +2,7 @@
 
 import pygame 
 from MusicController import MusicController
+import threading
 # ===================== Player ===================== #
 
 class Player(pygame.sprite.Sprite):
@@ -44,6 +45,7 @@ class Player(pygame.sprite.Sprite):
         #music bzw. sounds
         self.__mcc = MusicController()
         self.__mcc.initJumpSound("sprites/placeholder/soundsAndMusic/Jump.wav")
+        
 
     @property    
     def horizontalCollisionBox(self):
@@ -209,6 +211,12 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
+        print(__tileMap.rect.x)
+
+        if __tileMap.rect.x <= -430:
+            self.win()
+
+
         if __tileMap.rect.y <= -100:
             # Since the player isn't moving visibly, but rather the tilemap is, 
             # the Rect position of the tilemap is simply checked against its position. 
@@ -222,8 +230,17 @@ class Player(pygame.sprite.Sprite):
 
             self.__death_animation_index += 1
 
-        self.horizontalMovement(__keyInput, __tileMap)
-        self.verticalMovement(__keyInput, __tileMap)
+        #self.horizontalMovement(__keyInput, __tileMap)
+        #self.verticalMovement(__keyInput, __tileMap)
+        t1 = threading.Thread(target=self.horizontalMovement,args=(__keyInput, __tileMap))
+        t2 = threading.Thread(target=self.verticalMovement, args=(__keyInput, __tileMap))
+
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()
+
         self.collisionBoxUpdate()
 
 
@@ -264,6 +281,10 @@ class Player(pygame.sprite.Sprite):
         
         if self.__health < 1:
             self.dead()
+    
+    def win(self):
+        print("Win")
+        self.dead()
 
 
 # ===================== Animation ===================== #

@@ -59,7 +59,7 @@ class Game():
 
             self.frameUpdate(self.__keyInput, __screen)
             
-            self.__clock.tick(120)
+            self.__clock.tick(60)
 
         self.resetHurtmap()
         # after the loop is done, return to main menu
