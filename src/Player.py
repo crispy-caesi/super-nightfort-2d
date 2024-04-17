@@ -234,14 +234,14 @@ class Player(pygame.sprite.Sprite):
 
         #self.horizontalMovement(__keyInput, __tileMap)
         #self.verticalMovement(__keyInput, __tileMap)
-        t1 = threading.Thread(target=self.horizontalMovement,args=(__keyInput, __tileMap))
-        t2 = threading.Thread(target=self.verticalMovement, args=(__keyInput, __tileMap))
+        threadHorizontalMovement = threading.Thread(target=self.horizontalMovement,args=(__keyInput, __tileMap))
+        threadVerticalMovement = threading.Thread(target=self.verticalMovement, args=(__keyInput, __tileMap))
 
-        t1.start()
-        t2.start()
+        threadHorizontalMovement.start()
+        threadVerticalMovement.start()
 
-        t1.join()
-        t2.join()
+        threadHorizontalMovement.join()
+        threadVerticalMovement.join()
 
         self.collisionBoxUpdate()
 
