@@ -38,6 +38,8 @@ class Game():
         self.__keyInput = KeyInput()
         self.__clock = pygame.time.Clock()
 
+        self.__win = False
+
     def running(self, __screen):
         """
         Method to run the game.
@@ -56,6 +58,10 @@ class Game():
             if self.__keyInput.keyescape or self.__player.getIsDead():
                 self.__keyInput.keyescape = False
                 __running = False
+            
+            if self.__player.getWin():
+                self.__win = True
+                __running = False
 
             self.frameUpdate(self.__keyInput, __screen)
             
@@ -64,6 +70,9 @@ class Game():
         self.resetHurtmap()
         # after the loop is done, return to main menu
         __mcc.stopInGameBackgroundMusic()
+
+    def getWin(self):
+        return self.__win
 
     def resetHurtmap(self):
         """

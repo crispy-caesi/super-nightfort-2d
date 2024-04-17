@@ -290,6 +290,38 @@ class Menu():
         # no input --> reinitialises own loop
         self.__clock.tick(30)
         return "charactermenu"
+
+# ===================== win menu ===================== #
+    def drawWinMenu(self):
+        """
+        draws the win menu or show it on the screen
+        """
+        pygame.display.set_caption("you won supa nite fort")
+
+        # loads in the objects and draws the level menu
+        self.drawBackground("sprites/placeholder/level1background.png")
+
+        self.__menuButton = self.drawButton("sprites/placeholder/menu.png", 0, 0)
+        self.__winLabel = self.drawButton("sprites/placeholder/YouWin.png", 250, 0) 
+
+
+    def winMenuLoop(self):
+        """
+        Loop used for the menu if you win the game
+        """
+        self.drawWinMenu()
+        self.__keyInput.getInput()
+        self.__mousePosition = pygame.mouse.get_pos()
+
+        if self.__keyInput.keymouseleft and self.__menuButton.collidepoint(self.__mousePosition):
+            self.__keyInput.keymouseleft = False
+            return "mainmenu"
+        
+        pygame.display.flip()
+        
+        return "winmenu"
+
+
         
 # ===================== game menu ===================== #
 
@@ -309,6 +341,10 @@ class Menu():
             self.__tiles_path)
         
         self.__mainLoop.running(self.__screen)
+        
+        if self.__mainLoop.getWin():
+            return "winmenu"
+
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance
     
 # ===================== pause menu ===================== #

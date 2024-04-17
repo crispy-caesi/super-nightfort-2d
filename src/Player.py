@@ -45,6 +45,8 @@ class Player(pygame.sprite.Sprite):
         #music bzw. sounds
         self.__mcc = MusicController()
         self.__mcc.initJumpSound("sprites/placeholder/soundsAndMusic/Jump.wav")
+
+        self.__win = False
         
 
     @property    
@@ -213,7 +215,7 @@ class Player(pygame.sprite.Sprite):
 
         print(__tileMap.rect.x)
 
-        if __tileMap.rect.x <= -430:
+        if __tileMap.rect.x <= -4300:
             self.win()
 
 
@@ -284,8 +286,10 @@ class Player(pygame.sprite.Sprite):
     
     def win(self):
         print("Win")
-        self.dead()
+        self.__win = True
 
+    def getWin(self):
+        return self.__win
 
 # ===================== Animation ===================== #
 
