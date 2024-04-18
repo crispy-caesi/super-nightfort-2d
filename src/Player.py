@@ -213,8 +213,6 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
-        print(__tileMap.rect.x)
-
         if __tileMap.rect.x <= -4300:
             self.win()
 
