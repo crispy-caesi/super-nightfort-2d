@@ -6,7 +6,7 @@ from Player import Player
 from Input import KeyInput
 from PIL import Image, ImageSequence
 
-from Audio import GameMusicController, GameSounds
+from Audio import GameMusicController
 
 # ===================== Main ===================== #
 
