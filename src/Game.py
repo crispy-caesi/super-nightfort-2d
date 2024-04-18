@@ -6,8 +6,7 @@ from Player import Player
 from Input import KeyInput
 from PIL import Image, ImageSequence
 
-from MusicController import MusicController
-
+from Audio import GameMusicController
 
 # ===================== Main ===================== #
 
@@ -46,9 +45,8 @@ class Game():
         """
         
         __running = True
-        __mcc = MusicController()
-        __mcc.initInGameBackgroundMusic("sprites/placeholder/soundsAndMusic/inGameBackgroundMusic.wav")
-        __mcc.playInGameBackgroundMusic()
+        __musicController = GameMusicController("sprites/placeholder/soundsAndMusic/inGameBackgroundMusic.wav")
+        __musicController.play()
 
 
         while __running:
@@ -69,8 +67,7 @@ class Game():
 
         self.resetHurtmap()
         # after the loop is done, return to main menu
-        __mcc.stopInGameBackgroundMusic()
-
+        __musicController.stop()
     def getWin(self):
         return self.__win
 

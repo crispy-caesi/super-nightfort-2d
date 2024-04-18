@@ -1,7 +1,7 @@
 # ===================== import ===================== #
 
 import pygame 
-from MusicController import MusicController
+from Audio import GameSounds 
 import threading
 # ===================== Player ===================== #
 
@@ -43,9 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.__isDead = False
 
         #music bzw. sounds
-        self.__mcc = MusicController()
-        self.__mcc.initJumpSound("sprites/placeholder/soundsAndMusic/Jump.wav")
-
+        self.__soundController = GameSounds("sprites/placeholder/soundsAndMusic/Jump.wav")
         self.__win = False
         
 
@@ -140,7 +138,7 @@ class Player(pygame.sprite.Sprite):
         """
         #jump sound
         if __keyInput.keyspacePressed and self.__isOnGround:#play jump sound
-            self.__mcc.playJumpSound()
+            self.__soundController.playJumpSound()
             __keyInput.keyspacePressed = False
 
         # jump
