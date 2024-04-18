@@ -33,6 +33,9 @@ def main():
 
         elif __currentloop == "charactermenu":
             __currentloop = __menuloop.characterMenuLoop()
+        
+        elif __currentloop == "winmenu":
+            __currentloop = __menuloop.winMenuLoop()
 
         elif __currentloop == "quit":
             pygame.quit()

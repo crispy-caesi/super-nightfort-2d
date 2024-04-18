@@ -127,6 +127,7 @@ class Menu():
         self.__level_2_Rect = self.drawButton("sprites/icons/level_icons/level2.png", 250, 250)
         self.__level_3_Rect = self.drawButton("sprites/icons/level_icons/level3.png", 250, 0)
         self.__level_4_Rect = self.drawButton("sprites/icons/level_icons/level4.png", 250, -250)
+        self.__level_5_Rect = self.drawButton("sprites/icons/level_icons/level5.png", 250, -500)
 
         pygame.display.flip()
 
@@ -147,7 +148,7 @@ class Menu():
             return "mainmenu"
 
         if self.__keyInput.keymouseleft and self.__level_1_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/blocks/csv/level1.csv"
+            self.__currentLevel = "sprites/blocks/csv/level1_grassland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
@@ -155,33 +156,53 @@ class Menu():
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_2_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevel = "sprites/blocks/csv/level2_desert.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/desert")
+            print(self.__tiles_path)
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_3_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevel = "sprites/blocks/csv/level3_grassland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/grassland_2")
+            print(self.__tiles_path)
             return "charactermenu"
         
         if self.__keyInput.keymouseleft and self.__level_4_Rect.collidepoint(self.__mousePosition):
-            self.__currentLevel = "sprites/placeholder/level2.csv"
+            self.__currentLevel = "sprites/blocks/csv/level4_snowland.csv"
             self.__currentLevelBackground = "sprites/placeholder/level1background.png"
             self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/snowland")
+            print(self.__tiles_path)
+            return "charactermenu"
+        
+        if self.__keyInput.keymouseleft and self.__level_5_Rect.collidepoint(self.__mousePosition):
+            self.__currentLevel = "sprites/blocks/csv/level5_test.csv"
+            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__keyInput.keymouseleft = False
+            self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
+            print(self.__tiles_path)
             return "charactermenu"
         
         # no input --> reinitialises own loop
         self.__clock.tick(30)
         return "levelmenu"
     
+
     def get_file_names(self, directory):
         file_names = []
-        for filename in os.listdir(directory):
+        files = os.listdir(directory)
+        # Sortiere die Dateinamen alphabetisch
+        files.sort(key=lambda x: int(x.split('sprite_')[1].split('.')[0]))
+        for filename in files:
             if os.path.isfile(os.path.join(directory, filename)):
-                file_names.append(directory+"/"+filename)
+                file_names.append(os.path.join(directory, filename))
         return file_names
+
+
     
 # ===================== character menu ===================== #
     
@@ -269,6 +290,38 @@ class Menu():
         # no input --> reinitialises own loop
         self.__clock.tick(30)
         return "charactermenu"
+
+# ===================== win menu ===================== #
+    def drawWinMenu(self):
+        """
+        draws the win menu or show it on the screen
+        """
+        pygame.display.set_caption("you won supa nite fort")
+
+        # loads in the objects and draws the level menu
+        self.drawBackground("sprites/placeholder/level1background.png")
+
+        self.__menuButton = self.drawButton("sprites/placeholder/menu.png", 0, 0)
+        self.__winLabel = self.drawButton("sprites/placeholder/YouWin.png", 250, 0) 
+
+
+    def winMenuLoop(self):
+        """
+        Loop used for the menu if you win the game
+        """
+        self.drawWinMenu()
+        self.__keyInput.getInput()
+        self.__mousePosition = pygame.mouse.get_pos()
+
+        if self.__keyInput.keymouseleft and self.__menuButton.collidepoint(self.__mousePosition):
+            self.__keyInput.keymouseleft = False
+            return "mainmenu"
+        
+        pygame.display.flip()
+        
+        return "winmenu"
+
+
         
 # ===================== game menu ===================== #
 
@@ -288,6 +341,10 @@ class Menu():
             self.__tiles_path)
         
         self.__mainLoop.running(self.__screen)
+        
+        if self.__mainLoop.getWin():
+            return "winmenu"
+
         return "mainmenu" #TODO replace mainmenu with pausemenu in this instance
     
 # ===================== pause menu ===================== #

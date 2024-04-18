@@ -2,6 +2,7 @@
 
 import pygame 
 from MusicController import MusicController
+import threading
 # ===================== Player ===================== #
 
 class Player(pygame.sprite.Sprite):
@@ -44,6 +45,9 @@ class Player(pygame.sprite.Sprite):
         #music bzw. sounds
         self.__mcc = MusicController()
         self.__mcc.initJumpSound("sprites/placeholder/soundsAndMusic/Jump.wav")
+
+        self.__win = False
+        
 
     @property    
     def horizontalCollisionBox(self):
@@ -209,7 +213,11 @@ class Player(pygame.sprite.Sprite):
         if self.__hurtMap is None:
             self.__hurtMap = __hurtMapRect
 
-        if __tileMap.rect.y <= -50:
+        if __tileMap.rect.x <= -4300:
+            self.win()
+
+
+        if __tileMap.rect.y <= -100:
             # Since the player isn't moving visibly, but rather the tilemap is, 
             # the Rect position of the tilemap is simply checked against its position. 
             # Then, when the position, in this case -100, is reached, the player is considered dead.
@@ -222,8 +230,17 @@ class Player(pygame.sprite.Sprite):
 
             self.__death_animation_index += 1
 
-        self.horizontalMovement(__keyInput, __tileMap)
-        self.verticalMovement(__keyInput, __tileMap)
+        #self.horizontalMovement(__keyInput, __tileMap)
+        #self.verticalMovement(__keyInput, __tileMap)
+        threadHorizontalMovement = threading.Thread(target=self.horizontalMovement,args=(__keyInput, __tileMap))
+        threadVerticalMovement = threading.Thread(target=self.verticalMovement, args=(__keyInput, __tileMap))
+
+        threadHorizontalMovement.start()
+        threadVerticalMovement.start()
+
+        threadHorizontalMovement.join()
+        threadVerticalMovement.join()
+
         self.collisionBoxUpdate()
 
 
@@ -264,7 +281,13 @@ class Player(pygame.sprite.Sprite):
         
         if self.__health < 1:
             self.dead()
+    
+    def win(self):
+        print("Win")
+        self.__win = True
 
+    def getWin(self):
+        return self.__win
 
 # ===================== Animation ===================== #
 
