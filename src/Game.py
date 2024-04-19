@@ -15,16 +15,16 @@ class Game():
     Class that fuses all of the subparts together for the game to be playable.
     """
 
-    def __init__(self, __screenResolution, __currentLevel, __background, __currentCharacterSkin, __death_path, __jump_path, __tiles_path:list):
+    def __init__(self, __screenResolution :pygame.math.Vector2, __currentLevel :str, __backgroundImagePath :str, __currentCharacterSkinPath :str, __deathImagePath :str, __jumpImagePath :str, __tilesPath:list):
         pygame.mixer.pre_init(44100,16,3,4096)
         pygame.init()
         self.__screenResolution = __screenResolution
-        self.__tileMap = TileMap(__currentLevel,__tiles_path)
+        self.__tileMap = TileMap(__currentLevel,__tilesPath)
         self.__hurtMap = self.__tileMap.getHurtMap()
         
-        images = self.loadGIF(__currentCharacterSkin)
-        deathImages=self.loadGIF(__death_path)
-        jumpImgages = self.loadGIF(__jump_path)
+        images = self.loadGIF(__currentCharacterSkinPath)
+        deathImages=self.loadGIF(__deathImagePath)
+        jumpImgages = self.loadGIF(__jumpImagePath)
         self.__player = Player(images=images, deathImages= deathImages, jumpImages= jumpImgages)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
@@ -32,14 +32,14 @@ class Game():
         self.__allSprites.add(self.__player)
         self.__allSprites.add(self.__player.verticalCollisionBox)
         self.__allSprites.add(self.__player.horizontalCollisionBox)
-        self.__background = pygame.image.load(__background).convert()
+        self.__background = pygame.image.load(__backgroundImagePath).convert()
         self.__background = pygame.transform.scale(self.__background,(self.__screenResolution))
         self.__keyInput = KeyInput()
         self.__clock = pygame.time.Clock()
 
         self.__win = False
 
-    def running(self, __screen):
+    def running(self, __screen: pygame.surface.Surface):
         """
         Method to run the game.
         """
@@ -99,7 +99,7 @@ class Game():
         #TODO UI score
         pygame.display.flip()
 
-    def loadGIF(self,filename):
+    def loadGIF(self,filename :str):
         """
         Extracting the individual frames from the GIF and storing them in a list
         """
@@ -114,7 +114,7 @@ class Game():
 
 # ============== game loop ============== #
 
-    def frameUpdate(self, __input, __screen):
+    def frameUpdate(self, __input :KeyInput, __screen :pygame.surface.Surface):
         """
         Method that lets the game update.
         """

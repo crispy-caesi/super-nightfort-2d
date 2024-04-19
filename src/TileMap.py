@@ -10,9 +10,9 @@ class Tile(pygame.sprite.Sprite):
     Class to create a single tile.
     """
 
-    def __init__(self, __image, __x, __y):
+    def __init__(self, imagePath :str, __x :int, __y :int):
         pygame.sprite.Sprite.__init__(self)
-        self.pre_image = pygame.image.load(__image).convert_alpha()
+        self.pre_image = pygame.image.load(imagePath).convert_alpha()
         self.image = pygame.transform.scale(self.pre_image, (self.pre_image.get_width() // 2, self.pre_image.get_height() // 2))
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = __x, __y
@@ -96,7 +96,7 @@ class Combined(pygame.sprite.Sprite):
     Class to combine different sprites.
     """
 
-    def __init__(self, __spriteList):
+    def __init__(self, __spriteList :list):
         super().__init__()
         # Combine the rects of the separate sprites.
         self.rect = __spriteList[0].rect.copy()
