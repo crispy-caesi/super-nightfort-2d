@@ -25,30 +25,30 @@ class Menu():
         self.__currentLevelBackground = None
         self.__currentCharacterSkin = None
 
-    def drawButton(self, __buttonImagePath :str, __buttonOffsetX :int, __buttonOffsetY :int):
+    def drawButton(self, buttonImagePath :str, buttonOffsetX :int, buttonOffsetY :int):
         """
         Function that uses a path and offset of the button to create the position and image on the screen.
         Returns the rect value of the button coordinates.
         """
 
         # uses the given path to load the image
-        button = pygame.image.load(__buttonImagePath) 
+        button = pygame.image.load(buttonImagePath) 
 
         # creates an area _buttonrect with the coordinates we want the button to be in
-        self.__buttonRect = button.get_rect()
-        self.__leftBorder = self.__screenResolution.x // 2 - self.__buttonRect.width // 2 - __buttonOffsetY
-        self.__topBorder = self.__screenResolution.y // 2 - self.__buttonRect.height // 2 - __buttonOffsetX
-        self.__buttonRect = pygame.Rect(
-            self.__leftBorder,
-            self.__topBorder,
-            self.__buttonRect.width,
-            self.__buttonRect.height)
+        buttonRect = button.get_rect()
+        leftBorder = self.__screenResolution.x // 2 - buttonRect.width // 2 - buttonOffsetY
+        topBorder = self.__screenResolution.y // 2 - buttonRect.height // 2 - buttonOffsetX
+        buttonRect = pygame.Rect(
+            leftBorder,
+            topBorder,
+            buttonRect.width,
+            buttonRect.height)
 
         # draws the image of the button onto the screen
-        self.__screen.blit(button, (self.__leftBorder, self.__topBorder))
+        self.__screen.blit(button, (leftBorder, topBorder))
 
         # returns the coordinates of the rect to test for interactions
-        return self.__buttonRect
+        return buttonRect
     
     def drawBackground(self, __backgroundImagePath :str):
         """
