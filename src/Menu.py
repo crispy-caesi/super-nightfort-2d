@@ -25,7 +25,7 @@ class Menu():
         self.__currentLevelBackground = None
         self.__currentCharacterSkin = None
 
-    def drawButton(self, __buttonImagePath, __buttonOffsetX, __buttonOffsetY):
+    def drawButton(self, __buttonImagePath :str, __buttonOffsetX :int, __buttonOffsetY :int):
         """
         Function that uses a path and offset of the button to create the position and image on the screen.
         Returns the rect value of the button coordinates.
@@ -50,7 +50,7 @@ class Menu():
         # returns the coordinates of the rect to test for interactions
         return self.__buttonRect
     
-    def drawBackground(self, __backgroundImagePath):
+    def drawBackground(self, __backgroundImagePath :str):
         """
         Method to blit a background image onto the screen with a given path.
         """
@@ -60,7 +60,7 @@ class Menu():
         __background = pygame.transform.scale(__background,(self.__screenResolution))
         self.__screen.blit(__background, (0, 0))
 
-    def mergeImage(self, __imageTopPath, __imageBottomPath, __newImageName):
+    def mergeImage(self, __imageTopPath :str, __imageBottomPath :str, __newImageName :str):
         """
         Method to merge two images to create a single image
         """
@@ -192,7 +192,7 @@ class Menu():
         return "levelmenu"
     
 
-    def get_file_names(self, directory):
+    def get_file_names(self, directory :str):
         file_names = []
         files = os.listdir(directory)
         # Sortiere die Dateinamen alphabetisch
