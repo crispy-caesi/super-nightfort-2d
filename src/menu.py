@@ -113,7 +113,7 @@ class MainMenu(Menu):
         pygame.display.flip()
 
 
-    def loop(self)-> bool:
+    def loop(self)-> str:
         """
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
@@ -168,7 +168,7 @@ class LevelMenu(Menu):
 
         pygame.display.flip()
 
-    def loop(self)->bool:
+    def loop(self)->str:
         """
         Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
@@ -280,7 +280,7 @@ class CharacterMenu(Menu):
         self.__buttonPoRect = self.drawButton("sprites/characters/poo/buttonImage.gif", 250, -500)
         pygame.display.flip()
         
-    def loop(self)->bool:
+    def loop(self)->str:
             """
             Loop used for the character menu. Returns "gameloop" or "levelmenu" on specific input, otherwise returns "charactermenu".
             """
@@ -368,7 +368,7 @@ class WinMenu(Menu):
         self.__menuButton = self.drawButton("sprites/placeholder/menu.png", 0, 0)
         self.drawButton("sprites/placeholder/YouWin.png", 250, 0)
 
-    def loop(self):
+    def loop(self)->str:
         """
         Loop used for the menu if you win the game
         """
