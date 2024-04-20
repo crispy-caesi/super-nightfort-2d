@@ -345,6 +345,7 @@ class WinMenu(Menu):
         """
         Loop used for the menu if you win the game
         """
+        self.drawWinMenu()
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
 
