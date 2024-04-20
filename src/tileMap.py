@@ -67,8 +67,8 @@ class TileMap(pygame.sprite.Sprite):
                    tile = Tile(tile_paths[10], row * 16, column * 16 )
                    self.__tiles.append(tile)
 
-        __combined = Combined(self.__tiles)
-        self.image = __combined.image
+        combined = Combined(self.__tiles)
+        self.image = combined.image
         self.rect = self.image.get_rect()
         
     def getHurtMap(self):
@@ -99,14 +99,18 @@ class Combined(pygame.sprite.Sprite):
     def __init__(self, __spriteList :list):
         super().__init__()
         # Combine the rects of the separate sprites.
-        self.rect = __spriteList[0].rect.copy()
+        rect = __spriteList[0].rect.copy()
         for __sprite in __spriteList[1:]:
-            self.rect.union_ip(__sprite.rect)
+            rect.union_ip(__sprite.rect)
 
         # Create a new transparent image with the combined size.
-        self.image = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+        self.__image = pygame.Surface(rect.size, pygame.SRCALPHA)
 
         # Now blit all sprites onto the new surface.
         for __sprite in __spriteList:
-            self.image.blit(__sprite.image, (__sprite.rect.x-self.rect.left,
-                                           __sprite.rect.y-self.rect.top))
+            self.__image.blit(__sprite.image, (__sprite.rect.x-rect.left,
+                                           __sprite.rect.y-rect.top))
+
+    @property
+    def image(self)->pygame.surface.Surface:
+        return self.__image
