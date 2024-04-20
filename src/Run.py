@@ -1,9 +1,8 @@
 # ===================== import ===================== #
 
 import pygame
-import Menu
+from Menu import *
 import sys
-from NewMenu import *
 
 # ===================== main ===================== #
 
@@ -11,7 +10,7 @@ class SupaNiteFort():
     def __init__(self) -> None:
         print("Start Supa Nite Fort")
 
-    def run(self):
+    def run(self) -> None:
         """
         Method to run the application.
         """
