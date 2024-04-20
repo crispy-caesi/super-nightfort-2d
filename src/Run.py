@@ -1,50 +1,70 @@
 # ===================== import ===================== #
 
 import pygame
-import Menu
+from Menu import *
 import sys
 
 # ===================== main ===================== #
 
-def main():
-    """
-    Method to run the application.
-    """
-    
-    __clock = pygame.time.Clock()
-    __menuloop = Menu.Menu()
+class SupaNiteFort():
+    def __init__(self) -> None:
+        print("Start Supa Nite Fort")
 
-    # loop preset
-    __currentloop = "mainmenu"
-
-    while True:
-
-        if __currentloop == "mainmenu":
-            __currentloop = __menuloop.mainMenuLoop()
-
-        elif __currentloop == "levelmenu":
-            __currentloop = __menuloop.levelMenuLoop()
+    def run(self) -> None:
+        """
+        Method to run the application.
+        """
         
-        elif __currentloop == "charactermenu":
-            __currentloop = __menuloop.characterMenuLoop()
+        clock = pygame.time.Clock()
+        mainMenu = MainMenu(clock)
+        levelMenu = LevelMenu(clock)
+        characterMenu = CharacterMenu(clock)
+        winMenu = WinMenu()
 
-        elif __currentloop == "gameloop":
-            __currentloop = __menuloop.gameLoop()
 
-        elif __currentloop == "charactermenu":
-            __currentloop = __menuloop.characterMenuLoop()
-        
-        elif __currentloop == "winmenu":
-            __currentloop = __menuloop.winMenuLoop()
+        # loop preset
+        currentloop = "mainmenu"
 
-        elif __currentloop == "quit":
-            pygame.quit()
-            sys.exit()
+        while True:
+
+            if currentloop == "mainmenu":
+                mainMenu.draw()
+                currentloop = mainMenu.loop()
+
+            elif currentloop == "levelmenu":
+                levelMenu.draw()
+                currentloop = levelMenu.loop()
             
-        __clock.tick(30)
+            elif currentloop == "charactermenu":
+                characterMenu.draw()
+                currentloop = characterMenu.loop()
+
+            elif currentloop == "gameloop":
+                gameLoop = GameLoop(
+                    screenResolution=levelMenu.getScreenResoltution(),
+                    currentLevel=levelMenu.getCurrentLevel(),
+                    currentLevelBackground=levelMenu.getCurrentLevelBackground(),
+                    currentCharacterSkin=characterMenu.getCurrentCharacterSkin(),
+                    death_path=characterMenu.getDeathPath(),
+                    jump_path=characterMenu.getJumpPath(),
+                    tiles_path=levelMenu.getTilesPath(),
+                    screen=levelMenu.getScreen()
+                )
+                currentloop = gameLoop.gameLoop()
+            
+            elif currentloop == "winmenu":
+                winMenu.draw()
+                currentloop = winMenu.loop()
+
+            elif currentloop == "quit":
+                pygame.quit()
+                sys.exit()
+                
+            clock.tick(30)
 
 # ===================== run ===================== #
         
 # run the application
 if __name__ == "__main__":
-    main()
+    supaNiteFort = SupaNiteFort()
+    supaNiteFort.run()
