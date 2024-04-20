@@ -266,26 +266,8 @@ class Player(pygame.sprite.Sprite):
     def getIsDead(self)->bool:
         return self.__isDead
 
-    def environmentalHurtCheck(self):
-        for damagingObjects in self.__hurtMap:
-            if self.rect.colliderect(damagingObjects):
-                self.__isHurt = True
-                
-        if self.__isHurt:
-            self.dead()
-    
-    def enemyHurtCheck(self):
-        for enemy in self.__enemies:
-            if self.rect.colliderect(enemy):
-                self.__health -= 1
-                # ui health reduction
-                # enemy removal
-        
-        if self.__health < 1:
-            self.dead()
     
     def win(self):
-        print("Win")
         self.__win = True
 
     def getWin(self):
