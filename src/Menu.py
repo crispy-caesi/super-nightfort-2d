@@ -87,13 +87,19 @@ class Menu():
 
 
 class MainMenu(Menu):
+    """
+    Draws and handles interactions of main menu
+    """
     def __init__(self, clock:pygame.time.Clock):
         super().__init__()
         self.__keyInput = KeyInput()
         self.__clock = clock
 
     
-    def drawMainMenu(self) -> None:        
+    def drawMainMenu(self) -> None:
+        """
+        Draws all the buttons and loads the background image
+        """
         pygame.display.set_caption("super main menu")
         # loads in the objects and draws the main menu
         self.drawBackground("sprites/placeholder/mainmenu.png")
@@ -134,6 +140,9 @@ class MainMenu(Menu):
 
 
 class LevelMenu(Menu):
+    """
+    Draws and handles interactions of level menu
+    """
     def __init__(self,clock:pygame.time.Clock):
         super().__init__()
         self.__keyInput = KeyInput()
@@ -142,6 +151,9 @@ class LevelMenu(Menu):
 
     
     def drawLevelMenu(self)-> None:
+        """
+        Draws all the buttons and loads the background image
+        """
         pygame.display.set_caption("super level menu")
         # loads in the objects and draws the level menu
         self.drawBackground("sprites/placeholder/levelmenu.png")
@@ -224,6 +236,9 @@ class LevelMenu(Menu):
         return self.__currentLevelBackground
     
 class CharacterMenu(Menu):
+    """
+    Draws and handles interactions of character menu
+    """
     def __init__(self, clock:pygame.time.Clock):
         """
         Method to fully initate the creation of the character menu.
@@ -234,6 +249,9 @@ class CharacterMenu(Menu):
 
 
     def drawCharacterMenu(self)-> None:
+        """
+        Draws all the buttons and loads the background image
+        """
         pygame.display.set_caption("super character menu")
 
         # loads in the objects and draws the level menu
@@ -325,6 +343,9 @@ class CharacterMenu(Menu):
         return self.__death_path
 
 class WinMenu(Menu):
+    """
+    Draws and handles interactions of main menu
+    """
     def __init__(self):
         """
         draws the win menu or show it on the screen
@@ -333,6 +354,9 @@ class WinMenu(Menu):
         self.__keyInput = KeyInput()
     
     def drawWinMenu(self)-> None:
+        """
+        Draws buttons and background image of WinMenu
+        """
         pygame.display.set_caption("you won supa nite fort")
 
         # loads in the objects and draws the level menu
@@ -359,6 +383,9 @@ class WinMenu(Menu):
     
 
 class GameLoop():
+    """
+    Class giving all attributes to the game, and handling the game loop
+    """
     def __init__(self, screenResolution:pygame.math.Vector2, currentLevel:str, currentLevelBackground:str, currentCharacterSkin:str, death_path:str, jump_path:str, tiles_path:list, screen:pygame.surface.Surface) -> None:
         self.__screenResolution = screenResolution
         self.__currentLevel = currentLevel
