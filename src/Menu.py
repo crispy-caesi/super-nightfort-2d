@@ -114,9 +114,6 @@ class MainMenu(Menu):
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
 
-        # frame and input update
-        self.draw()
-
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
 
@@ -171,7 +168,6 @@ class LevelMenu(Menu):
         """
         Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
-        self.draw()
         # frame and input update
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
@@ -284,7 +280,6 @@ class CharacterMenu(Menu):
             """
 
             # frame and input 
-            self.draw()
 
             self.__keyInput.getInput()
             mousePosition = pygame.mouse.get_pos()
@@ -369,7 +364,6 @@ class WinMenu(Menu):
         """
         Loop used for the menu if you win the game
         """
-        self.draw()
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
 

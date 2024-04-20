@@ -28,12 +28,15 @@ class SupaNiteFort():
         while True:
 
             if currentloop == "mainmenu":
+                mainMenu.draw()
                 currentloop = mainMenu.loop()
 
             elif currentloop == "levelmenu":
+                levelMenu.draw()
                 currentloop = levelMenu.loop()
             
             elif currentloop == "charactermenu":
+                characterMenu.draw()
                 currentloop = characterMenu.loop()
 
             elif currentloop == "gameloop":
@@ -50,7 +53,8 @@ class SupaNiteFort():
                 currentloop = gameLoop.gameLoop()
             
             elif currentloop == "winmenu":
-                currentloop = winMenu.winMenuLoop()
+                winMenu.draw()
+                currentloop = winMenu.loop()
 
             elif currentloop == "quit":
                 pygame.quit()
