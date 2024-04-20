@@ -2,8 +2,8 @@
 
 import pygame
 from PIL import Image
-from Game import Game
-from Input import KeyInput
+from game import Game
+from inputs import KeyInput
 import os
 
 # ======================= menu template ======================= #

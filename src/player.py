@@ -1,11 +1,12 @@
 # ===================== import ===================== #
 
 import pygame 
-from Audio import GameSounds 
+from audio import GameSounds 
 import threading
 
-from Input import KeyInput
-from TileMap import TileMap
+from inputs import KeyInput
+from tileMap import TileMap
+
 # ===================== Player ===================== #
 
 class Player(pygame.sprite.Sprite):
@@ -46,7 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.__isDead = False
 
         #music bzw. sounds
-        self.__soundController = GameSounds("sprites/placeholder/soundsAndMusic/Jump.wav")
+        self.__soundController = GameSounds("sprites/soundsAndMusic/Jump.wav")
         self.__win = False
         
 

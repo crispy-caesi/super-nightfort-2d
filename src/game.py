@@ -1,12 +1,12 @@
 # ===================== import ===================== #
 
 import pygame
-from TileMap import TileMap
-from Player import Player
-from Input import KeyInput
+from tileMap import TileMap
+from player import Player
+from inputs import KeyInput
 from PIL import Image, ImageSequence
 
-from Audio import GameMusicController
+from audio import GameMusicController
 
 # ===================== Main ===================== #
 
@@ -45,7 +45,7 @@ class Game():
         """
         
         __running = True
-        __musicController = GameMusicController("sprites/placeholder/soundsAndMusic/inGameBackgroundMusic.wav")
+        __musicController = GameMusicController("sprites/soundsAndMusic/inGameBackgroundMusic.wav")
         __musicController.play()
 
 
