@@ -17,6 +17,11 @@ class SupaNiteFort():
         """
         
         clock = pygame.time.Clock()
+        mainMenu = MainMenu(clock)
+        levelMenu = LevelMenu(clock)
+        characterMenu = CharacterMenu(clock)
+        winMenu = WinMenu()
+
 
         # loop preset
         currentloop = "mainmenu"
@@ -24,32 +29,28 @@ class SupaNiteFort():
         while True:
 
             if currentloop == "mainmenu":
-                self.__mainMenu = MainMenu(clock)
-                currentloop = self.__mainMenu.mainMenuLoop()
+                currentloop = mainMenu.mainMenuLoop()
 
             elif currentloop == "levelmenu":
-                self.__levelMenu = LevelMenu(clock)
-                currentloop = self.__levelMenu.levelMenuLoop()
+                currentloop = levelMenu.levelMenuLoop()
             
             elif currentloop == "charactermenu":
-                self.__characterMenu = CharacterMenu(clock)
-                currentloop = self.__characterMenu.characterMenuLoop()
+                currentloop = characterMenu.characterMenuLoop()
 
             elif currentloop == "gameloop":
                 gameLoop = GameLoop(
-                    screenResolution=self.__levelMenu.getScreenResoltution(),
-                    currentLevel=self.__levelMenu.getCurrentLevel(),
-                    currentLevelBackground=self.__levelMenu.getCurrentLevelBackground(),
-                    currentCharacterSkin=self.__characterMenu.getCurrentCharacterSkin(),
-                    death_path=self.__characterMenu.getDeathPath(),
-                    jump_path=self.__characterMenu.getJumpPath(),
-                    tiles_path=self.__levelMenu.getTilesPath(),
-                    screen=self.__levelMenu.getScreen()
+                    screenResolution=levelMenu.getScreenResoltution(),
+                    currentLevel=levelMenu.getCurrentLevel(),
+                    currentLevelBackground=levelMenu.getCurrentLevelBackground(),
+                    currentCharacterSkin=characterMenu.getCurrentCharacterSkin(),
+                    death_path=characterMenu.getDeathPath(),
+                    jump_path=characterMenu.getJumpPath(),
+                    tiles_path=levelMenu.getTilesPath(),
+                    screen=levelMenu.getScreen()
                 )
                 currentloop = gameLoop.gameLoop()
             
             elif currentloop == "winmenu":
-                winMenu = WinMenu()
                 currentloop = winMenu.winMenuLoop()
 
             elif currentloop == "quit":

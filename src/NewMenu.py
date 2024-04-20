@@ -89,22 +89,28 @@ class Menu():
 class MainMenu(Menu):
     def __init__(self, clock):
         super().__init__()
-        pygame.display.set_caption("super main menu")
         self.__keyInput = KeyInput()
         self.__clock = clock
+
+    
+    def drawMainMenu(self):        
+        pygame.display.set_caption("super main menu")
         # loads in the objects and draws the main menu
         self.drawBackground("sprites/placeholder/mainmenu.png")
         self.__buttonPlayRect = self.drawButton("sprites/placeholder/buttonplay.png", 150, 0)
         self.__buttonQuitRect = self.drawButton("sprites/placeholder/buttonquit.png", -150, 0)
 
         pygame.display.flip()
-    
+
+
     def mainMenuLoop(self)-> bool:
         """
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
 
         # frame and input update
+        self.drawMainMenu()
+
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
 
@@ -130,10 +136,13 @@ class MainMenu(Menu):
 class LevelMenu(Menu):
     def __init__(self, clock):
         super().__init__()
-        pygame.display.set_caption("super level menu")
         self.__keyInput = KeyInput()
         self.__clock = clock
 
+
+    
+    def drawLevelMenu(self):
+        pygame.display.set_caption("super level menu")
         # loads in the objects and draws the level menu
         self.drawBackground("sprites/placeholder/levelmenu.png")
         self.__level_1_Rect = self.drawButton("sprites/icons/level_icons/level1.png", 250, 500)
@@ -145,12 +154,12 @@ class LevelMenu(Menu):
         self.__tiles_path = []
 
         pygame.display.flip()
-    
+
     def levelMenuLoop(self)->bool:
         """
         Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
-
+        self.drawLevelMenu()
         # frame and input update
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
@@ -220,10 +229,13 @@ class CharacterMenu(Menu):
         Method to fully initate the creation of the character menu.
         """
         super().__init__()
-
-        pygame.display.set_caption("super character menu")
         self.__keyInput = KeyInput()
         self.__clock = clock
+
+
+    def drawCharacterMenu(self):
+        pygame.display.set_caption("super character menu")
+
         # loads in the objects and draws the level menu
         self.drawBackground("sprites/placeholder/mainmenu.png") # replace with new sprite
 
@@ -247,14 +259,15 @@ class CharacterMenu(Menu):
         self.mergeImage("sprites/characters/poo/po.gif","sprites/icons/character_background.gif","sprites/characters/poo/buttonImage.gif")
         self.__buttonPoRect = self.drawButton("sprites/characters/poo/buttonImage.gif", 250, -500)
         pygame.display.flip()
-
         
     def characterMenuLoop(self)->bool:
             """
             Loop used for the character menu. Returns "gameloop" or "levelmenu" on specific input, otherwise returns "charactermenu".
             """
 
-            # frame and input update
+            # frame and input 
+            self.drawCharacterMenu()
+
             self.__keyInput.getInput()
             mousePosition = pygame.mouse.get_pos()
 
@@ -318,13 +331,15 @@ class WinMenu(Menu):
         """
         super().__init__()
         self.__keyInput = KeyInput()
+    
+    def drawWinMenu(self):
         pygame.display.set_caption("you won supa nite fort")
 
         # loads in the objects and draws the level menu
         self.drawBackground("sprites/placeholder/level1background.png")
 
         self.__menuButton = self.drawButton("sprites/placeholder/menu.png", 0, 0)
-        self.__winLabel = self.drawButton("sprites/placeholder/YouWin.png", 250, 0)
+        self.drawButton("sprites/placeholder/YouWin.png", 250, 0)
 
     def winMenuLoop(self):
         """
