@@ -6,7 +6,7 @@ from player import Player
 from inputs import KeyInput
 from PIL import Image, ImageSequence
 
-from audio import GameMusicController
+from audio import MusicController
 
 # ===================== Main ===================== #
 
@@ -45,7 +45,7 @@ class Game():
         """
         
         __running = True
-        __musicController = GameMusicController("sprites/soundsAndMusic/inGameBackgroundMusic.wav")
+        __musicController = MusicController("sprites/soundsAndMusic/inGameBackgroundMusic.wav")
         __musicController.play()
 
 
