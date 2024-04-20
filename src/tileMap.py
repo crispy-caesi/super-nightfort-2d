@@ -10,12 +10,20 @@ class Tile(pygame.sprite.Sprite):
     Class to create a single tile.
     """
 
-    def __init__(self, imagePath :str, __x :int, __y :int):
+    def __init__(self, imagePath :str, x :int, y :int):
         pygame.sprite.Sprite.__init__(self)
-        self.pre_image = pygame.image.load(imagePath).convert_alpha()
-        self.image = pygame.transform.scale(self.pre_image, (self.pre_image.get_width() // 2, self.pre_image.get_height() // 2))
-        self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = __x, __y
+        pre_image = pygame.image.load(imagePath).convert_alpha()
+        self.__image = pygame.transform.scale(pre_image, (pre_image.get_width() // 2, pre_image.get_height() // 2))
+        self.__rect = self.__image.get_rect()
+        self.__rect.x, self.__rect.y = x, y
+
+    @property
+    def image(self)->pygame.surface.Surface:
+        return self.__image
+    
+    @property
+    def rect(self)->pygame.rect.Rect:
+        return self.__rect
 
 # ===================== tilemap ===================== #
         
@@ -24,11 +32,11 @@ class TileMap(pygame.sprite.Sprite):
     Class to create the tilemap with which other objects can interact.
     """
     
-    def __init__(self, __csvPath:str, tile_paths:list):
+    def __init__(self, csvPath:str, tile_paths:list):
         super().__init__()
         self.__tiles = []    
         self.__hurtMap = [] 
-        lst = self.readCSV( filePath = __csvPath)
+        lst = self.readCSV( filePath = csvPath)
         
         for column in range(len(lst)):
             for row in range(len(lst[0])):
@@ -69,7 +77,7 @@ class TileMap(pygame.sprite.Sprite):
 
         combined = Combined(self.__tiles)
         self.__image = combined.image
-        self.__rect = self.image.get_rect()
+        self.__rect = self.__image.get_rect()
 
     @property
     def image(self)->pygame.surface.Surface:
@@ -105,20 +113,20 @@ class Combined(pygame.sprite.Sprite):
     Class to combine different sprites.
     """
 
-    def __init__(self, __spriteList :list):
+    def __init__(self, spriteList :list):
         super().__init__()
         # Combine the rects of the separate sprites.
-        rect = __spriteList[0].rect.copy()
-        for __sprite in __spriteList[1:]:
-            rect.union_ip(__sprite.rect)
+        rect = spriteList[0].rect.copy()
+        for sprite in spriteList[1:]:
+            rect.union_ip(sprite.rect)
 
         # Create a new transparent image with the combined size.
         self.__image = pygame.Surface(rect.size, pygame.SRCALPHA)
 
         # Now blit all sprites onto the new surface.
-        for __sprite in __spriteList:
-            self.__image.blit(__sprite.image, (__sprite.rect.x-rect.left,
-                                           __sprite.rect.y-rect.top))
+        for sprite in spriteList:
+            self.__image.blit(sprite.image, (sprite.rect.x-rect.left,
+                                           sprite.rect.y-rect.top))
 
     @property
     def image(self)->pygame.surface.Surface:
