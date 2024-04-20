@@ -1,8 +1,12 @@
+# ======================= imports ======================= #
+
 import pygame
 from PIL import Image
 from Game import Game
 from Input import KeyInput
 import os
+
+# ======================= menu template ======================= #
 
 class Menu():
     """
@@ -84,7 +88,7 @@ class Menu():
     def clockTick(self):
         return self.__clock_tick
     
-
+# ======================= main menu ======================= #
 
 class MainMenu(Menu):
     """
@@ -134,7 +138,7 @@ class MainMenu(Menu):
         self.__clock.tick(self.clockTick)
         return "mainmenu"
 
-
+# ======================= level menu ======================= #
 
 class LevelMenu(Menu):
     """
@@ -230,7 +234,9 @@ class LevelMenu(Menu):
     
     def getCurrentLevelBackground(self)->str:
         return self.__currentLevelBackground
-    
+
+# ======================= character menu ======================= #
+
 class CharacterMenu(Menu):
     """
     Draws and handles interactions of character menu
@@ -337,6 +343,8 @@ class CharacterMenu(Menu):
     def getDeathPath(self)->str:
         return self.__death_path
 
+# ======================= win menu ======================= #
+
 class WinMenu(Menu):
     """
     Draws and handles interactions of main menu
@@ -375,6 +383,7 @@ class WinMenu(Menu):
         
         return "winmenu" 
     
+# ======================= game loop ======================= #
 
 class GameLoop():
     """
