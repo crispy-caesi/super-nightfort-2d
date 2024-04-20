@@ -20,7 +20,7 @@ class Game():
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel,__tilesPath)
-        self.__hurtMap = self.__tileMap.getHurtMap()
+        self.__hurtMap = self.__tileMap.hurtMap
         
         images = self.loadGIF(__currentCharacterSkinPath)
         deathImages=self.loadGIF(__deathImagePath)

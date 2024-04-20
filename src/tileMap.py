@@ -68,15 +68,24 @@ class TileMap(pygame.sprite.Sprite):
                    self.__tiles.append(tile)
 
         combined = Combined(self.__tiles)
-        self.image = combined.image
-        self.rect = self.image.get_rect()
-        
-    def getHurtMap(self):
+        self.__image = combined.image
+        self.__rect = self.image.get_rect()
+
+    @property
+    def image(self)->pygame.surface.Surface:
+        return self.__image
+    
+    @property
+    def rect(self)->pygame.rect.Rect:
+        return self.__rect
+
+    @property
+    def hurtMap(self):
         return self.__hurtMap
 
     def updateTilemapPosition(self):
-        self.prev_x = self.rect.x
-        self.prev_y = self.rect.y
+        self.prev_x = self.__rect.x
+        self.prev_y = self.__rect.y
 
     def readCSV(self, filePath:str)->list:
         __data = [[]]
