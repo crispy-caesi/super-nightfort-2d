@@ -96,7 +96,7 @@ class MainMenu(Menu):
         self.__clock = clock
 
     
-    def drawMainMenu(self) -> None:
+    def draw(self) -> None:
         """
         Draws all the buttons and loads the background image
         """
@@ -109,13 +109,13 @@ class MainMenu(Menu):
         pygame.display.flip()
 
 
-    def mainMenuLoop(self)-> bool:
+    def loop(self)-> bool:
         """
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
 
         # frame and input update
-        self.drawMainMenu()
+        self.draw()
 
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
@@ -150,7 +150,7 @@ class LevelMenu(Menu):
 
 
     
-    def drawLevelMenu(self)-> None:
+    def draw(self)-> None:
         """
         Draws all the buttons and loads the background image
         """
@@ -167,11 +167,11 @@ class LevelMenu(Menu):
 
         pygame.display.flip()
 
-    def levelMenuLoop(self)->bool:
+    def loop(self)->bool:
         """
         Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
-        self.drawLevelMenu()
+        self.draw()
         # frame and input update
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
@@ -248,7 +248,7 @@ class CharacterMenu(Menu):
         self.__clock = clock
 
 
-    def drawCharacterMenu(self)-> None:
+    def draw(self)-> None:
         """
         Draws all the buttons and loads the background image
         """
@@ -278,13 +278,13 @@ class CharacterMenu(Menu):
         self.__buttonPoRect = self.drawButton("sprites/characters/poo/buttonImage.gif", 250, -500)
         pygame.display.flip()
         
-    def characterMenuLoop(self)->bool:
+    def loop(self)->bool:
             """
             Loop used for the character menu. Returns "gameloop" or "levelmenu" on specific input, otherwise returns "charactermenu".
             """
 
             # frame and input 
-            self.drawCharacterMenu()
+            self.draw()
 
             self.__keyInput.getInput()
             mousePosition = pygame.mouse.get_pos()
@@ -353,7 +353,7 @@ class WinMenu(Menu):
         super().__init__()
         self.__keyInput = KeyInput()
     
-    def drawWinMenu(self)-> None:
+    def draw(self)-> None:
         """
         Draws buttons and background image of WinMenu
         """
@@ -365,11 +365,11 @@ class WinMenu(Menu):
         self.__menuButton = self.drawButton("sprites/placeholder/menu.png", 0, 0)
         self.drawButton("sprites/placeholder/YouWin.png", 250, 0)
 
-    def winMenuLoop(self):
+    def loop(self):
         """
         Loop used for the menu if you win the game
         """
-        self.drawWinMenu()
+        self.draw()
         self.__keyInput.getInput()
         mousePosition = pygame.mouse.get_pos()
 

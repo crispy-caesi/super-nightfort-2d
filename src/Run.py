@@ -28,13 +28,13 @@ class SupaNiteFort():
         while True:
 
             if currentloop == "mainmenu":
-                currentloop = mainMenu.mainMenuLoop()
+                currentloop = mainMenu.loop()
 
             elif currentloop == "levelmenu":
-                currentloop = levelMenu.levelMenuLoop()
+                currentloop = levelMenu.loop()
             
             elif currentloop == "charactermenu":
-                currentloop = characterMenu.characterMenuLoop()
+                currentloop = characterMenu.loop()
 
             elif currentloop == "gameloop":
                 gameLoop = GameLoop(
