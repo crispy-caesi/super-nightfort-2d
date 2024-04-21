@@ -1,7 +1,7 @@
 # ===================== import ===================== #
 
 import pygame
-from Menu import *
+from menu import *
 import sys
 
 # ===================== run ===================== #

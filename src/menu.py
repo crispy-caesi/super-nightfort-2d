@@ -2,8 +2,8 @@
 
 import pygame
 from PIL import Image
-from Game import Game
-from Input import KeyInput
+from game import Game
+from inputs import KeyInput
 import os
 
 # ======================= menu template ======================= #
@@ -56,16 +56,6 @@ class Menu():
         background = pygame.image.load(backgroundImagePath)
         background = pygame.transform.scale(background,(self.__screenResolution))
         self.__screen.blit(background, (0, 0))
-
-    def mergeImage(self, imageTopPath :str, imageBottomPath :str, newImageName :str):
-        """
-        Method to merge two images to create a single image
-        """
-        
-        imageTop = Image.open(imageTopPath)
-        imageBottom = Image.open(imageBottomPath)
-        imageBottom.paste(imageTop, (0,0))#, mask = __imageTop)
-        imageBottom.save(newImageName) 
     
     def get_file_names(self, directory :str):
         file_names = []
@@ -106,14 +96,14 @@ class MainMenu(Menu):
         """
         pygame.display.set_caption("super main menu")
         # loads in the objects and draws the main menu
-        self.drawBackground("sprites/placeholder/mainmenu.png")
-        self.__buttonPlayRect = self.drawButton("sprites/placeholder/buttonplay.png", 150, 0)
-        self.__buttonQuitRect = self.drawButton("sprites/placeholder/buttonquit.png", -150, 0)
+        self.drawBackground("sprites/backgrounds/mainmenu.png")
+        self.__buttonPlayRect = self.drawButton("sprites/buttons/buttonplay.png", 150, 0)
+        self.__buttonQuitRect = self.drawButton("sprites/buttons/buttonquit.png", -150, 0)
 
         pygame.display.flip()
 
 
-    def loop(self)-> bool:
+    def loop(self)-> str:
         """
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
@@ -157,18 +147,18 @@ class LevelMenu(Menu):
         """
         pygame.display.set_caption("super level menu")
         # loads in the objects and draws the level menu
-        self.drawBackground("sprites/placeholder/levelmenu.png")
-        self.__level_1_Rect = self.drawButton("sprites/icons/level_icons/level1.png", 250, 500)
-        self.__level_2_Rect = self.drawButton("sprites/icons/level_icons/level2.png", 250, 250)
-        self.__level_3_Rect = self.drawButton("sprites/icons/level_icons/level3.png", 250, 0)
-        self.__level_4_Rect = self.drawButton("sprites/icons/level_icons/level4.png", 250, -250)
-        self.__level_5_Rect = self.drawButton("sprites/icons/level_icons/level5.png", 250, -500)
+        self.drawBackground("sprites/backgrounds/levelmenu.png")
+        self.__level_1_Rect = self.drawButton("sprites/buttons/level_icons/level1.png", 250, 500)
+        self.__level_2_Rect = self.drawButton("sprites/buttons/level_icons/level2.png", 250, 250)
+        self.__level_3_Rect = self.drawButton("sprites/buttons/level_icons/level3.png", 250, 0)
+        self.__level_4_Rect = self.drawButton("sprites/buttons/level_icons/level4.png", 250, -250)
+        self.__level_5_Rect = self.drawButton("sprites/buttons/level_icons/level5.png", 250, -500)
 
         self.__tiles_path = []
 
         pygame.display.flip()
 
-    def loop(self)->bool:
+    def loop(self)->str:
         """
         Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
@@ -184,7 +174,7 @@ class LevelMenu(Menu):
 
         elif self.__keyInput.keymouseleft and self.__level_1_Rect.collidepoint(mousePosition):
             self.__currentLevel = "sprites/blocks/csv/level1_grassland.csv"
-            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__currentLevelBackground = "sprites/backgrounds/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
             print(self.get_file_names("sprites/blocks/grassland"))
@@ -192,7 +182,7 @@ class LevelMenu(Menu):
         
         elif self.__keyInput.keymouseleft and self.__level_2_Rect.collidepoint(mousePosition):
             self.__currentLevel = "sprites/blocks/csv/level2_desert.csv"
-            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__currentLevelBackground = "sprites/backgrounds/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/desert")
             print(self.__tiles_path)
@@ -200,7 +190,7 @@ class LevelMenu(Menu):
         
         elif self.__keyInput.keymouseleft and self.__level_3_Rect.collidepoint(mousePosition):
             self.__currentLevel = "sprites/blocks/csv/level3_grassland.csv"
-            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__currentLevelBackground = "sprites/backgrounds/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland_2")
             print(self.__tiles_path)
@@ -208,7 +198,7 @@ class LevelMenu(Menu):
         
         elif self.__keyInput.keymouseleft and self.__level_4_Rect.collidepoint(mousePosition):
             self.__currentLevel = "sprites/blocks/csv/level4_snowland.csv"
-            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__currentLevelBackground = "sprites/backgrounds/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/snowland")
             print(self.__tiles_path)
@@ -216,7 +206,7 @@ class LevelMenu(Menu):
         
         elif self.__keyInput.keymouseleft and self.__level_5_Rect.collidepoint(mousePosition):
             self.__currentLevel = "sprites/blocks/csv/level5_test.csv"
-            self.__currentLevelBackground = "sprites/placeholder/level1background.png"
+            self.__currentLevelBackground = "sprites/backgrounds/level1background.png"
             self.__keyInput.keymouseleft = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
             print(self.__tiles_path)
@@ -249,6 +239,16 @@ class CharacterMenu(Menu):
         self.__keyInput = KeyInput()
         self.__clock = clock
 
+    def mergeImage(self, imageTopPath :str, imageBottomPath :str, newImageName :str):
+        """
+        Method to merge two images to create a single image
+        """
+        
+        imageTop = Image.open(imageTopPath)
+        imageBottom = Image.open(imageBottomPath)
+        imageBottom.paste(imageTop, (0,0))#, mask = __imageTop)
+        imageBottom.save(newImageName) 
+
 
     def draw(self)-> None:
         """
@@ -257,30 +257,30 @@ class CharacterMenu(Menu):
         pygame.display.set_caption("super character menu")
 
         # loads in the objects and draws the level menu
-        self.drawBackground("sprites/placeholder/mainmenu.png") # replace with new sprite
+        self.drawBackground("sprites/backgrounds/mainmenu.png") # replace with new sprite
 
         # button for the Fich
-        self.mergeImage("sprites/characters/fich/fich.gif","sprites/icons/character_background.gif","sprites/characters/fich/buttonImage.gif")
+        self.mergeImage("sprites/characters/fich/fich.gif","sprites/buttons/character_background.gif","sprites/characters/fich/buttonImage.gif")
         self.__buttonFichRect = self.drawButton("sprites/characters/fich/buttonImage.gif", 250, 500)
 
         # button for the Meister Wu
-        self.mergeImage("sprites/characters/wu/wu.gif","sprites/icons/character_background.gif","sprites/characters/wu/buttonImage.gif")
+        self.mergeImage("sprites/characters/wu/wu.gif","sprites/buttons/character_background.gif","sprites/characters/wu/buttonImage.gif")
         self.__buttonWuRect = self.drawButton("sprites/characters/wu/buttonImage.gif", 250, 250)
 
         # button for the Amogus
-        self.mergeImage("sprites/characters/amogus/amogus_image.gif","sprites/icons/character_background.gif","sprites/characters/amogus/buttonImage.gif")
+        self.mergeImage("sprites/characters/amogus/amogus_image.gif","sprites/buttons/character_background.gif","sprites/characters/amogus/buttonImage.gif")
         self.__buttonAmogusRect = self.drawButton("sprites/characters/amogus/buttonImage.gif", 250, 0)
 
         # button for the Pacman
-        self.mergeImage("sprites/characters/pacman/pacman_image.gif","sprites/icons/character_background.gif","sprites/characters/pacman/buttonImage.gif")
+        self.mergeImage("sprites/characters/pacman/pacman_image.gif","sprites/buttons/character_background.gif","sprites/characters/pacman/buttonImage.gif")
         self.__buttonPacmanRect = self.drawButton("sprites/characters/pacman/buttonImage.gif", 250, -250)
 
         # button for the Po
-        self.mergeImage("sprites/characters/poo/po.gif","sprites/icons/character_background.gif","sprites/characters/poo/buttonImage.gif")
+        self.mergeImage("sprites/characters/poo/po.gif","sprites/buttons/character_background.gif","sprites/characters/poo/buttonImage.gif")
         self.__buttonPoRect = self.drawButton("sprites/characters/poo/buttonImage.gif", 250, -500)
         pygame.display.flip()
         
-    def loop(self)->bool:
+    def loop(self)->str:
             """
             Loop used for the character menu. Returns "gameloop" or "levelmenu" on specific input, otherwise returns "charactermenu".
             """
@@ -363,12 +363,12 @@ class WinMenu(Menu):
         pygame.display.set_caption("you won supa nite fort")
 
         # loads in the objects and draws the level menu
-        self.drawBackground("sprites/placeholder/level1background.png")
+        self.drawBackground("sprites/backgrounds/level1background.png")
 
-        self.__menuButton = self.drawButton("sprites/placeholder/menu.png", 0, 0)
-        self.drawButton("sprites/placeholder/YouWin.png", 250, 0)
+        self.__menuButton = self.drawButton("sprites/buttons/menu.png", 0, 0)
+        self.drawButton("sprites/buttons/YouWin.png", 250, 0)
 
-    def loop(self):
+    def loop(self)->str:
         """
         Loop used for the menu if you win the game
         """
@@ -405,7 +405,7 @@ class GameLoop():
         """
 
         # loop
-        self.__mainLoop = Game(
+        mainLoop = Game(
             self.__screenResolution,
             self.__currentLevel,
             self.__currentLevelBackground,
@@ -414,9 +414,9 @@ class GameLoop():
             self.__jump_path,
             self.__tiles_path)
         
-        self.__mainLoop.running(self.__screen)
+        mainLoop.running(self.__screen)
         
-        if self.__mainLoop.getWin():
+        if mainLoop.win:
             return "winmenu"
 
         return "mainmenu"

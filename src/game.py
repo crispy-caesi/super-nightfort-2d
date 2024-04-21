@@ -1,12 +1,12 @@
 # ===================== import ===================== #
 
 import pygame
-from TileMap import TileMap
-from Player import Player
-from Input import KeyInput
+from tileMap import TileMap
+from player import Player
+from inputs import KeyInput
 from PIL import Image, ImageSequence
 
-from Audio import GameMusicController
+from audio import MusicController
 
 # ===================== Main ===================== #
 
@@ -20,7 +20,7 @@ class Game():
         pygame.init()
         self.__screenResolution = __screenResolution
         self.__tileMap = TileMap(__currentLevel,__tilesPath)
-        self.__hurtMap = self.__tileMap.getHurtMap()
+        self.__hurtMap = self.__tileMap.hurtMap
         
         images = self.loadGIF(__currentCharacterSkinPath)
         deathImages=self.loadGIF(__deathImagePath)
@@ -39,36 +39,38 @@ class Game():
 
         self.__win = False
 
-    def running(self, __screen: pygame.surface.Surface):
+    def running(self, screen: pygame.surface.Surface):
         """
         Method to run the game.
         """
         
-        __running = True
-        __musicController = GameMusicController("sprites/placeholder/soundsAndMusic/inGameBackgroundMusic.wav")
-        __musicController.play()
+        running = True
+        musicController = MusicController("sprites/soundsAndMusic/inGameBackgroundMusic.wav")
+        musicController.play()
 
 
-        while __running:
+        while running:
             # input update
             self.__keyInput.getInput()
             # condition to end the running process
-            if self.__keyInput.keyescape or self.__player.getIsDead():
+            if self.__keyInput.keyescape or self.__player.isDead:
                 self.__keyInput.keyescape = False
-                __running = False
+                running = False
             
-            if self.__player.getWin():
+            if self.__player.win:
                 self.__win = True
-                __running = False
+                running = False
 
-            self.frameUpdate(self.__keyInput, __screen)
+            self.frameUpdate(self.__keyInput, screen)
             
             self.__clock.tick(60)
 
         self.resetHurtmap()
         # after the loop is done, return to main menu
-        __musicController.stop()
-    def getWin(self):
+        musicController.stop()
+
+    @property
+    def win(self):
         return self.__win
 
     def resetHurtmap(self):
