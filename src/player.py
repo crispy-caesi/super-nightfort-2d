@@ -1,11 +1,13 @@
 # ===================== import ===================== #
 
 import pygame 
-from audio import GameSounds 
 import threading
 
 from inputs import KeyInput
 from tileMap import TileMap
+from audio import GameSounds 
+
+from PIL import Image
 
 # ===================== Player ===================== #
 
@@ -17,8 +19,8 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, images:list, deathImages:list, jumpImages:list):
         pygame.sprite.Sprite.__init__(self)
         self.__images = images
-        self.image = self.__images[0]
-        self.rect = self.image.get_rect()
+        self.__image = self.__images[0]
+        self.__rect = self.image.get_rect()
         # --- movement --- #
         self.__horizontalCollisionBox, self.__verticalCollisionBox = OffsetRect((255,255,0),self), OffsetRect((255,0,0),self)
         self.__isOnGround = False
@@ -50,6 +52,13 @@ class Player(pygame.sprite.Sprite):
         self.__soundController = GameSounds("sprites/soundsAndMusic/Jump.wav")
         self.__win = False
         
+    @property
+    def image(self):
+        return self.__image
+
+    @property
+    def rect(self):
+        return self.__rect
 
     @property    
     def horizontalCollisionBox(self):
@@ -216,7 +225,7 @@ class Player(pygame.sprite.Sprite):
             self.__hurtMap = __hurtMapRect
 
         if __tileMap.rect.x <= -4300:
-            self.win()
+            self.__win = True
 
 
         if __tileMap.rect.y <= -100:
@@ -228,7 +237,7 @@ class Player(pygame.sprite.Sprite):
                 self.__death_animation_index = 0
             
             if self.__image_index_death >= len(self.__deathImages):
-                self.dead()
+                self.__isDead = True
 
             self.__death_animation_index += 1
 
@@ -256,22 +265,14 @@ class Player(pygame.sprite.Sprite):
 
 # ============== damage and health ============== #
 
-    def dead(self):
-        """
-        set __isDead true, so that the main menu can start
-        """
-        print("player is death")
-        self.__isDead = True
-    
-    def getIsDead(self)->bool:
+    @property
+    def isDead(self)->bool:
         return self.__isDead
 
-    
+    @property
     def win(self):
-        self.__win = True
-
-    def getWin(self):
         return self.__win
+    
 
 # ===================== Animation ===================== #
 
@@ -281,26 +282,26 @@ class Player(pygame.sprite.Sprite):
         """        
         if direction == "left" and self.__isOnGround:
             self.__image_index_run += 1
-            self.image = self.__images[self.__image_index_run % len(self.__images)]# This line assigns the current image to be displayed from a list of images based on the index, ensuring it loops through the images if the index exceeds the length of the list
-            self.image = pygame.transform.flip(self.image, True, False) #flip the player in the opposite direction when the player moves left
+            self.__image = self.__images[self.__image_index_run % len(self.__images)]# This line assigns the current image to be displayed from a list of images based on the index, ensuring it loops through the images if the index exceeds the length of the list
+            self.__image = pygame.transform.flip(self.image, True, False) #flip the player in the opposite direction when the player moves left
         elif direction == "right" and self.__isOnGround:
             self.__image_index_run += 1
-            self.image = self.__images[self.__image_index_run % len(self.__images)]
-            self.image = pygame.transform.flip(self.image, False, False)
+            self.__image = self.__images[self.__image_index_run % len(self.__images)]
+            self.__image = pygame.transform.flip(self.__image, False, False)
     
     def deathAnimation(self):
         self.__image_index_death += 1
-        self.image = self.__deathImages[self.__image_index_death % len(self.__deathImages)]     
+        self.__image = self.__deathImages[self.__image_index_death % len(self.__deathImages)]     
 
     def jumpAnimation(self, direction: str):
         if direction == "left":
             self.__image_index_jump += 1
-            self.image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
-            self.image = pygame.transform.flip(self.image, True, False)
+            self.__image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
+            self.__image = pygame.transform.flip(self.image, True, False)
         elif direction == "right":
             self.__image_index_jump += 1
-            self.image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
-            self.image = pygame.transform.flip(self.image, False, False)
+            self.__image = self.__jumpImages[self.__image_index_jump % len(self.__jumpImages)] 
+            self.__image = pygame.transform.flip(self.image, False, False)
 
 # ===================== Offsetrect ===================== #
 
@@ -311,31 +312,46 @@ class OffsetRect(pygame.sprite.Sprite):
 
     def __init__(self,color :tuple , player: Player):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((player.rect.w-20, player.rect.h), pygame.SRCALPHA)# To reduce the hitbox by 20 to ensure proper collision detection for the player despite the animations (and avoid situations like getting caught on the arms).
-        self.rect = self.image.get_rect()
-        self.mask = pygame.mask.Mask((player.rect.w-20, player.rect.h), True)
-        self.rect.centerx, self.rect.centery = player.rect.centerx, player.rect.centery
+        self.__image = pygame.Surface((player.rect.w-20, player.rect.h), pygame.SRCALPHA)# To reduce the hitbox by 20 to ensure proper collision detection for the player despite the animations (and avoid situations like getting caught on the arms).
+        self.__rect = self.__image.get_rect()
+        self.__mask = pygame.mask.Mask((player.rect.w-20, player.rect.h), True)
+        self.__rect.centerx, self.__rect.centery = player.rect.centerx, player.rect.centery
         self.__offset = pygame.Vector2(0, 0)
-        #elf.image.fill(color=color) #Ability to color the offset rects for debugging purposes
+        #self.image.fill(color=color) #Ability to color the offset rects for debugging purposes
+
+    @property
+    def rect(self) ->pygame.rect.Rect:
+        return self.__rect
+    @rect.setter
+    def rect(self, rect: pygame.rect.Rect):
+        self.__rect = rect
+
+    @property
+    def image(self) ->Image:
+        return self.__image
+    
+    @property
+    def mask(self) ->pygame.mask.Mask:
+        return self.__mask
 
     def setOffset(self, __x :int, __y :int):
         """
-        Setter for box offset.
+        Setter for box offset.s
         """
         
         self.__offset.x, self.__offset.y = __x, __y
 
-    def updatePosition(self, __player :Player):
+    def updatePosition(self, player :Player):
         """
         Method to sync the collisionbox position to the current player position.
         """
 
-        self.rect.centerx, self.rect.centery = (__player.rect.centerx + self.__offset.x), (__player.rect.centery + self.__offset.y) 
+        self.__rect.centerx, self.__rect.centery = (player.rect.centerx + self.__offset.x), (player.rect.centery + self.__offset.y) 
 
-    def boxUpdate(self, __player: Player, __x: int, __y :int):
+    def boxUpdate(self, player: Player, x: int, y :int):
         """
         Method to update all collision box attributes.
         """
         
-        self.setOffset(__x, __y)
-        self.updatePosition(__player)
+        self.setOffset(x, y)
+        self.updatePosition(player)

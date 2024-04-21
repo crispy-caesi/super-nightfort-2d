@@ -56,16 +56,6 @@ class Menu():
         background = pygame.image.load(backgroundImagePath)
         background = pygame.transform.scale(background,(self.__screenResolution))
         self.__screen.blit(background, (0, 0))
-
-    def mergeImage(self, imageTopPath :str, imageBottomPath :str, newImageName :str):
-        """
-        Method to merge two images to create a single image
-        """
-        
-        imageTop = Image.open(imageTopPath)
-        imageBottom = Image.open(imageBottomPath)
-        imageBottom.paste(imageTop, (0,0))#, mask = __imageTop)
-        imageBottom.save(newImageName) 
     
     def get_file_names(self, directory :str):
         file_names = []
@@ -249,6 +239,16 @@ class CharacterMenu(Menu):
         self.__keyInput = KeyInput()
         self.__clock = clock
 
+    def mergeImage(self, imageTopPath :str, imageBottomPath :str, newImageName :str):
+        """
+        Method to merge two images to create a single image
+        """
+        
+        imageTop = Image.open(imageTopPath)
+        imageBottom = Image.open(imageBottomPath)
+        imageBottom.paste(imageTop, (0,0))#, mask = __imageTop)
+        imageBottom.save(newImageName) 
+
 
     def draw(self)-> None:
         """
@@ -405,7 +405,7 @@ class GameLoop():
         """
 
         # loop
-        self.__mainLoop = Game(
+        mainLoop = Game(
             self.__screenResolution,
             self.__currentLevel,
             self.__currentLevelBackground,
@@ -414,9 +414,9 @@ class GameLoop():
             self.__jump_path,
             self.__tiles_path)
         
-        self.__mainLoop.running(self.__screen)
+        mainLoop.running(self.__screen)
         
-        if self.__mainLoop.getWin():
+        if mainLoop.win:
             return "winmenu"
 
         return "mainmenu"
