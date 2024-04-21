@@ -6,5 +6,10 @@
 This repository was created for a school project. The school project has already ended now, so further updates will be slow but will still happen.
 
 ---
+# Description
 **super-nightfort-2d** is a 2D sidescrolling platformer. It currently has 5 characters, and 4 levels with different biomes.
 The feature progress can be viewed in the [Project](https://github.com/orgs/crispy-caesi/projects/1/). Next up should be some performance improvements and general rewrites to allow enemies to be added.
+
+---
+# Starting instructions
+The game must be started from the **top level** of the repository, executing the `src/run.py` script
