@@ -11,5 +11,14 @@ This repository was created for a school project. The school project has already
 The feature progress can be viewed in the [Project](https://github.com/orgs/crispy-caesi/projects/1/). Next up should be some performance improvements and general rewrites to allow enemies to be added.
 
 ---
+# Dependencies
+```bash
+pip install pygame
+```
+```bash
+pip install pillow
+```
+
+---
 # Starting instructions
 The game must be started from the **top level** of the repository, executing the `src/run.py` script
