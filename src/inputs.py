@@ -15,6 +15,7 @@ class KeyInput():
         self.__keyright = False
         self.__keyspace = False
         self.__keyescape = False
+        self.__keyhardescape = False
         self.__keymouseleft = False
         self.__keyspacePressed = False #__keyspacePressed is for the sound
 
@@ -55,6 +56,10 @@ class KeyInput():
     @keymouseleft.setter
     def keymouseleft(self, reset:bool):
         self.__keymouseleft = reset
+
+    @property
+    def keyhardescape(self):
+        return self.__keyhardescape
 
 # ======= check for inputs ======= #
 
@@ -133,3 +138,5 @@ class KeyInput():
                 elif event.button == 5:
                     mouse wheel down
                 """
+            if event.type == pygame.QUIT:
+                self.__keyhardescape = True

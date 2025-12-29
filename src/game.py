@@ -15,16 +15,16 @@ class Game():
     Class that fuses all of the subparts together for the game to be playable.
     """
 
-    def __init__(self, __screenResolution :pygame.math.Vector2, __currentLevel :str, __backgroundImagePath :str, __currentCharacterSkinPath :str, __deathImagePath :str, __jumpImagePath :str, __tilesPath:list):
+    def __init__(self, screenResolution :pygame.math.Vector2, currentLevel :str, backgroundImagePath :str, currentCharacterSkinPath :str, deathImagePath :str, jumpImagePath :str, tilesPath:list):
         pygame.mixer.pre_init(44100,16,3,4096)
         pygame.init()
-        self.__screenResolution = __screenResolution
-        self.__tileMap = TileMap(__currentLevel,__tilesPath)
+        self.__screenResolution = screenResolution
+        self.__tileMap = TileMap(currentLevel,tilesPath)
         self.__hurtMap = self.__tileMap.hurtMap
         
-        images = self.loadGIF(__currentCharacterSkinPath)
-        deathImages=self.loadGIF(__deathImagePath)
-        jumpImgages = self.loadGIF(__jumpImagePath)
+        images = self.loadGIF(currentCharacterSkinPath)
+        deathImages=self.loadGIF(deathImagePath)
+        jumpImgages = self.loadGIF(jumpImagePath)
         self.__player = Player(images=images, deathImages= deathImages, jumpImages= jumpImgages)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
@@ -32,12 +32,13 @@ class Game():
         self.__allSprites.add(self.__player)
         self.__allSprites.add(self.__player.verticalCollisionBox)
         self.__allSprites.add(self.__player.horizontalCollisionBox)
-        self.__background = pygame.image.load(__backgroundImagePath).convert()
+        self.__background = pygame.image.load(backgroundImagePath).convert()
         self.__background = pygame.transform.scale(self.__background,(self.__screenResolution))
         self.__keyInput = KeyInput()
         self.__clock = pygame.time.Clock()
 
         self.__win = False
+        self.__hardEscape = False
 
     def running(self, screen: pygame.surface.Surface):
         """
@@ -56,6 +57,10 @@ class Game():
             if self.__keyInput.keyescape or self.__player.isDead:
                 self.__keyInput.keyescape = False
                 running = False
+
+            if self.__keyInput.keyhardescape:
+                self.__hardEscape = True
+                running = False
             
             if self.__player.win:
                 self.__win = True
@@ -72,6 +77,10 @@ class Game():
     @property
     def win(self):
         return self.__win
+    
+    @property
+    def hardEscape(self):
+        return self.__hardEscape
 
     def resetHurtmap(self):
         """

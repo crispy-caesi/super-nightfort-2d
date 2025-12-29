@@ -72,7 +72,7 @@ class Menu():
     
 
     def getScreen(self):
-        return self.__screen
+        return self.__screen        
     
     @property
     def clockTick(self):
@@ -121,8 +121,9 @@ class MainMenu(Menu):
             if self.__buttonQuitRect.collidepoint(mousePosition):
                 return "quit"
             
-        if self.__keyInput.keyescape: # thats the RAGEQUIT button :D
+        if self.__keyInput.keyescape or self.__keyInput.keyhardescape: # thats the RAGEQUIT button :D
             return "quit"
+
 
         # no input --> reinitialises own loop
         self.__clock.tick(self.clockTick)
@@ -212,6 +213,9 @@ class LevelMenu(Menu):
             print(self.__tiles_path)
             return "charactermenu"
         
+        if self.__keyInput.keyhardescape:
+            return "quit"
+        
         # no input --> reinitialises own loop
         self.__clock.tick(self.clockTick)
         return "levelmenu"
@@ -294,6 +298,9 @@ class CharacterMenu(Menu):
             if self.__keyInput.keyescape:
                 self.__keyInput.keyescape = False
                 return "levelmenu"
+            
+            if self.__keyInput.keyhardescape:
+                return "quit"
             
             if self.__keyInput.keymouseleft and self.__buttonWuRect.collidepoint(mousePosition):
                 self.__currentCharacterSkin = "sprites/characters/wu/wu_image.gif"
@@ -379,6 +386,9 @@ class WinMenu(Menu):
             self.__keyInput.keymouseleft = False
             return "mainmenu"
         
+        if self.__keyInput.keyhardescape:
+                return "quit"
+        
         pygame.display.flip()
         
         return "winmenu" 
@@ -418,5 +428,8 @@ class GameLoop():
         
         if mainLoop.win:
             return "winmenu"
-
+        
+        if mainLoop.hardEscape:
+            return "quit"
+        
         return "mainmenu"
