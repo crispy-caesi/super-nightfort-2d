@@ -12,10 +12,9 @@ def run() -> None:
     Method to run the application.
     """
     pygame.display.init()
-    screen_size_info = pygame.display.Info()
-    screen_resolution:pygame.Vector2 = pygame.Vector2(screen_size_info.current_w, screen_size_info.current_h)
+    screen:pygame.Surface = pygame.display.set_mode()
+    screen_resolution:pygame.Vector2 = pygame.Vector2(screen.get_size()[0], screen.get_size()[1]) #[0] is x, [1] is y
 
-    screen:pygame.Surface = pygame.display.set_mode((screen_resolution.x, screen_resolution.y))
 
     key_input = KeyInput()
 
