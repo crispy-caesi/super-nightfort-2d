@@ -16,13 +16,13 @@ class Menu():
     Class to create and display different screens for menus and the gameloop.
     """
 
-    def __init__(self) -> None:
-        pygame.display.init()
-        self.__screen_size_info = pygame.display.Info()
-        self.__screen_resolution:pygame.Vector2 = pygame.Vector2(self.__screen_size_info.current_w, self.__screen_size_info.current_h)
-        self.__screen:pygame.Surface = pygame.display.set_mode((self.__screen_resolution.x, self.__screen_resolution.y))
-
+    def __init__(self, screen:pygame.Surface, screen_resolution:pygame.Vector2, key_input:KeyInput) -> None:
+        self.__screen_resolution:pygame.Vector2 = screen_resolution
+        self.__screen:pygame.Surface = screen
         self.__clock_tick:int = 30
+
+        self._key_input:KeyInput = key_input
+
 
     def draw_button(self, button_image_path :str, button_offset_x :int, button_offset_y :int) -> pygame.Rect:
         """
@@ -89,9 +89,8 @@ class MainMenu(Menu):
     """
     Draws and handles interactions of main menu
     """
-    def __init__(self, clock:pygame.time.Clock):
-        super().__init__()
-        self.__key_input:KeyInput = KeyInput()
+    def __init__(self, clock:pygame.time.Clock, screen:pygame.Surface, screen_resolution:pygame.Vector2, key_input:KeyInput):
+        super().__init__(screen,screen_resolution, key_input)
 
         self.__button_play_rect:pygame.Rect
         self.__button_quit_rect:pygame.Rect
@@ -117,20 +116,20 @@ class MainMenu(Menu):
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
 
-        self.__key_input.getInput()
+        self._key_input.getInput()
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
         # input check
-        if self.__key_input.keymouseleft:
+        if self._key_input.keymouseleft:
 
             if self.__button_play_rect.collidepoint(mouse_position):
-                self.__key_input.keymouseleft = False
+                self._key_input.keymouseleft = False
                 return "levelmenu"
 
             if self.__button_quit_rect.collidepoint(mouse_position):
                 return "quit"
 
-        if self.__key_input.keyescape or self.__key_input.keyhardescape: # thats the RAGEQUIT button :D
+        if self._key_input.keyescape or self._key_input.keyhardescape: # thats the RAGEQUIT button :D
             return "quit"
 
 
@@ -144,8 +143,8 @@ class LevelMenu(Menu):
     """
     Draws and handles interactions of level menu
     """
-    def __init__(self,clock:pygame.time.Clock) -> None:
-        super().__init__()
+    def __init__(self,clock:pygame.time.Clock, screen:pygame.Surface, screen_resolution:pygame.Vector2, key_input:KeyInput) -> None:
+        super().__init__(screen, screen_resolution, key_input)
         self.__key_input:KeyInput = KeyInput()
 
         self.__current_level:str
@@ -253,11 +252,11 @@ class CharacterMenu(Menu):
     """
     Draws and handles interactions of character menu
     """
-    def __init__(self, clock:pygame.time.Clock) -> None:
+    def __init__(self, clock:pygame.time.Clock, screen:pygame.Surface, screen_resolution:pygame.Vector2, key_input:KeyInput) -> None:
         """
         Method to fully initate the creation of the character menu.
         """
-        super().__init__()
+        super().__init__(screen, screen_resolution, key_input)
         self.__key_input:KeyInput = KeyInput()
         self.__clock:pygame.time.Clock = clock
 
@@ -382,11 +381,11 @@ class WinMenu(Menu):
     """
     Draws and handles interactions of main menu
     """
-    def __init__(self) -> None:
+    def __init__(self, screen:pygame.Surface, screen_resolution:pygame.Vector2, key_input:KeyInput) -> None:
         """
         draws the win menu or show it on the screen
         """
-        super().__init__()
+        super().__init__(screen, screen_resolution, key_input)
         self.__key_input:KeyInput = KeyInput()
         self.__menu_button:pygame.Rect
     
@@ -425,7 +424,7 @@ class GameLoop():
     """
     Class giving all attributes to the game, and handling the game loop
     """
-    def __init__(self, screen_resolution:pygame.Vector2, current_level:str, current_level_background:str, current_character_skin:str, death_path:str, jump_path:str, tiles_path:list, screen:pygame.Surface) -> None:
+    def __init__(self, screen_resolution:pygame.Vector2, current_level:str, current_level_background:str, current_character_skin:str, death_path:str, jump_path:str, tiles_path:list, screen:pygame.Surface, key_input:KeyInput) -> None:
         self.__screen_resolution:pygame.Vector2 = screen_resolution
         self.__current_level:str = current_level
         self.__current_level_background:str = current_level_background
@@ -434,6 +433,7 @@ class GameLoop():
         self.__jump_path:str = jump_path
         self.__tiles_path:str = tiles_path
         self.__screen:pygame.Surface = screen
+        self.__key_input:KeyInput = key_input
 
     def game_loop(self) -> str:
         """
@@ -448,7 +448,8 @@ class GameLoop():
             self.__current_character_skin,
             self.__death_path,
             self.__jump_path,
-            self.__tiles_path)
+            self.__tiles_path,
+            self.__key_input)
 
         main_loop.running(self.__screen)
 

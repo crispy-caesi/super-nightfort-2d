@@ -15,7 +15,7 @@ class Game():
     Class that fuses all of the subparts together for the game to be playable.
     """
 
-    def __init__(self, screenResolution :pygame.math.Vector2, currentLevel :str, backgroundImagePath :str, currentCharacterSkinPath :str, deathImagePath :str, jumpImagePath :str, tilesPath:list):
+    def __init__(self, screenResolution :pygame.math.Vector2, currentLevel :str, backgroundImagePath :str, currentCharacterSkinPath :str, deathImagePath :str, jumpImagePath :str, tilesPath:list, key_input:KeyInput):
         pygame.mixer.pre_init(44100,16,3,4096)
         pygame.init()
         self.__screenResolution = screenResolution
@@ -34,7 +34,7 @@ class Game():
         self.__allSprites.add(self.__player.horizontalCollisionBox)
         self.__background = pygame.image.load(backgroundImagePath).convert()
         self.__background = pygame.transform.scale(self.__background,(self.__screenResolution))
-        self.__keyInput = KeyInput()
+        self.__keyInput = key_input
         self.__clock = pygame.time.Clock()
 
         self.__win = False
