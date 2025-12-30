@@ -4,7 +4,7 @@ import pygame
 import threading
 
 from inputs import KeyInput
-from tileMap import TileMap
+from tile_map import TileMap
 from audio import GameSounds 
 
 from PIL import Image

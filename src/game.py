@@ -1,7 +1,7 @@
 # ===================== import ===================== #
 
 import pygame
-from tileMap import TileMap
+from tile_map import TileMap
 from player import Player
 from inputs import KeyInput
 from PIL import Image, ImageSequence
@@ -20,7 +20,7 @@ class Game():
         pygame.init()
         self.__screenResolution = screenResolution
         self.__tileMap = TileMap(currentLevel,tilesPath)
-        self.__hurtMap = self.__tileMap.hurtMap
+        self.__hurtMap = self.__tileMap.hurt_map
         
         images = self.loadGIF(currentCharacterSkinPath)
         deathImages=self.loadGIF(deathImagePath)
@@ -134,5 +134,5 @@ class Game():
         self.__screen = __screen
         self.__keyInput = __input
         self.__player.playerUpdate(self.__keyInput, self.__tileMap, self.__hurtMap)
-        self.__tileMap.updateTilemapPosition()
+        self.__tileMap.update_tilemap_position()
         self.drawGameFrame()
