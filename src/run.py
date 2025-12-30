@@ -37,16 +37,16 @@ def run() -> None:
 
         elif currentloop == "gameloop":
             gameLoop = GameLoop(
-                screenResolution=levelMenu.getScreenResoltution(),
-                currentLevel=levelMenu.getCurrentLevel(),
-                currentLevelBackground=levelMenu.getCurrentLevelBackground(),
-                currentCharacterSkin=characterMenu.getCurrentCharacterSkin(),
-                death_path=characterMenu.getDeathPath(),
-                jump_path=characterMenu.getJumpPath(),
-                tiles_path=levelMenu.getTilesPath(),
-                screen=levelMenu.getScreen()
+                screen_resolution=levelMenu.get_screen_resoltution(),
+                current_level=levelMenu.get_current_level(),
+                current_level_background=levelMenu.get_current_level_background(),
+                current_character_skin=characterMenu.get_current_character_skin(),
+                death_path=characterMenu.get_death_path(),
+                jump_path=characterMenu.get_jump_path(),
+                tiles_path=levelMenu.get_tiles_path(),
+                screen=levelMenu.get_screen()
             )
-            currentloop = gameLoop.gameLoop()
+            currentloop = gameLoop.game_loop()
         
         elif currentloop == "winmenu":
             winMenu.draw()
