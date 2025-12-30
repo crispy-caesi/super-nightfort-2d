@@ -22,16 +22,16 @@ class Game():
         self.__tileMap = TileMap(currentLevel,tilesPath)
         self.__hurtMap = self.__tileMap.hurt_map
         
-        images = self.loadGIF(currentCharacterSkinPath)
-        deathImages=self.loadGIF(deathImagePath)
-        jumpImgages = self.loadGIF(jumpImagePath)
-        self.__player = Player(images=images, deathImages= deathImages, jumpImages= jumpImgages)
+        images = self.load_gif(currentCharacterSkinPath)
+        deathImages=self.load_gif(deathImagePath)
+        jumpImgages = self.load_gif(jumpImagePath)
+        self.__player = Player(images=images, death_images= deathImages, jump_images= jumpImgages)
         self.__allSprites = pygame.sprite.Group()
         self.__allSprites.add(self.__tileMap)
 
         self.__allSprites.add(self.__player)
-        self.__allSprites.add(self.__player.verticalCollisionBox)
-        self.__allSprites.add(self.__player.horizontalCollisionBox)
+        self.__allSprites.add(self.__player.vertical_collision_box)
+        self.__allSprites.add(self.__player.horizontal_collision_box)
         self.__background = pygame.image.load(backgroundImagePath).convert()
         self.__background = pygame.transform.scale(self.__background,(self.__screenResolution))
         self.__keyInput = key_input
@@ -54,7 +54,7 @@ class Game():
             # input update
             self.__keyInput.getInput()
             # condition to end the running process
-            if self.__keyInput.key_escape or self.__player.isDead:
+            if self.__keyInput.key_escape or self.__player.is_dead:
                 self.__keyInput.key_escape = False
                 running = False
 
@@ -110,17 +110,17 @@ class Game():
         #TODO UI score
         pygame.display.flip()
 
-    def loadGIF(self,filename :str):
+    def load_gif(self, filename:str) -> list[pygame.Surface]:
         """
         Extracting the individual frames from the GIF and storing them in a list
         """
-        pilImage = Image.open(filename)
-        frames = []
-        for frame in ImageSequence.Iterator(pilImage):
+        pil_image = Image.open(filename)
+        frames:list[pygame.Surface] = []
+        for frame in ImageSequence.Iterator(pil_image):
             frame = frame.convert('RGBA')
-            pygameImage = pygame.image.fromstring(
+            pygame_image:pygame.Surface = pygame.image.fromstring(
                 frame.tobytes(), frame.size, frame.mode).convert_alpha()
-            frames.append(pygameImage)
+            frames.append(pygame_image)
         return frames
 
 # ============== game loop ============== #
@@ -133,6 +133,6 @@ class Game():
         # runs all of Game.py main functions
         self.__screen = __screen
         self.__keyInput = __input
-        self.__player.playerUpdate(self.__keyInput, self.__tileMap, self.__hurtMap)
+        self.__player.player_update(self.__keyInput, self.__tileMap, self.__hurtMap)
         self.__tileMap.update_tilemap_position()
         self.drawGameFrame()
