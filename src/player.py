@@ -154,7 +154,7 @@ class Player(pygame.sprite.Sprite):
         #jump sound
         if key_input.key_space_pressed and self.__is_on_ground:
             #play jump sound
-            self.__sound_controller.playJumpSound()
+            self.__sound_controller.play_jump_sound()
             key_input.key_space_pressed = False
 
         # jump

@@ -48,7 +48,7 @@ class Menu():
 
         # returns the coordinates of the rect to test for interactions
         return button_rect
-    
+
     def draw_background(self, background_image_path:str) -> None:
         """
         Method to blit a background image onto the screen with a given path.
@@ -58,7 +58,7 @@ class Menu():
         background: pygame.Surface = pygame.image.load(background_image_path)
         background = pygame.transform.scale(background,(self.__screen_resolution))
         self.__screen.blit(background, (0, 0))
-    
+
     def get_file_names(self, directory :str) -> list[str]:
         """
         return all names of the file in a directory 
@@ -74,15 +74,15 @@ class Menu():
 
     def get_screen_resoltution(self) -> pygame.Vector2:
         return self.__screen_resolution
-    
+
 
     def get_screen(self) -> pygame.Surface:
         return self.__screen
-    
+
     @property
     def clock_tick(self) -> int:
         return self.__clock_tick
-    
+
 # ======================= main menu ======================= #
 
 class MainMenu(Menu):
@@ -97,7 +97,7 @@ class MainMenu(Menu):
 
         self.__clock:pygame.time.Clock = clock
 
-    
+
     def draw(self) -> None:
         """
         Draws all the buttons and loads the background image
@@ -116,7 +116,7 @@ class MainMenu(Menu):
         Loop used for the main menu. Returns "levelmenu" or "quit" on specific input, otherwise returns "mainmenu".
         """
 
-        self._key_input.getInput()
+        self._key_input.get_input()
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
         # input check
@@ -158,7 +158,7 @@ class LevelMenu(Menu):
         self.__level_5_rect:pygame.Rect
 
         self.__clock = clock
-    
+
     def draw(self)-> None:
         """
         Draws all the buttons and loads the background image
@@ -181,7 +181,7 @@ class LevelMenu(Menu):
         Loop used for the level menu. Returns "levelmenu" or "mainmenu" on specific input, otherwise returns "levelmenu".
         """
         # frame and input update
-        self.__key_input.getInput()
+        self.__key_input.get_input()
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
 
@@ -316,7 +316,7 @@ class CharacterMenu(Menu):
         """
         # frame and input
 
-        self.__key_input.getInput()
+        self.__key_input.get_input()
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
         # input check
@@ -388,7 +388,7 @@ class WinMenu(Menu):
         super().__init__(screen, screen_resolution, key_input)
         self.__key_input:KeyInput = KeyInput()
         self.__menu_button:pygame.Rect
-    
+
     def draw(self) -> None:
         """
         Draws buttons and background image of WinMenu
@@ -405,7 +405,7 @@ class WinMenu(Menu):
         """
         Loop used for the menu if you win the game
         """
-        self.__key_input.getInput()
+        self.__key_input.get_input()
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
         if self.__key_input.key_mouse_left and self.__menu_button.collidepoint(mouse_position):
@@ -456,7 +456,7 @@ class GameLoop():
         if main_loop.win:
             return "winmenu"
 
-        if main_loop.hardEscape:
+        if main_loop.hard_escape:
             return "quit"
 
         return "mainmenu"

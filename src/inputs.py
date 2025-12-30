@@ -36,11 +36,11 @@ class KeyInput():
     @property
     def key_space_pressed(self) -> bool:
         return self.__key_space_pressed
-    
+
     @key_space_pressed.setter
     def key_space_pressed(self, reset:bool):
         self.__key_space_pressed = reset
-    
+
     @property
     def key_escape(self) -> bool:
         return self.__key_escape
@@ -52,7 +52,7 @@ class KeyInput():
     @property
     def key_mouse_left(self) -> bool:
         return self.__key_mouse_left
-    
+
     @key_mouse_left.setter
     def key_mouse_left(self, reset:bool):
         self.__key_mouse_left = reset
@@ -63,7 +63,7 @@ class KeyInput():
 
 # ======= check for inputs ======= #
 
-    def getInput(self) -> None:
+    def get_input(self) -> None:
         """
         Method to handle input events.
         """
@@ -81,7 +81,7 @@ class KeyInput():
 
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_w:
                     self.__key_space = True
-                    self.__key_space_pressed = True      
+                    self.__key_space_pressed = True
 
                 elif event.key == pygame.K_ESCAPE:
                     self.__key_escape = True

@@ -33,7 +33,7 @@ class TileMap(pygame.sprite.Sprite):
     Class to create the tilemap with which other objects can interact.
     """
 
-    def __init__(self, csv_path:str, tile_paths:list):
+    def __init__(self, csv_path:str, tile_paths:list) -> None:
         super().__init__()
         self.__tiles:list[Tile] = []
         self.__hurt_map:list = []
@@ -96,7 +96,7 @@ class TileMap(pygame.sprite.Sprite):
     def hurt_map(self):
         return self.__hurt_map
 
-    def update_tilemap_position(self):
+    def update_tilemap_position(self) -> None:
         self.prev_x = self.__rect.x
         self.prev_y = self.__rect.y
 
@@ -118,7 +118,7 @@ class Combined(pygame.sprite.Sprite):
     Class to combine different sprites.
     """
 
-    def __init__(self, sprite_list :list):
+    def __init__(self, sprite_list :list) -> None:
         super().__init__()
         # Combine the rects of the separate sprites.
         rect = sprite_list[0].rect.copy()
