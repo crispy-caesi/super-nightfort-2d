@@ -120,16 +120,16 @@ class MainMenu(Menu):
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
         # input check
-        if self._key_input.keymouseleft:
+        if self._key_input.key_mouse_left:
 
             if self.__button_play_rect.collidepoint(mouse_position):
-                self._key_input.keymouseleft = False
+                self._key_input.key_mouse_left = False
                 return "levelmenu"
 
             if self.__button_quit_rect.collidepoint(mouse_position):
                 return "quit"
 
-        if self._key_input.keyescape or self._key_input.keyhardescape: # thats the RAGEQUIT button :D
+        if self._key_input.key_escape or self._key_input.key_hard_escape: # thats the RAGEQUIT button :D
             return "quit"
 
 
@@ -186,51 +186,51 @@ class LevelMenu(Menu):
 
 
         # input check
-        if self.__key_input.keyescape:
-            self.__key_input.keyescape = False
+        if self.__key_input.key_escape:
+            self.__key_input.key_escape = False
             return "mainmenu"
 
-        elif self.__key_input.keymouseleft and self.__level_1_rect.collidepoint(mouse_position):
+        elif self.__key_input.key_mouse_left and self.__level_1_rect.collidepoint(mouse_position):
             self.__current_level = "sprites/blocks/csv/level1_grassland.csv"
             self.__current_level_background = "sprites/backgrounds/level1background.png"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
             print(self.get_file_names("sprites/blocks/grassland"))
             return "charactermenu"
 
-        elif self.__key_input.keymouseleft and self.__level_2_rect.collidepoint(mouse_position):
+        elif self.__key_input.key_mouse_left and self.__level_2_rect.collidepoint(mouse_position):
             self.__current_level = "sprites/blocks/csv/level2_desert.csv"
             self.__current_level_background = "sprites/backgrounds/level1background.png"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             self.__tiles_path = self.get_file_names("sprites/blocks/desert")
             print(self.__tiles_path)
             return "charactermenu"
 
-        elif self.__key_input.keymouseleft and self.__level_3_rect.collidepoint(mouse_position):
+        elif self.__key_input.key_mouse_left and self.__level_3_rect.collidepoint(mouse_position):
             self.__current_level = "sprites/blocks/csv/level3_grassland.csv"
             self.__current_level_background = "sprites/backgrounds/level1background.png"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland_2")
             print(self.__tiles_path)
             return "charactermenu"
 
-        elif self.__key_input.keymouseleft and self.__level_4_rect.collidepoint(mouse_position):
+        elif self.__key_input.key_mouse_left and self.__level_4_rect.collidepoint(mouse_position):
             self.__current_level = "sprites/blocks/csv/level4_snowland.csv"
             self.__current_level_background = "sprites/backgrounds/level1background.png"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             self.__tiles_path = self.get_file_names("sprites/blocks/snowland")
             print(self.__tiles_path)
             return "charactermenu"
 
-        elif self.__key_input.keymouseleft and self.__level_5_rect.collidepoint(mouse_position):
+        elif self.__key_input.key_mouse_left and self.__level_5_rect.collidepoint(mouse_position):
             self.__current_level = "sprites/blocks/csv/level5_test.csv"
             self.__current_level_background = "sprites/backgrounds/level1background.png"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             self.__tiles_path = self.get_file_names("sprites/blocks/grassland")
             print(self.__tiles_path)
             return "charactermenu"
 
-        if self.__key_input.keyhardescape:
+        if self.__key_input.key_hard_escape:
             return "quit"
 
         # no input --> reinitialises own loop
@@ -320,46 +320,46 @@ class CharacterMenu(Menu):
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
         # input check
-        if self.__key_input.keyescape:
-            self.__key_input.keyescape = False
+        if self.__key_input.key_escape:
+            self.__key_input.key_escape = False
             return "levelmenu"
 
-        if self.__key_input.keyhardescape:
+        if self.__key_input.key_hard_escape:
             return "quit"
 
-        if self.__key_input.keymouseleft and self.__button_wu_rect.collidepoint(mouse_position):
+        if self.__key_input.key_mouse_left and self.__button_wu_rect.collidepoint(mouse_position):
             self.__current_character_skin = "sprites/characters/wu/wu_image.gif"
             self.__death_path =  "sprites/characters/wu/wu_death.gif"
             self.__jump_path = "sprites/characters/wu/wu_jump.gif"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             return "gameloop"
 
-        if self.__key_input.keymouseleft and self.__button_fich_rect.collidepoint(mouse_position):
+        if self.__key_input.key_mouse_left and self.__button_fich_rect.collidepoint(mouse_position):
             self.__current_character_skin = "sprites/characters/fich/fich_image.gif"
             self.__death_path =  "sprites/characters/fich/fich_death.gif"
             self.__jump_path = "sprites/characters/fich/fich_jump.gif"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             return "gameloop"
 
-        if self.__key_input.keymouseleft and self.__button_amogus_rect.collidepoint(mouse_position):
+        if self.__key_input.key_mouse_left and self.__button_amogus_rect.collidepoint(mouse_position):
             self.__current_character_skin = "sprites/characters/amogus/amogus_image.gif"
             self.__death_path =  "sprites/characters/amogus/amogus_death.gif"
             self.__jump_path = "sprites/characters/amogus/amogus_jump.gif"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             return "gameloop"
 
-        if self.__key_input.keymouseleft and self.__button_pacman_rect.collidepoint(mouse_position):
+        if self.__key_input.key_mouse_left and self.__button_pacman_rect.collidepoint(mouse_position):
             self.__current_character_skin = "sprites/characters/pacman/pacman_image.gif"
             self.__death_path =  "sprites/characters/pacman/pacman_death.gif"
             self.__jump_path = "sprites/characters/pacman/pacman_jump.gif"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             return "gameloop"
 
-        if self.__key_input.keymouseleft and self.__button_po_rect.collidepoint(mouse_position):
+        if self.__key_input.key_mouse_left and self.__button_po_rect.collidepoint(mouse_position):
             self.__current_character_skin = "sprites/characters/poo/po_image.gif"
             self.__death_path = "sprites/characters/poo/po_death.gif"
             self.__jump_path = "sprites/characters/poo/po_jump.gif"
-            self.__key_input.keymouseleft = False
+            self.__key_input.key_mouse_left = False
             return "gameloop"
 
         # no input --> reinitialises own loop
@@ -408,11 +408,11 @@ class WinMenu(Menu):
         self.__key_input.getInput()
         mouse_position:typing.Tuple[int, int] = pygame.mouse.get_pos()
 
-        if self.__key_input.keymouseleft and self.__menu_button.collidepoint(mouse_position):
-            self.__key_input.keymouseleft = False
+        if self.__key_input.key_mouse_left and self.__menu_button.collidepoint(mouse_position):
+            self.__key_input.key_mouse_left = False
             return "mainmenu"
 
-        if self.__key_input.keyhardescape:
+        if self.__key_input.key_hard_escape:
             return "quit"
 
         pygame.display.flip()

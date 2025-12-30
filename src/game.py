@@ -54,11 +54,11 @@ class Game():
             # input update
             self.__keyInput.getInput()
             # condition to end the running process
-            if self.__keyInput.keyescape or self.__player.isDead:
-                self.__keyInput.keyescape = False
+            if self.__keyInput.key_escape or self.__player.isDead:
+                self.__keyInput.key_escape = False
                 running = False
 
-            if self.__keyInput.keyhardescape:
+            if self.__keyInput.key_hard_escape:
                 self.__hardEscape = True
                 running = False
             

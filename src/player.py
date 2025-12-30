@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 
         self.__acceleration = 0
 
-        if __keyInput.keyleft:
+        if __keyInput.key_left:
             self.__acceleration -= .3
             if self.__run_animation_index == 5:
                 self.run_animation("left")
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
             self.__jump_move_last_key = "left"
             self.__run_animation_index += 1
 
-        if __keyInput.keyright:
+        if __keyInput.key_right:
             self.__acceleration += .3
             if self.__run_animation_index == 5:
                 self.run_animation("right")
@@ -150,12 +150,12 @@ class Player(pygame.sprite.Sprite):
         Method to handle vertical movement of the player.
         """
         #jump sound
-        if __keyInput.keyspacePressed and self.__isOnGround:#play jump sound
+        if __keyInput.key_space_pressed and self.__isOnGround:#play jump sound
             self.__soundController.playJumpSound()
-            __keyInput.keyspacePressed = False
+            __keyInput.key_space_pressed = False
 
         # jump
-        if __keyInput.keyspace:
+        if __keyInput.key_space:
             if self.__isOnGround:
                 self.__speed.y -= 8
                 self.__isOnGround = False
@@ -170,11 +170,11 @@ class Player(pygame.sprite.Sprite):
             # and when only jumping is pressed, to ensure the player faces in the correct direction
             self.__jump_animation_index +=1  
             if self.__jump_animation_index == 4 :
-                if __keyInput.keyleft:
+                if __keyInput.key_left:
                     self.jumpAnimation("left")
                     self.__jump_move_last_key = "left"
 
-                elif __keyInput.keyright :
+                elif __keyInput.key_right :
                     self.jumpAnimation("right")
                     self.__jump_move_last_key = "right"
 
